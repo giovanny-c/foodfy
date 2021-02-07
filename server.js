@@ -20,7 +20,6 @@ nunjucks.configure("views",{
 server.get("/",function(req, res){
 
 
-
     return res.render("index", {recipes})
 
 })
