@@ -1,0 +1,138 @@
+{% extends "layout.njk" %}
+
+{% block head %}
+    <title>{{recipe.title}}</title>
+    <link rel="stylesheet" href="/styles-recipe.css">
+    
+{% endblock %}
+
+{% block content %}
+
+    <div class="content">
+
+        <div class="recipe-image">
+
+            <img src="{{recipe.image}}" alt="Imagem de {{recipe.title}}">
+
+        </div>
+
+        
+
+            <div class="title">
+
+                
+                {{recipe.title}}
+
+            </div>
+
+
+            <div class="author">
+
+                por: {{recipe.author}}.
+                
+            </div>
+
+            <div class="subtitle">
+
+                <div class="grid">
+                    
+                    <p class="s1">Ingredientes.</p>
+                    
+                    <div class="toggle">
+                        <p>Esconder</p>
+                    </div>
+                    
+                </div>        
+                    
+                <div class="recipe-info">
+                    
+                    
+
+                    <div class="info">
+
+                        <ul>
+
+                            {% for ingredient in recipe.ingredients %}
+                            
+
+                            <li>{{ingredient}}</li>
+                            
+                            
+                            {% endfor %}
+                        
+                        </ul>
+
+                    </div>
+
+                </div>
+                    
+
+                
+                
+
+            </div>
+
+            <div class="subtitle">
+
+                <div class="grid">
+
+                    <p class="s1">Modo de preparo.</p>
+                    
+                    <div class="toggle">
+                        <p>Esconder</p>
+                    </div>
+                </div>    
+                
+                <div class="recipe-info">
+                    
+                    
+
+                    <div class="info">
+
+                        <ul>
+                            {% for step in recipe.preparation %}
+                            
+                                <li>{{step}}</li>
+
+                            {% endfor %}   
+                        </ul>
+                    
+                    </div>
+                    
+                </div>
+                
+                
+
+            </div>
+
+            <div class="subtitle">
+
+                <div class="grid">
+                    <p class="s1">Informaçoes adicionais.</p>
+                    
+                    <div class="toggle">
+                        <p>Esconder</p>
+                    </div>
+                </div>
+
+                <div class="recipe-info">
+
+
+                    
+
+                    <div class="info">
+                        <p>{{recipe.information}}</p>
+                    </div>
+
+                </div>
+
+                
+
+            </div>
+
+    </div>
+
+
+    <script src="/scripts/scripts.js"></script>
+    
+{% endblock %}

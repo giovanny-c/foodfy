@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    
+
+}
+
+html, body {
+    height:100%;
+}
+
+
+.body {
+    min-height:100%;
+    position:relative;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* -------------menu--------------- */
+
+header .menu{
+    
+    margin: 36px auto;
+    width: 940px;
+    display: grid;
+    grid-template-columns: 90.6px 1fr ;
+    position: relative;
+
+}
+
+
+
+header .menu2{
+
+    padding: 4px 4px 4px 122.4px;
+
+}
+
+header .menu a{
+
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: black;
+    text-decoration: none;
+    padding-right: 30px;
+}
+
+/* -------------presentantion--------------- */
+
+.presentation{
+
+    width: 940px;
+    margin: 0 auto;
+    margin-bottom: 50px;
+
+}
+
+.presentation .title{
+
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 28px;
+
+}
+
+.presentation p{
+
+    margin: 20px 0 20px 0;
+    font-size: 18px;
+    line-height: 28px;
+
+
+}
+
+
+
+
+
+
+
+
+/*----------footer------*/
+
+
+    
+.footer {
+    
+    height: 62px;
+    text-align: center;
+    background-color: rgba(238,238,238,1);
+
+}
+
+
+.footer p{
+
+    margin:auto;
+    padding-top: 20px;
+    color: rgba(119,119,119,1);
+    font-size: 14px;
+
+}
