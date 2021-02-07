@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/giovanny-c/projetofoodfy.git"
+    "url": "git+https://github.com/giovanny-c/foodfy.git"
   },
   "keywords": [],
   "author": "",
@@ -17,7 +17,7 @@
   "bugs": {
     "url": "https://github.com/giovanny-c/projetofoodfy/issues"
   },
-    "homepage": "https://github.com/giovanny-c/projetofoodfy#readme",
+    "homepage": "https://github.com/giovanny-c/foodfy#readme",
     "dependencies": {
     "express": "^4.17.1",
     "nunjucks": "^3.2.2"
