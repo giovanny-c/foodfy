@@ -9,8 +9,6 @@ for(let recipe of recipes){
 
         const recipeId = recipe.getAttribute("id")
 
-        
-
         window.location.href = `/recipes/${recipeId}`
 
 
@@ -31,9 +29,6 @@ const toggles = document.querySelectorAll(".subtitle")
 for(let tg of toggles){
 
 
-
-    
-    
     
     tg.querySelector(".toggle").addEventListener("click", function(req, res){//click no esconder
 
@@ -60,17 +55,6 @@ for(let tg of toggles){
     })
    
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 

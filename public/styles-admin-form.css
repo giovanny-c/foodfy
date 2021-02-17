@@ -1,0 +1,187 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    
+
+}
+
+html, body {
+    height:100%;
+}
+
+
+.body {
+    min-height:100%;
+    position:relative;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* -------------menu--------------- */
+
+header{
+
+    background-color: black;
+
+}
+
+header .menu{
+    
+    margin: 0 auto;
+    padding: 30px 0;
+    width: 940px;
+    display: grid;
+    grid-template-columns: 90.6px 1fr ;
+    position: relative;
+
+}
+
+.menu2{
+    
+    text-align: right;
+    
+    padding-top:4px;
+
+}
+
+.menu2 a{
+    
+    text-align: left;
+    padding-top:4px;
+    
+    color: white;
+    text-decoration: none;
+
+}
+
+/*-----CONTENT--------*/
+
+.content{
+
+    margin: 50px auto;
+    width: 940px;
+
+}
+
+.form-head{
+
+    margin-top: 50px;
+    margin-bottom: 30px;
+
+    font-size: 24px;
+    line-height: 28px;
+    font-weight: bold;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+
+
+}
+
+.button{
+    
+    display: inline-block;
+    text-align: right;
+    outline: none;
+    
+    
+    
+}
+
+button{
+
+    cursor: pointer;
+
+}
+
+button[type="submit"]{
+
+    width: 140px;
+    height: 36px;
+    font-size: 16px;
+    border-radius: 4px;
+    background-color:rgba(101,88,195,1);
+    color: white;
+    outline: none;
+}
+
+button[type="submit"]:hover{
+
+    background-color: rgba(101,88,195,0.9);
+    
+}
+
+button[form="form-delete"]{
+    width: 90px;
+    margin-right: 10px ;
+    background-color:rgba(220,71,71,1) 
+}
+
+button[form="form-delete"]:hover{
+    background-color:rgba(220,71,71,0.9) 
+}
+
+/*------------------*/
+
+.item{
+
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    line-height: 19px;
+    font-weight: bold;
+    color: #111111;
+
+}
+
+
+input{
+
+    margin-top: 10px;
+    
+    height: 48px;
+    width: 940px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    
+    font-size: 18px;
+    line-height: 20px;
+    
+
+
+
+}
+
+input::placeholder{
+
+    font-size: 18px;
+    color: rgb(173, 173, 173);
+    font-weight: normal;
+
+}
+
+input[name="information"]{
+    
+    margin-bottom: 30px;
+}
+
+.add-ingredient, .add-preparation{
+
+    margin-bottom: 30px;
+    font-size: 16px;
+    line-height: 19px;
+    font-weight: bold;
+    background-color: white;
+    color: rgba(101,88,195,1);
+    outline: none;
+
+}
+
+.add-ingredient:hover, .add-preparation:hover{
+
+    color: rgba(101,88,195,0.8) ;
+
+}

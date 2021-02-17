@@ -28,9 +28,16 @@ html, body {
 
 /* -------------menu--------------- */
 
+header{
+
+    background-color: black;
+
+}
+
 header .menu{
     
-    margin: 36px auto;
+    margin: 0 auto;
+    padding: 30px 0;
     width: 940px;
     display: grid;
     grid-template-columns: 90.6px 1fr ;
@@ -38,24 +45,57 @@ header .menu{
 
 }
 
-
-
-header .menu2{
-
-    padding: 4px 4px 4px 122.4px;
+.menu2{
+    
+    text-align: right;
+    
+    padding-top:4px;
 
 }
+.menu2 a{
 
-header .menu a{
-
-    font-family: 'Roboto', sans-serif;
-    font-size: 16px;
-    color: black;
+    color: white;
     text-decoration: none;
-    padding-right: 30px;
+    
+
 }
 
 /* -------------cCONTENT--------------- */
+
+
+
+#recipe-title{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 55px 0 24px 0;
+    font-size: 24px;
+    line-height: 28px;
+    font-weight: bold;
+}
+
+#recipe-title p{
+
+    max-width: 800px;
+}
+
+#recipe-title span{
+    text-align: right;
+}
+
+
+#recipe-title span a{
+    
+    padding: 9px 20px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 16px;
+    line-height: 19px;
+    text-decoration: none;
+    color: white;
+    background-color: rgba(101,88,195,1);
+    ;
+    
+}
 
 .content{
     
@@ -99,7 +139,7 @@ header .menu a{
 
 .grid{
     display: grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:1fr 1fr; 
     
 }
 
@@ -161,31 +201,9 @@ header .menu a{
 
 }
 
+.subtitle:last-child{
 
-
-
-
-
-
-
-/*----------footer------*/
-
-
-    
-.footer {
-    
-    height: 62px;
-    text-align: center;
-    background-color: rgba(238,238,238,1);
+    padding-bottom: 64px;
 
 }
 
-
-.footer p{
-
-    margin:auto;
-    padding-top: 20px;
-    color: rgba(119,119,119,1);
-    font-size: 14px;
-
-}
