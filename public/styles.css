@@ -139,7 +139,7 @@ header .menu a{
 .recipes-grid .recipe:hover{
 
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.03);
     border-radius: 16px;
 
     

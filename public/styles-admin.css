@@ -40,8 +40,8 @@ header .menu{
 
 .menu2{
     
-    text-align: right;
     
+    margin-left: 50px;
     padding-top:4px;
 
 }
@@ -50,8 +50,11 @@ header .menu{
     
     text-align: left;
     padding-top:4px;
+    margin-right: 30px;
+    font-size: 14px;
+    text-transform: uppercase;
     
-    color: white;
+    color: #FFFFFF;
     text-decoration: none;
 
 }

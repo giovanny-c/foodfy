@@ -16,7 +16,9 @@ function addIngredient() {
 document.querySelector(".add-ingredient").addEventListener("click", addIngredient);
 
 
-  function addPreparation() {
+
+
+function addPreparation() {
     const ingredients = document.querySelector("#preparations");
     const fieldContainer = document.querySelectorAll(".preparation");
   

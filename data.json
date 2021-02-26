@@ -53,6 +53,7 @@
       "information": "Pizza de liquidificador é uma receita deliciosa e supersimples de preparar. Feita toda no liquidificador, ela é bem prática para o dia a dia. Aqui no TudoGostoso você também encontra diversas delícias práticas feitas no liquidificador: massa de panqueca, torta de frango de liquidificador, pão de queijo de liquidificador, bolo de banana, bolo de chocolate e muito mais!"
     },
     {
+      "id": "3",
       "title": "Asinhas de frango ao barbecue",
       "author": "Vania Steroski",
       "image": "https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/launchbase/receitas/asinha.png",
@@ -68,7 +69,8 @@
         "Para servir fica bonito com salada, ou abuse da criatividade."
       ],
       "information": "",
-      "id": 3
+      "name": "Asinhas de frango ao barbecue",
+      "chef": "3"
     },
     {
       "title": "Lasanha mac n' cheese",

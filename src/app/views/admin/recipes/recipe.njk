@@ -1,7 +1,7 @@
 {% extends "layout-admin.njk" %}
 
 {% block head %}
-    <title>Foodfy Admin - {{recipe.title}}</title>
+    <title>Foodfy Admin - {{recipe.name}}</title>
     <link rel="stylesheet" href="/styles-admin-recipe.css">
     
 {% endblock %}
@@ -12,7 +12,7 @@
         
         <div id="recipe-title">
 
-            <p>Receita: {{recipe.title}}</p>
+            <p>Receita: {{recipe.name}}</p>
             
             
             <span><a href="/admin/recipes/{{recipe.id}}/edit">Editar receita</a></span>
@@ -21,7 +21,7 @@
 
         <div class="recipe-image">
 
-            <img src="{{recipe.image}}" alt="Imagem de {{recipe.title}}">
+            <img src="{{recipe.image}}" alt="Imagem de {{recipe.name}}">
 
         </div>
 
@@ -30,14 +30,14 @@
             <div class="title">
 
                 
-                {{recipe.title}}
+                {{recipe.name}}
 
             </div>
 
 
             <div class="author">
 
-                por: {{recipe.author}}.
+                por: {{recipe.chef}}.
                 
             </div>
 

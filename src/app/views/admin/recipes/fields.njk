@@ -5,7 +5,7 @@
     <div>Nome da Receita</div>
 
     <div>
-    <input type="text" name="title" value="{{recipe.title}}" required/>
+    <input type="text" name="name" value="{{recipe.name}}" required/>
     </div>
 
 </div>
@@ -14,9 +14,13 @@
 
     <div>Autor</div>
 
-    <div>
-    <input type="text" name="author" value="{{recipe.author}}" required/>
-    </div>
+    <select name="chef">
+        {% for chef in chefs %}
+            <option value="{{chef.id}}" {% if recipe.chef_id == chef.id %} selected {% endif %}>
+                {{chef.name}}
+            </option>
+        {% endfor %}
+    </select>
 
 </div>
 
