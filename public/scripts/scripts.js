@@ -1,5 +1,4 @@
-//paga a receita
-
+//------------pega a receita
 const recipes = document.querySelectorAll('.recipe')
 
 
@@ -18,10 +17,7 @@ for(let recipe of recipes){
 
 }
 
-
 //----- esconde os itens de preparo
-
-
 
 const toggles = document.querySelectorAll(".subtitle")
 
@@ -57,37 +53,114 @@ for(let tg of toggles){
 }
 
 
+//---------highlight no menu
+
+const currentPage = location.pathname
+
+const menuItems = document.querySelectorAll("header .menu2 a")
+
+for(item of menuItems){
+
+    if(currentPage.includes(item.getAttribute("href"))){
+        
+        item.classList.add("active")
+
+        
 
 
-/*===== SCRIPT DO MODAL=======
+    }
 
-const modalOverlay = document.querySelector('.modal-overlay')
+    if (currentPage.includes("about") || currentPage.includes("chefs") ){
+        //criar uma maneira melhor para ocultar a bara de pesquisa
 
+        const filter = document.querySelector(".menu2 .filter")
 
+        filter.classList.add("inactive")
 
-
-for(let recipe of recipes){
-
-    recipe.addEventListener("click", function(){
-
-        modalOverlay.classList.add('active')
-
-
-
-        modalOverlay.querySelector("img").src = recipe.querySelector("img").src
-        modalOverlay.querySelector(".name").innerHTML = recipe.querySelector(".name").innerHTML
-        modalOverlay.querySelector(".author").innerHTML = recipe.querySelector(".author").innerHTML
-
-
-
-    })
+    }
 
 
 }
 
-document.querySelector(".close-modal").addEventListener("click", function(){
 
-    modalOverlay.classList.remove('active')
+//------------ paginação
+
+function paginate(selectedPage, totalPages){
+
+    let pages = [],
+    oldPage
 
 
-})*/
+    for (let currentPage = 1; currentPage <= totalPages; currentPage++){
+
+        const firstAndLastPage = currentPage == 1 || currentPage == totalPages
+        const pagesAfterSelectedPage = currentPage <= selectedPage + 2
+        const pagesBeforeSelectedPage = currentPage >= selectedPage - 2
+
+
+        if(firstAndLastPage || pagesBeforeSelectedPage && pagesAfterSelectedPage){
+
+            if(oldPage && currentPage - oldPage > 2){
+                pages.push("...")
+            }
+
+            if(oldPage && currentPage - oldPage == 2){
+                pages.push(oldPage + 1)
+            }
+
+            pages.push(currentPage)
+
+            oldPage = currentPage
+
+        }
+
+    }
+
+    console.log(pages)
+
+    return pages
+
+}
+
+function createPagination(pagination){
+
+    const page = +pagination.dataset.page
+    const total = +pagination.dataset.total
+    const filter = pagination.dataset.filter 
+    const pages = paginate(page, total)
+
+    let elements = ""
+
+    for(let page of pages){
+
+        if(String(page).includes("...")){
+
+            elements += `<span>${page}</span>`
+        
+        }else{
+
+            if(filter){
+
+                elements += `<a href="?page=${page}&filter=${filter}">${page}</a>`
+
+            }else{
+
+                elements += `<a href="?page=${page}">${page}</a>`
+
+            }
+
+        }
+
+    }
+
+    pagination.innerHTML = elements
+
+}
+
+const pagination = document.querySelector(".pagination")
+
+if(pagination){
+
+    createPagination(pagination)
+
+}

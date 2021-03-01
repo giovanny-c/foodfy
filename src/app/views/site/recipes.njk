@@ -6,30 +6,56 @@
 {% endblock %}
 
 {% block content %}
+
+
+        <div class="recipes-section">
             
-        <div class="recipes-grid">
+            <div class="search-for">
 
-            {% for recipe in recipes %}
- 
+                {% if filter %}
+                    Buscando por "{{filter}}"
+                {% endif %}
 
-            <div class="recipe" id="{{recipe.id}}">
-
-                    <img src="{{recipe.image}}" alt="Imagem de {{recipe.title}}">
+            </div>
+            
+            
+            <div class="recipes-grid">
 
                 
-                <div class="info">
 
-                    <div class="name">{{recipe.title}}</div>
+                {% for recipe in recipes %}
+    
 
-                    <div class="author">{{recipe.author}}</div>
-                
+                <div class="recipe" id="{{recipe.id}}">
+
+                        <img src="{{recipe.image}}" alt="Imagem de {{recipe.title}}">
+
+                    
+                    <div class="info">
+
+                        <div class="name">{{recipe.name}}</div>
+
+                        <div class="author">{{recipe.chef}}</div>
+                    
+                    </div>
+
                 </div>
+                
+                {% endfor %}
 
             </div>
 
-            {% endfor %}
+                
+
+
+            <div class="pagination" 
+                data-page={{pagination.page}}
+                data-total={{pagination.total}}
+                data-filter={{filter}}
+            ></div>   
 
         </div>
+        
 
         <script src="/scripts/scripts.js"></script>
             

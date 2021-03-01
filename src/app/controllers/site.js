@@ -1,11 +1,19 @@
 const data = require("../../../data.json")
+const Recipes = require("../models/Recipes")
+
 
 
 //pagina inicial
 exports.index = function(req, res){
 
+    Recipes.all(function(recipes){
 
-    return res.render("site/index", {recipes: data.recipes})
+        return res.render("site/index", {recipes})
+
+    })
+
+            
+
 
 }
 
@@ -19,7 +27,41 @@ exports.about = function(req, res){
 //lista de receitas
 exports.recipes = function(req, res){
 
-    return res.render("site/recipes", {recipes: data.recipes})
+    let {filter, page, limit} = req.query
+
+    page = page || 1
+    limit = limit || 3
+    let offset = limit * (page - 1)
+
+    const params = {
+        filter,
+        page,
+        limit,
+        offset,
+        callback(recipes){
+
+            if(recipes == ""){
+                
+                return res.render("site/recipes", {recipes, filter})
+
+            }else{
+
+                const pagination = {
+                    total: Math.ceil(recipes[0].total / limit),
+                    page
+                }
+
+                return res.render("site/recipes", {recipes, pagination, filter})
+
+            }
+
+            
+
+        }
+
+    }
+
+    Recipes.paginate(params)
 
 }
 
@@ -28,10 +70,11 @@ exports.recipe = function(req, res){
 
     const id = req.params.id
 
-    const recipe = data.recipes.find(rcp => rcp.id == id)
+    Recipes.find(id, function(recipe){
+
+        return res.render("site/recipe", {recipe})
+    })
 
     
-
-    return res.render("site/recipe", {recipe})
 
 }

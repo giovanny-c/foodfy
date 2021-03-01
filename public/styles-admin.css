@@ -73,9 +73,29 @@ header .menu{
     font-weight: bold;
     margin-top: 50px;
     margin-bottom: 30px;
+    
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 
 }
 
+.button {
+    text-align: right;
+}
+
+
+.button a{
+
+    color: white;
+    outline: none;
+    text-decoration: none;
+    font-weight: normal;
+    border-radius: 4px;
+    background-color:rgba(101,88,195,1);
+    font-size: 16px;
+    padding: 6px 12px;
+    
+}
 
 /*-----------recipes grid--------------*/
 

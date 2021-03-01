@@ -13,10 +13,8 @@ exports.index = function(req, res){
 
     })
 
-    
 
-
-}
+},
 
 exports.show = function(req, res){
     
@@ -30,7 +28,7 @@ exports.show = function(req, res){
 
     
 
-}
+},
 
 exports.create = function(req, res){
 
@@ -42,7 +40,7 @@ exports.create = function(req, res){
 
     
 
-}
+},
 
 exports.post = function(req, res){
 
@@ -68,7 +66,7 @@ exports.post = function(req, res){
 
     })  
 
-}
+},
 
 
 exports.edit = function(req, res){
@@ -89,7 +87,7 @@ exports.edit = function(req, res){
 
     
 
-}
+},
 
 exports.put = function(req, res){
 
@@ -123,23 +121,11 @@ exports.put = function(req, res){
 
     
 
-}
+},
 
 exports.delete = function(req, res){
 
-    const {id} = req.body
-
-    const filterdRecipes = data.recipes.filter(function(recipe){
-
-        return recipe.id != id
-
-    })
-
-    data.recipes = filterdRecipes
-
-    fs.writeFile("data.json", JSON.stringify(data, null, 2), function(err){
-
-        if(err) return res.send("write file error")
+    Recipes.delete(req.body.id, function(){
 
         return res.redirect("/admin/recipes")
 

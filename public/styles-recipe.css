@@ -28,13 +28,23 @@ html, body {
 
 /* -------------menu--------------- */
 
+
 header .menu{
     
-    margin: 36px auto;
+    margin: 32px auto;
     width: 940px;
+
     display: grid;
     grid-template-columns: 90.6px 1fr ;
     position: relative;
+
+}
+
+.menu .logo
+{
+
+    
+    padding-top: 12px;
 
 }
 
@@ -42,7 +52,31 @@ header .menu{
 
 header .menu2{
 
-    padding: 4px 4px 4px 122.4px;
+    padding: 0 4px 4px 122.4px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    align-content: center;
+}
+
+.menu2 .links{
+
+    padding-top: 12px;
+
+}
+
+.menu2 .filter{
+
+    padding-top: 4px;
+
+    text-align: right;
+
+}
+
+.menu2 .active{
+
+    font-weight: bold;
 
 }
 
@@ -54,6 +88,39 @@ header .menu a{
     text-decoration: none;
     padding-right: 30px;
 }
+
+
+.menu2 .filter input{
+
+    margin-right: 8px;
+    padding: 9px;
+    padding-right: 48px;
+    background: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    border-radius: 4px;
+    
+
+
+}
+
+.menu2 .filter input::placeholder{
+
+    color: #dddddd;
+    
+
+}
+
+.menu2 .filter button{
+
+    padding: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: rgba(101,88,195,1);
+    border-radius: 4px;
+}
+
 
 /* -------------cCONTENT--------------- */
 
