@@ -30,7 +30,7 @@ exports.recipes = function(req, res){
     let {filter, page, limit} = req.query
 
     page = page || 1
-    limit = limit || 3
+    limit = limit || 6
     let offset = limit * (page - 1)
 
     const params = {

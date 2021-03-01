@@ -2,7 +2,7 @@ const express = require("express")
 
 const routes = express.Router()
 
-const recipes = require("./app/controllers/recipes")
+const admin = require("./app/controllers/admin")
 const site = require("./app/controllers/site")
 
 
@@ -13,6 +13,8 @@ routes.get("/about", site.about)
 routes.get("/recipes", site.recipes)
 routes.get("/recipes/:id", site.recipe)
 
+//rotas site/chefs
+
 //===========================
 
 //=====ROTAS DO ADMIN========
@@ -22,19 +24,21 @@ routes.get("/admin", function(req, res){
     return res.redirect("/admin/recipes")
 
 })
-routes.get("/admin/recipes", recipes.index)
+routes.get("/admin/recipes", admin.indexRecipes)
 
-routes.get("/admin/recipes/create", recipes.create) // Mostrar formulário de nova receita
+routes.get("/admin/recipes/create", admin.createRecipe) // Mostrar formulário de nova receita
 
-routes.get("/admin/recipes/:id", recipes.show) // Exibir detalhes de uma receita
+routes.get("/admin/recipes/:id", admin.showRecipe) // Exibir detalhes de uma receita
 
-routes.get("/admin/recipes/:id/edit", recipes.edit) // Mostrar formulário de edição de receita
+routes.get("/admin/recipes/:id/edit", admin.editRecipe) // Mostrar formulário de edição de receita
 
-routes.post("/admin/recipes", recipes.post) // Cadastrar nova receita
+routes.post("/admin/recipes", admin.postRecipe) // Cadastrar nova receita
 
-routes.put("/admin/recipes", recipes.put) // Editar uma receita
+routes.put("/admin/recipes", admin.putRecipe) // Editar uma receita
 
-routes.delete("/admin/recipes", recipes.delete) // Deletar uma receita
+routes.delete("/admin/recipes", admin.deleteRecipe) // Deletar uma receita
+
+//rotas admin/chefs
 
 
 module.exports = routes

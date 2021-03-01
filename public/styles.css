@@ -282,6 +282,11 @@ header .menu a{
     margin-right: 24px;
 }
 
+.pagination a:hover {
+    color: rgba(101,88,195,1);
+    border-bottom: 1px solid rgba(101,88,195,1);
+}
+
 .pagination a:last-child{
     margin-right: 0;
 }

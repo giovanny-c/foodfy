@@ -171,12 +171,6 @@ module.exports = {
 
 
     },
-
-
-    //findby pesquisa
-
-    //paginate , paginação
-
     
 
     chefsSelectedOptions(callback){

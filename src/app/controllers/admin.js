@@ -5,7 +5,7 @@ const fs = require("fs")
 
 
 
-exports.index = function(req, res){
+exports.indexRecipes = function(req, res){
 
     Recipes.all(function(recipes){
 
@@ -16,7 +16,7 @@ exports.index = function(req, res){
 
 },
 
-exports.show = function(req, res){
+exports.showRecipe = function(req, res){
     
     const id = req.params.id
 
@@ -30,7 +30,7 @@ exports.show = function(req, res){
 
 },
 
-exports.create = function(req, res){
+exports.createRecipe = function(req, res){
 
     Recipes.chefsSelectedOptions(function(chefs){
 
@@ -42,7 +42,7 @@ exports.create = function(req, res){
 
 },
 
-exports.post = function(req, res){
+exports.postRecipe = function(req, res){
 
     filteredIngredients = req.body.ingredients.filter(function(ingredient){
 
@@ -69,7 +69,7 @@ exports.post = function(req, res){
 },
 
 
-exports.edit = function(req, res){
+exports.editRecipe = function(req, res){
 
     Recipes.find(req.params.id, function(recipe){
 
@@ -89,7 +89,7 @@ exports.edit = function(req, res){
 
 },
 
-exports.put = function(req, res){
+exports.putRecipe = function(req, res){
 
 
     const filteredIngredients  = req.body.ingredients.filter(function(ingredient){
@@ -123,7 +123,7 @@ exports.put = function(req, res){
 
 },
 
-exports.delete = function(req, res){
+exports.deleteRecipe = function(req, res){
 
     Recipes.delete(req.body.id, function(){
 
