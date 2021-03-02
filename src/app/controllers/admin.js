@@ -1,9 +1,10 @@
 const data = require("../../../data.json")
 const Recipes = require("../models/Recipes")
+const Chefs = require("../models/Chefs")
 
 const fs = require("fs")
 
-
+//=====recipes======
 
 exports.indexRecipes = function(req, res){
 
@@ -132,3 +133,89 @@ exports.deleteRecipe = function(req, res){
     })
 
 }
+
+
+//====chefs=======
+
+exports.indexChefs = function(req, res){
+
+    Chefs.all(function(chefs){
+
+        return res.render("admin/chefs/chefs", {chefs})
+
+    })
+
+},
+
+exports.showChef = function(req, res){
+    
+    
+
+    Chefs.find(req.params.id, function(chef){
+
+        Chefs.findRecipes(req.params.id, function(recipes){
+
+            return res.render("admin/chefs/chef", {chef, recipes})
+
+        })
+
+        
+    })
+    
+
+},
+
+exports.createChef = function(req, res){
+
+
+    return res.render("admin/chefs/create")
+
+},
+
+
+exports.postChef = function(req, res){
+
+    Chefs.create(req.body, function(chef){
+
+        return res.redirect(`/admin/chefs/${chef.id}`)
+
+        
+    })
+
+},
+
+exports.editChef = function(req, res){
+
+    Chefs.find(req.params.id, function(chef){
+
+        return res.render("admin/chefs/edit", {chef})
+
+    })
+
+
+},
+
+
+exports.putChef = function(req, res){
+
+    Chefs.update(req.body, function(){
+
+        return res.redirect(`/admin/chefs/${req.body.id}`)
+
+    })
+
+
+    
+
+},
+
+exports.deleteChef = function(req, res){
+
+    Chefs.delete(req.body.id, function(){
+
+        return res.redirect("/admin/chefs")
+    })
+
+    
+
+} 

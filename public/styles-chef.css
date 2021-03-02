@@ -21,6 +21,8 @@ html, body {
 
 /* -------------menu--------------- */
 
+
+
 header .menu{
     
     margin: 32px auto;
@@ -60,10 +62,16 @@ header .menu2{
 
 .menu2 .filter{
 
+
     padding-top: 4px;
 
     text-align: right;
 
+}
+
+.menu2 .filter.inactive{
+    opacity: 0;
+    visibility: hidden;
 }
 
 .menu2 .active{
@@ -188,9 +196,9 @@ header .menu a{
 }
 
 
-/*-----------recipes grid--------------*/
+/*-----------chefs grid--------------*/
 
-.recipes-tile{
+.chefs-tile{
     width: 940px;
     margin: 50px auto;
     margin-bottom: 20px ;
@@ -201,7 +209,7 @@ header .menu a{
 
 }
 
-.recipes-section{
+.chefs-section{
 
     margin: 50px auto;
     width: 940px;
@@ -210,7 +218,7 @@ header .menu a{
     grid-template-columns: 1fr;
 }
 
-.recipes-section .search-for{
+.chefs-section .search-for{
 
     
     margin-bottom: 30px;
@@ -219,42 +227,45 @@ header .menu a{
 
 }
 
-.recipes-grid .recipe:hover{
+.chefs-grid{
 
-    cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.03);
-    border-radius: 16px;
-
-    
-}
-.recipes-grid{
-
-    margin: 0 auto;
+    margin: 50px auto;
     width: 940px;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 20px;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 30px;
     margin-bottom: 50px;
 
 
 }
 
-.recipes-grid .recipe img{
+.chef{
 
-    width: 300px;
-    height: 140px;
-    border-radius: 15px;
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    height: 64px;
+    gap: 10px;
+    
+
+}
+
+.chefs-grid .chef img{
+
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
     
 }
 
-.recipes-grid .info{
-    margin-bottom: 10px;
+.chefs-grid .info{
+    
+    margin-top: 10px;
 
 }
 
-.recipe .name{
+.chef .name{
 
-    margin-top: 20px;
+    
     font-size: 18px;
     line-height: 21px;
     color: black;
@@ -262,9 +273,9 @@ header .menu a{
 
 }
 
-.info .author{
+.info .recipes{
 
-    margin-top: 5px;
+    margin-top: 2px;
     font-size: 14px;
     line-height: 16px;
     color: rgba(119,119,119,1);
@@ -296,7 +307,7 @@ header .menu a{
     
 .footer{
     
-    
+    margin-top: 500px;
     height: 62px;
     text-align: center;
     background-color: rgba(238,238,238,1);

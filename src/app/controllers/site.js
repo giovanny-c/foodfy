@@ -1,5 +1,6 @@
 const data = require("../../../data.json")
 const Recipes = require("../models/Recipes")
+const Chefs = require("../models/Chefs")
 
 
 
@@ -73,6 +74,18 @@ exports.recipe = function(req, res){
     Recipes.find(id, function(recipe){
 
         return res.render("site/recipe", {recipe})
+    })
+
+    
+
+}
+
+exports.chefs = function(req, res){
+
+    Chefs.all(function(chefs){
+
+        return res.render("site/chefs", {chefs})
+
     })
 
     

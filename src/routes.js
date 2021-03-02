@@ -12,12 +12,14 @@ routes.get("/", site.index)
 routes.get("/about", site.about)
 routes.get("/recipes", site.recipes)
 routes.get("/recipes/:id", site.recipe)
-
+routes.get("/chefs",site.chefs)
 //rotas site/chefs
 
 //===========================
 
 //=====ROTAS DO ADMIN========
+
+//rotas admin/recipes
 
 routes.get("/admin", function(req, res){
 
@@ -39,6 +41,22 @@ routes.put("/admin/recipes", admin.putRecipe) // Editar uma receita
 routes.delete("/admin/recipes", admin.deleteRecipe) // Deletar uma receita
 
 //rotas admin/chefs
+
+routes.get("/admin/chefs", admin.indexChefs)
+
+routes.get("/admin/chefs/create", admin.createChef) // Mostrar formulário de novo chef
+
+routes.get("/admin/chefs/:id", admin.showChef) // Exibir detalhes de uma chef
+
+routes.get("/admin/chefs/:id/edit", admin.editChef) // Mostrar formulário de edição de chef
+
+routes.post("/admin/chefs", admin.postChef) // Cadastrar novo chef
+
+routes.put("/admin/chefs", admin.putChef) // Editar um chef
+
+routes.delete("/admin/chefs", admin.deleteChef)
+
+
 
 
 module.exports = routes

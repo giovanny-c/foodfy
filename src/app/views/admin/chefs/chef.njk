@@ -1,0 +1,91 @@
+{% extends "layout-admin.njk" %}
+
+{% block head %}
+    <title>Foodfy Admin - {{chef.name}}</title>
+    <link rel="stylesheet" href="/styles-admin-chef.css">
+    
+{% endblock %}
+
+{% block content %}
+
+    <div class="content">
+        
+        <div id="chef-title">
+
+            <p>Chef: {{chef.name}}</p>
+            
+            
+            <span><a href="/admin/chefs/{{chef.id}}/edit">Editar chef</a></span>
+
+        </div>
+
+        <div class="chef-image">
+
+            <img src="{{chef.image}}" alt="Imagem de {{chef.name}}">
+
+        </div>
+
+        
+
+            <div class="title">
+
+                
+                {{chef.name}}
+
+            </div>
+
+
+            <div class="recipes-count">
+
+                {% if chef.recipes == 1%}
+                    
+                    {{chef.recipes}} receita
+
+                {% else %}
+
+                    {{chef.recipes}} receitas
+
+                {% endif %}
+                
+            </div>
+
+            
+
+            <div class="recipes">Receitas</div>
+
+            <div class="recipes-grid">
+
+                
+
+
+            {% for recipe in recipes %}
+ 
+
+            <div class="recipe" >
+
+                <div class="recipe-image">
+
+                    <img src="{{recipe.image}}" alt="Imagem de {{recipe.title}}">
+                
+                </div>
+                
+                <div class="info">
+
+                    <div class="name">{{recipe.name}}</div>
+
+                    <div class="author">{{chef.name}}</div>
+
+                    <div class="visualize"><a href="/admin/recipes/{{recipe.id}}">Visualizar</a></div>
+                
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+
+    <script src="/scripts/scripts.js"></script>
+    
+{% endblock %}

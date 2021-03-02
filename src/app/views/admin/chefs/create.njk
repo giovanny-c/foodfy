@@ -1,0 +1,36 @@
+{% extends "layout-admin.njk" %}
+
+{% block head %}
+    <title>Foodfy Admin - Criar Chef</title>
+    <link rel="stylesheet" href="/styles-admin-form.css">
+{% endblock %}
+
+{% block content %}
+
+    <div class="content">
+
+        <form action="/admin/chefs" method="post">
+
+            <section class="details">
+
+                <div class="form-head">
+
+                    <div>Criando Chef</div>
+
+                    <div class="button"><button type="submit">Salvar Chef</button></div>
+                </div>
+
+
+                {% include "admin/chefs/fields.njk" %}
+            
+            
+            </section>
+
+        </form>
+
+    </div>
+
+
+    {% include "prevent-delete.njk" %}
+    
+{% endblock %}

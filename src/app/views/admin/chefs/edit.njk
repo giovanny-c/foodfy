@@ -1,7 +1,7 @@
 {% extends "layout-admin.njk" %}
 
 {% block head %}
-    <title>Foodfy Admin - Editar: {{recipe.title}}</title>
+    <title>Foodfy Admin - Editar: {{chef.name}}</title>
     <link rel="stylesheet" href="/styles-admin-form.css">
 {% endblock %}
 
@@ -14,39 +14,40 @@
 
         <div class="form-head">
 
-            <div>Editando Receita</div>
+            <div>Editando Chef</div>
 
             <div class="button">
                 <span>
                     <button type="submit" form="form-delete">Deletar</button>
                 </span>
                 <span>
-                    <button type="submit" form="form">Salvar Receita</button>
+                    <button type="submit" form="form">Salvar Chef</button>
                 </span>
             </div>
         
         </div>
 
 
-        <form id="form" action="/admin/recipes?_method=PUT" method="post">
+        <form id="form" action="/admin/chefs?_method=PUT" method="post">
 
             <section class="details">
 
    
-                {% include "admin/recipes/fields.njk" %}
+                {% include "admin/chefs/fields.njk" %}
             
 
-                <input type="hidden" name="id" value="{{recipe.id}}">
+                <input type="hidden" name="id" value="{{chef.id}}">
 
 
             </section>
 
         </form>
 
-
+ 
         
-        <form id="form-delete" action="/admin/recipes?_method=DELETE" method="post">
-                <input type="hidden" name="id" value="{{recipe.id}}">
+        <form id="form-delete" action="/admin/chefs?_method=DELETE" method="post">
+                <input type="hidden" name="id" value="{{chef.id}}">
+                <input id="recipes" type="hidden" name="recipes" value="{{chef.recipes}}">
                 
         </form>
 
@@ -58,7 +59,7 @@
     
 
 
-    <script src="/scripts/scripts-admin-delete-recipe.js"></script>
+    <script src="/scripts/scripts-admin-delete-chef.js"></script>
     
     
     
