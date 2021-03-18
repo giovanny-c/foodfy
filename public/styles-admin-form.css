@@ -134,17 +134,30 @@ button[form="form-delete"]:hover{
 
 /*campo de IMAGENS*/
 
+.item .photos-title{
+    margin-bottom: 10px;
+}
+
+.item .photos-container{
+    display: grid;
+    grid-template-columns: 150px auto;
+    gap: 8px;
+    
+
+}
+
 .item #photos-upload{
+    
     position: relative;
     display: block;
 
     
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 
     overflow: hidden;
 
-    width: 152px;
-    height: 152px;
+    width: 150px;
+    height: 150px;
     
     
 }
@@ -153,9 +166,10 @@ button[form="form-delete"]:hover{
     
     border: 1px solid #bbb;
     
-    padding: 50px;
+    padding: 49px;
 
     font-size: 50px;
+
     color: #aaa;
     
    
@@ -171,7 +185,7 @@ button[form="form-delete"]:hover{
     display: block;
     overflow: hidden;
     
-    width: 100%;
+    width: 150px;
     height: 159px;
     opacity: 0;
 
@@ -183,16 +197,21 @@ button[form="form-delete"]:hover{
 }
 
 
-.item #photos-previes{
+.item #photos-preview{
+    
     display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(5, 1fr);
+    grid-template-columns:repeat(5, 150px);
+    grid-template-rows: 1fr;
     gap: 8px;
     width: 100%;
 }
 
+
+
 .item #photos-preview .photo{
     height: 150px;
+
+    
 }
 
 

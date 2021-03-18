@@ -1,8 +1,8 @@
 
            <div class="item">
 
-                <div>Fotos da Receita</div>
-                    <div>
+                <div class="photos-title">Fotos da Receita</div>
+                    <div class="photos-container">
 
                         <div id="photos-upload">
                             <input 
@@ -35,7 +35,7 @@
                                          </i>
                                      </div>
                                  {% endfor %}
-                                    <input type="hidden" name="removed_files">
+                                    <input type="hidden" name="removed_files"> {#para remover as fotos#}
                             {% endif %}
 
                         </div>
