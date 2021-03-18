@@ -1,4 +1,50 @@
 
+           <div class="item">
+
+                <div>Fotos da Receita</div>
+                    <div>
+
+                        <div id="photos-upload">
+                            <input 
+                                id="photos-input"
+                                type="file" 
+                                name="photos"
+                                multiple 
+                                accept="image/*"
+                                onchange="PhotosUpload.handleFileInput(event)"
+                                >{#quando houver uma mudança no input#}
+                                
+                                {# accept="image/*"  para aceitartodo tipo de arquivo de imagem#}
+                        
+                            
+                        
+                                <p class="material-icons">add</p>
+
+                        </div>
+
+                        <div id="photos-preview">
+                            {#LOGICA PARA RETORNAR AS FOTOS DO BANCO NO EDIT#}
+                            {% if files %}
+                                 {% for image in files %}
+                                     <div class="photo" id="{{image.id}}">
+                                         <img src="{{image.src}}" alt="{{image.name}}">
+                                         <i class="material-icons"
+                                            onclick="PhotosUpload.removeOldPhoto(event)"
+                                            >
+                                             close
+                                         </i>
+                                     </div>
+                                 {% endfor %}
+                                    <input type="hidden" name="removed_files">
+                            {% endif %}
+
+                        </div>
+                        
+                    </div>
+
+            </div>
+
+
 
 <div class="item">
 
@@ -21,17 +67,6 @@
             </option>
         {% endfor %}
     </select>
-
-</div>
-
-
-<div class="item">
-
-    <div>Imagem da receita</div>
-
-    <div>
-    <input type="url" name="image" placeholder="https://" value="{{recipe.image}}" required/>
-    </div>
 
 </div>
 
@@ -108,3 +143,4 @@
 
 </div>
 
+<script src="/scripts/scripts-images.js"></script>

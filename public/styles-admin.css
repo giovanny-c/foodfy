@@ -5,6 +5,7 @@
     padding: 0;
     border: 0;
     
+    box-sizing: border-box;
 
 }
 
@@ -22,7 +23,7 @@ html, body {
 /* -------------menu--------------- */
 
 header{
-
+    
     background-color: black;
 
 }

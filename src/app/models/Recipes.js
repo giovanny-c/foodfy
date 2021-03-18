@@ -8,7 +8,7 @@ module.exports = {
 
         db.query(`
             SELECT 
-            recipes.id, recipes.name, recipes.image, chefs.name AS chef
+            recipes.id, recipes.name, chefs.name AS chef
             FROM recipes LEFT JOIN chefs ON(recipes.chef_id = chefs.id)         
             `, function(err, results){
 
@@ -45,19 +45,17 @@ module.exports = {
         const query = `
                 INSERT INTO recipes (
                     name,
-                    image,
                     information,
                     ingredients,
                     preparation,
                     chef_id,
                     created_at
-                ) VALUES ($1, $2, $3, $4, $5, $6, $7)
+                ) VALUES ($1, $2, $3, $4, $5, $6)
                 RETURNING id
             `
 
         const values = [
             data.name,
-            data.image,
             data.information,
             data.ingredients,
             data.preparation,
@@ -80,12 +78,11 @@ module.exports = {
 
         const query = `UPDATE recipes SET
                 name=($1),
-                image=($2),
-                information=($3),
-                ingredients=($4),
-                preparation=($5),
-                chef_id=($6)
-                WHERE id = $7       
+                information=($2),
+                ingredients=($3),
+                preparation=($4),
+                chef_id=($5)
+                WHERE id = $6       
             `
         
         const values = [
@@ -149,7 +146,7 @@ module.exports = {
 
 
         query = `
-            SELECT recipes.id, recipes.name, recipes.image,
+            SELECT recipes.id, recipes.name,
             ${totalQuery}, chefs.name AS chef, chefs.id AS chefs_id
             FROM recipes LEFT JOIN chefs ON(recipes.chef_id = chefs.id)
             ${filterQuery}

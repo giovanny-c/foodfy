@@ -62,6 +62,7 @@ header .menu{
 
 /*-----CONTENT--------*/
 
+
 .content{
 
     margin: 50px auto;
@@ -130,6 +131,120 @@ button[form="form-delete"]:hover{
 
 /*------------------*/
 
+
+/*campo de IMAGENS*/
+
+.item #photos-upload{
+    position: relative;
+    display: block;
+
+    
+    margin-bottom: 50px;
+
+    overflow: hidden;
+
+    width: 152px;
+    height: 152px;
+    
+    
+}
+
+.item #photos-upload p{
+    
+    border: 1px solid #bbb;
+    
+    padding: 50px;
+
+    font-size: 50px;
+    color: #aaa;
+    
+   
+}
+
+.item #photos-input{
+    
+    position: absolute;
+
+    top: -7px;
+    left: 0;
+    
+    display: block;
+    overflow: hidden;
+    
+    width: 100%;
+    height: 159px;
+    opacity: 0;
+
+    font-size: 1px;
+
+    cursor: pointer;
+
+    
+}
+
+
+.item #photos-previes{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, 1fr);
+    gap: 8px;
+    width: 100%;
+}
+
+.item #photos-preview .photo{
+    height: 150px;
+}
+
+.item #photos-preview img{
+    width: 100%;
+    height: 150px;
+
+    object-fit: cover;/*cover: vai prencher todo o espaço | fit: vai redimensionar*/
+    
+}
+
+
+#photos-preview .photo{
+
+    position: relative;
+}
+
+#photos-preview .photo i{
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    background-color: rgb(255, 255, 255, 0.8);
+    color: red;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 500%;
+    cursor: pointer;
+    
+    transition: opacity 200ms;
+    
+    opacity: 0;
+
+}
+
+#photos-preview .photo i:hover{
+    opacity: 1;
+}
+
+
+
+
+
+
+/*-------------------*/
+
 .item{
 
     margin-top: 30px;
@@ -142,7 +257,7 @@ button[form="form-delete"]:hover{
 }
 
 
-input, select{
+input[type=text], select{
 
     margin-top: 10px;
     

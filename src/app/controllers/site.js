@@ -1,4 +1,4 @@
-const data = require("../../../data.json")
+
 const Recipes = require("../models/Recipes")
 const Chefs = require("../models/Chefs")
 

@@ -18,7 +18,6 @@ for(let recipe of recipes){
 }
 
 
-
 //----- esconde os itens de preparo
 
 const toggles = document.querySelectorAll(".subtitle")
