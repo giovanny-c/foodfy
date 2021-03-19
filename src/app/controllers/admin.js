@@ -1,8 +1,9 @@
 
 const Recipes = require("../models/Recipes")
 const Chefs = require("../models/Chefs")
+const Files = require("../models/Files")
 
-const fs = require("fs")
+
 
 //=====recipes======
 
@@ -43,7 +44,7 @@ exports.createRecipe = function(req, res){
 
 },
 
-exports.postRecipe = function(req, res){
+exports.postRecipe = async function(req, res){
 
     filteredIngredients = req.body.ingredients.filter(function(ingredient){
 
@@ -56,16 +57,30 @@ exports.postRecipe = function(req, res){
         return procedure != ""
         
     })
+    
+
+
+
+    if(req.files.length == 0){
+        return res.send("Please send at least one image")
+    }
+
 
     req.body.ingredients = filteredIngredients
     req.body.preparation = filteredPreparation
     
 
-    Recipes.create(req.body, function(recipe){
+    let results = await Recipes.create(req.body)
+    const recipeId = results.rows[0].id
 
-        return res.redirect(`/admin/recipes/${recipe.id}`)
+ 
 
-    })  
+    const filesPromise = req.files.map(file => Files.createRecipeFiles({...file, recipe_id: recipeId}))
+    await Promise.all(filesPromise)
+
+    return res.redirect(`/admin/recipes/${recipeId}`)
+
+   
 
 },
 

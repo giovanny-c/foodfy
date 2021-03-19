@@ -5,6 +5,8 @@ const routes = express.Router()
 const admin = require("./app/controllers/admin")
 const site = require("./app/controllers/site")
 
+const multer = require("./app/middlewares/multer")
+
 
 //====ROTAS DO SITE=========
 
@@ -34,7 +36,7 @@ routes.get("/admin/recipes/:id", admin.showRecipe) // Exibir detalhes de uma rec
 
 routes.get("/admin/recipes/:id/edit", admin.editRecipe) // Mostrar formulário de edição de receita
 
-routes.post("/admin/recipes", admin.postRecipe) // Cadastrar nova receita
+routes.post("/admin/recipes", multer.array("photos", 5), admin.postRecipe) // Cadastrar nova receita
 
 routes.put("/admin/recipes", admin.putRecipe) // Editar uma receita
 

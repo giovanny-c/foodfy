@@ -39,6 +39,10 @@ const PhotosUpload = {
 
         PhotosUpload.updateInputFiles()
 
+        console.log(event.target.files)
+
+
+
 
     },
 

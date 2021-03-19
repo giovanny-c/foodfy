@@ -40,7 +40,7 @@ module.exports = {
 
     },
 
-    create(data, callback){
+    create(data){
 
         const query = `
                 INSERT INTO recipes (
@@ -63,14 +63,7 @@ module.exports = {
             date(Date.now()).iso
         ]
 
-        db.query(query, values, function(err, results){
-            if(err) throw `Database error: ${err}`
-
-            
-
-            callback(results.rows[0])
-
-        })
+        return db.query(query, values)
 
     },
 
