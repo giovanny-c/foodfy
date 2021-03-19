@@ -7,38 +7,37 @@ const Files = require("../models/Files")
 
 //=====recipes======
 
-exports.indexRecipes = function(req, res){
+exports.indexRecipes = async function(req, res){
 
-    Recipes.all(function(recipes){
+    let results = await Recipes.all()
+    const recipes = results.rows
+    
+    return res.render("admin/index", {recipes})
 
-        return res.render("admin/index", {recipes})
-
-    })
+    
 
 
 },
 
-exports.showRecipe = function(req, res){
+exports.showRecipe = async function(req, res){
     
     const id = req.params.id
 
-    Recipes.find(id, function(recipe){
+    let results = await Recipes.find(id)
+    const recipe = results.rows[0]
 
-        return res.render("admin/recipes/recipe", {recipe})
-    })
-
-
-    
+    return res.render("admin/recipes/recipe", {recipe})
 
 },
 
-exports.createRecipe = function(req, res){
+exports.createRecipe = async function(req, res){
 
-    Recipes.chefsSelectedOptions(function(chefs){
+    results = await Recipes.chefsSelectedOptions()
+    const chefs = results.rows
 
-        return res.render("admin/recipes/create", {chefs})
+    return res.render("admin/recipes/create", {chefs})
 
-    })
+    
 
     
 
@@ -84,23 +83,26 @@ exports.postRecipe = async function(req, res){
 },
 
 
-exports.editRecipe = function(req, res){
+exports.editRecipe = async function(req, res){
 
-    Recipes.find(req.params.id, function(recipe){
+    let results = await Recipes.find(req.params.id)
+    const recipe = results.rows[0]
 
-        if(!recipe) return res.send("recipe not found")
+    if(!recipe) return res.send("recipe not found")
 
-        Recipes.chefsSelectedOptions(function(chefs){
+    results = await Recipes.chefsSelectedOptions()
+    const chefs = results.rows
 
-            return res.render("admin/recipes/edit", {recipe, chefs})
+    results = await Recipes.files(recipe.id)
+    let files = results.rows
 
-        })
+    /**/
+    files = files.map(file => ({
+        ...file,
+        src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
+    }))
 
-    })
-
-
-
-    
+    return res.render("admin/recipes/edit", {recipe, chefs, files})
 
 },
 

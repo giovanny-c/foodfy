@@ -5,13 +5,14 @@ const Chefs = require("../models/Chefs")
 
 
 //pagina inicial
-exports.index = function(req, res){
+exports.index = async function(req, res){
 
-    Recipes.all(function(recipes){
+    let results = await Recipes.all()
+    const recipes = results.rows
 
-        return res.render("site/index", {recipes})
+    return res.render("site/index", {recipes})
 
-    })
+
 
             
 
@@ -67,14 +68,14 @@ exports.recipes = function(req, res){
 }
 
 //1 receita
-exports.recipe = function(req, res){
+exports.recipe = async function(req, res){
 
     const id = req.params.id
 
-    Recipes.find(id, function(recipe){
+    let results = await Recipes.find(id)
+    const recipe = results.rows[0]
 
-        return res.render("site/recipe", {recipe})
-    })
+    return res.render("site/recipe", {recipe})
 
     
 

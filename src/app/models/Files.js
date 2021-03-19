@@ -40,7 +40,9 @@ module.exports = {
     
     
     
-    }
+    },
+
+    async deleteRecipefiles(productId, fileId)
 
 
 }

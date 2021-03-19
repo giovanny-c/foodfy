@@ -1,2 +1,0 @@
-as img salvas vao nessa pastas 
-por no gitgnore depois public/images/*
