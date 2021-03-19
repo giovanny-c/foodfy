@@ -38,7 +38,7 @@ routes.get("/admin/recipes/:id/edit", admin.editRecipe) // Mostrar formulário d
 
 routes.post("/admin/recipes", multer.array("photos", 5), admin.postRecipe) // Cadastrar nova receita
 
-routes.put("/admin/recipes", admin.putRecipe) // Editar uma receita
+routes.put("/admin/recipes", multer.array("photos", 5), admin.putRecipe) // Editar uma receita
 
 routes.delete("/admin/recipes", admin.deleteRecipe) // Deletar uma receita
 

@@ -152,13 +152,13 @@ module.exports = {
 
     },
 
-    files(id){
+    files(recipId){
 
         const query = `SELECT recipe_files.id AS recipe_files_id, recipe_files.file_id AS recipe_files_file_id, files.* 
         FROM recipe_files INNER JOIN files ON (recipe_files.file_id = files.id)
         where recipe_id = $1`
 
-        return db.query(query, [id])
+        return db.query(query, [recipId])
 
     },
 

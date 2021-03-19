@@ -1,7 +1,7 @@
 {% extends "layout-admin.njk" %}
 
 {% block head %}
-    <title>Foodfy Admin - Editar: {{recipe.title}}</title>
+    <title>Foodfy Admin - Editar: {{recipe.name}}</title>
     <link rel="stylesheet" href="/styles-admin-form.css">
 {% endblock %}
 
@@ -28,7 +28,7 @@
         </div>
 
 
-        <form id="form" action="/admin/recipes?_method=PUT" method="post" enctype="multipart/form-data">
+        <form id="form" method="POST" action="/admin/recipes?_method=PUT" enctype="multipart/form-data">
 
             <section class="details">
 
@@ -45,7 +45,7 @@
 
 
         
-        <form id="form-delete" action="/admin/recipes?_method=DELETE" method="post">
+        <form id="form-delete" method="post" action="/admin/recipes?_method=DELETE" >
                 <input type="hidden" name="id" value="{{recipe.id}}">
                 
         </form>
@@ -56,7 +56,7 @@
 
 
     
-
+    <script src="/scripts/scripts-admin.js"></script>
 
     <script src="/scripts/scripts-admin-delete-recipe.js"></script>
     

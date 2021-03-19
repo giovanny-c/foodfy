@@ -2,6 +2,7 @@
 const Recipes = require("../models/Recipes")
 const Chefs = require("../models/Chefs")
 const Files = require("../models/Files")
+const { files } = require("../models/Recipes")
 
 
 
@@ -61,6 +62,7 @@ exports.postRecipe = async function(req, res){
 
 
     if(req.files.length == 0){
+        
         return res.send("Please send at least one image")
     }
 
@@ -106,31 +108,63 @@ exports.editRecipe = async function(req, res){
 
 },
 
-exports.putRecipe = function(req, res){
+exports.putRecipe = async function(req, res){
+    
+   
 
+    const recipeId = req.body.id
+
+    if(req.body.removed_files){//deletando fotos
+
+        const removedFiles = req.body.removed_files.split(",")
+        const lastIndex = removedFiles.length - 1
+        removedFiles.splice(lastIndex, 1)
+
+        
+
+        const removedFilesPromise = removedFiles.map(fileId => Files.deleteRecipefiles(recipeId, fileId))
+        
+        
+        await Promise.all(removedFilesPromise)
+    }
+
+
+    if(req.files.length != 0){//criando fotos
+
+        const oldFiles = await Recipes.files(recipeId)
+        const totalFiles = oldFiles.rows.length + req.files.length
+
+        if(totalFiles <= 6){
+
+            const newFilesPromise = req.files.map(file => {
+                Files.createRecipeFiles({
+                    ...file, recipe_id: recipeId
+                })
+            })
+
+            await Promise.all(newFilesPromise)
+
+        }
+
+
+    }
 
     const filteredIngredients  = req.body.ingredients.filter(function(ingredient){
-
-        return ingredient != ""
-        
+        return ingredient != ""    
     })
 
     const filteredPreparation = req.body.preparation.filter(function(procedure){
-
         return procedure != ""
-        
     })
-
 
     req.body.ingredients = filteredIngredients
     req.body.preparation = filteredPreparation
-
      
-    Recipes.update(req.body, function(){
+    await Recipes.update(req.body) 
 
-        return res.redirect(`/admin/recipes/${req.body.id}`)
+    return res.redirect(`/admin/recipes/${req.body.id}`)
 
-    })
+    
 
 
         
@@ -213,6 +247,7 @@ exports.editChef = function(req, res){
 
 
 exports.putChef = function(req, res){
+
 
     Chefs.update(req.body, function(){
 
