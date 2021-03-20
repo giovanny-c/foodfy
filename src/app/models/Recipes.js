@@ -82,7 +82,7 @@ module.exports = {
 
     },
 
-    delete(id, callback){
+    delete(id){
 
         return db.query(`DELETE FROM recipes WHERE id = $1`, [id])
 
@@ -91,7 +91,7 @@ module.exports = {
 
     paginate(params){
 
-        const {filter, limit, offset, callback} = params
+        const {filter, limit, offset} = params
 
         let query = ``,
             filterQuery = ``,

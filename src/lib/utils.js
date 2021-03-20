@@ -23,10 +23,14 @@ module.exports = {
 
         const year = date.getUTCFullYear();
 
-        const month = `0${date.getUTCMonth() + 1}`.slice(-2);
-        //slice(-2) vai pegar os dois ultimos caracteres da string
+        const month = `0${date.getUTCMonth() + 1}`.slice(-2);//slice(-2) vai pegar os dois ultimos caracteres da string
+        
 
         const day = `0${date.getUTCDate()}`.slice(-2);
+
+        const hour = `0${date.getHours()}`.slice(-2)
+
+        const minutes = `0${date.getMinutes()}`.slice(-2)
 
         
 
@@ -34,13 +38,13 @@ module.exports = {
             day,
             month,
             year,
-            iso: `${year}-${month}-${day}`,//tipo ISO
+            iso: `${year}-${month}-${day} ${hour}:${minutes}`,//tipo ISO
             birthday: `${day}/${month}`,
             format: `${day}/${month}/${year}`
 
        }
 
-        /*`${year}-${month}-${day}`*/
+        
 
 
     }

@@ -174,20 +174,34 @@ exports.putRecipe = async function(req, res){
 
     return res.redirect(`/admin/recipes/${req.body.id}`)
 
-    
-
-
-        
-
-
-    
-
 },
 
 exports.deleteRecipe = async function(req, res){
 
-    await Recipes.delete(req.body.id)
+
+    let results = await Recipes.find(req.body.id)
+    const recipe = results.rows[0]
+
+    results =  await Recipes.files(recipe.id)
+    let files = results.rows
+
+    files = files.map(file => file.id)
+
+    try {
+        // removendo arquivos
+        const removeFiles = files.map( id => Files.deleteRecipefiles(recipe.id, id))
+
+        await Promise.all(removeFiles)
+
+        // removendo receita        
+        await Recipes.delete(req.body.id)
+        
+    } catch (err) {
+        
+        alert(`Nao foi possível deletar`)
     
+    }
+
     return res.redirect("/admin/recipes")
 
     

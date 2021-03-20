@@ -125,15 +125,17 @@ header .menu{
 .gallery .gallery-preview{
     margin-top: 4px;
     display: grid;
-    grid-template-columns: repeat(3, 50px);
-    gap: 10px;
+    
+    grid-template-columns: repeat(5, auto) ;
+    
+    
     justify-content: end;
     
 }
 
 .gallery .gallery-preview img{
 
-    
+    margin-left: 10px;
 
     height: 50px;
     width: 50px;

@@ -11,12 +11,6 @@ exports.index = async function(req, res){
     const recipes = results.rows
 
     return res.render("site/index", {recipes})
-
-
-
-            
-
-
 }
 
 //sobre
@@ -27,7 +21,7 @@ exports.about = function(req, res){
 }
 
 //lista de receitas
-exports.recipes = function(req, res){
+exports.recipes = async function(req, res){
 
     let {filter, page, limit} = req.query
 
@@ -40,31 +34,29 @@ exports.recipes = function(req, res){
         page,
         limit,
         offset,
-        callback(recipes){
+    }
 
-            if(recipes == ""){
-                
-                return res.render("site/recipes", {recipes, filter})
+    let results = await Recipes.paginate(params)
+    const recipes = results.rows
 
-            }else{
+    if(recipes == ""){//se a busca nao achar nada 
+        
+        return res.render("site/recipes", {recipes, filter}) 
 
-                const pagination = {
-                    total: Math.ceil(recipes[0].total / limit),
-                    page
-                }
+    }else{
 
-                return res.render("site/recipes", {recipes, pagination, filter})
-
-            }
-
-            
-
+        const pagination = {
+            total: Math.ceil(recipes[0].total / limit),
+            page
         }
+
+        return res.render("site/recipes", {recipes, pagination, filter})
 
     }
 
-    Recipes.paginate(params)
+    
 
+   
 }
 
 //1 receita
