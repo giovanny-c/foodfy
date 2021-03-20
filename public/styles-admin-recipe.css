@@ -111,15 +111,54 @@ header .menu{
     margin-bottom: 50px;
 
 }
-
-.recipe-image img{
+/*galeria de imagens*/
+.gallery .highlight-image > img{
     
     border-radius: 15px;
     width: 940px;
     height: 280px;
 
+    object-fit: fill;
+
 } 
 
+.gallery .gallery-preview{
+    margin-top: 4px;
+    display: grid;
+    grid-template-columns: repeat(3, 50px);
+    gap: 10px;
+    justify-content: end;
+    
+}
+
+.gallery .gallery-preview img{
+
+    
+
+    height: 50px;
+    width: 50px;
+
+    object-fit: cover;
+
+    opacity: 0.6;
+    cursor: pointer;
+
+    transition: 300ms ;
+    
+    border-radius: 4px;
+
+
+}
+
+.gallery .gallery-preview img.active,
+.gallery .gallery-preview img:hover{
+    opacity: 1;
+}
+
+
+
+
+/*---------------------------*/
 .content .title{
 
     text-align: center;

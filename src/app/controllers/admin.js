@@ -2,7 +2,7 @@
 const Recipes = require("../models/Recipes")
 const Chefs = require("../models/Chefs")
 const Files = require("../models/Files")
-const { files } = require("../models/Recipes")
+
 
 
 
@@ -27,7 +27,17 @@ exports.showRecipe = async function(req, res){
     let results = await Recipes.find(id)
     const recipe = results.rows[0]
 
-    return res.render("admin/recipes/recipe", {recipe})
+    if(!recipe) return res.send("product not found")
+
+    results = await Recipes.files(recipe.id)
+    const files = results.rows.map(file => ({
+        ...file,
+        src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
+    }))
+
+
+
+    return res.render("admin/recipes/recipe", {recipe, files})
 
 },
 
@@ -174,15 +184,15 @@ exports.putRecipe = async function(req, res){
 
 },
 
-exports.deleteRecipe = function(req, res){
+exports.deleteRecipe = async function(req, res){
 
-    Recipes.delete(req.body.id, function(){
+    await Recipes.delete(req.body.id)
+    
+    return res.redirect("/admin/recipes")
 
-        return res.redirect("/admin/recipes")
+    
 
-    })
-
-}
+}//ARRUMAR O DELETE PARA DELETAR AS IMAGENS TBM
 
 
 //====chefs=======

@@ -84,15 +84,7 @@ module.exports = {
 
     delete(id, callback){
 
-        db.query(`DELETE FROM recipes WHERE id = $1`, [id], function(err, results){
-
-            if(err) throw `Database error: ${err}`
-
-            
-
-            callback()
-
-        })
+        return db.query(`DELETE FROM recipes WHERE id = $1`, [id])
 
     },
 
@@ -130,15 +122,7 @@ module.exports = {
         `
        
 
-        db.query(query, [limit, offset], function(err, results){
-            
-            if(err) throw `Database error: ${err}`
-
-            
-            
-            callback(results.rows)
-
-        })
+        return db.query(query, [limit, offset])
             
 
 
@@ -152,7 +136,7 @@ module.exports = {
 
     },
 
-    files(recipId){
+    files(recipId){//todas as imgens de uma receita
 
         const query = `SELECT recipe_files.id AS recipe_files_id, recipe_files.file_id AS recipe_files_file_id, files.* 
         FROM recipe_files INNER JOIN files ON (recipe_files.file_id = files.id)
@@ -161,6 +145,12 @@ module.exports = {
         return db.query(query, [recipId])
 
     },
+
+    onefileOfAll(){
+
+
+
+    } //uma imagem de cada receita
 
 
 
