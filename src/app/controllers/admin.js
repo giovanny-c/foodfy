@@ -36,7 +36,6 @@ exports.showRecipe = async function(req, res){
     }))
 
 
-
     return res.render("admin/recipes/recipe", {recipe, files})
 
 },
@@ -56,6 +55,8 @@ exports.createRecipe = async function(req, res){
 
 exports.postRecipe = async function(req, res){
 
+    
+
     filteredIngredients = req.body.ingredients.filter(function(ingredient){
 
         return ingredient != ""
@@ -68,8 +69,6 @@ exports.postRecipe = async function(req, res){
         
     })
     
-
-
 
     if(req.files.length == 0){
         
@@ -197,8 +196,9 @@ exports.deleteRecipe = async function(req, res){
         await Recipes.delete(req.body.id)
         
     } catch (err) {
+        //new alert(`Nao foi possível deletar`)
+        throw console.log(err)
         
-        alert(`Nao foi possível deletar`)
     
     }
 
@@ -211,31 +211,34 @@ exports.deleteRecipe = async function(req, res){
 
 //====chefs=======
 
-exports.indexChefs = function(req, res){
+exports.indexChefs = async function(req, res){
 
-    Chefs.all(function(chefs){
+    let results = await Chefs.all()
+    const chefs = results.rows
 
-        return res.render("admin/chefs/chefs", {chefs})
+    return res.render("admin/chefs/chefs", {chefs})
 
-    })
+    
 
 },
 
-exports.showChef = function(req, res){
+exports.showChef = async function(req, res){
+
+    let results = await Chefs.find(req.params.id)
+    const chef = results.rows[0]
+
     
+
+    results = await Chefs.file(chef.file_id)
+    const image = results.rows[0]
+
+    if(image) image.src = `${req.protocol}://${req.headers.host}${image.path.replace("public", "")}`
     
+    results = await Chefs.findRecipes(req.params.id)
+    const recipes = results.rows
 
-    Chefs.find(req.params.id, function(chef){
+    return res.render("admin/chefs/chef", {chef, recipes, image})
 
-        Chefs.findRecipes(req.params.id, function(recipes){
-
-            return res.render("admin/chefs/chef", {chef, recipes})
-
-        })
-
-        
-    })
-    
 
 },
 
@@ -247,49 +250,71 @@ exports.createChef = function(req, res){
 },
 
 
-exports.postChef = function(req, res){
+exports.postChef = async function(req, res){
 
-    Chefs.create(req.body, function(chef){
+    if(!req.file){
 
-        return res.redirect(`/admin/chefs/${chef.id}`)
+        return res.send("Envie uma imagem")
+    }
+
+    let results = await Files.createChefFile(req.file)
+    const file_id = results.rows[0].id
+
+    results = await Chefs.create(req.body, file_id)
+    const chef = results.rows[0].id
+
+
+    return res.redirect(`/admin/chefs/${chef}`)
 
         
-    })
-
-},
-
-exports.editChef = function(req, res){
-
-    Chefs.find(req.params.id, function(chef){
-
-        return res.render("admin/chefs/edit", {chef})
-
-    })
-
-
-},
-
-
-exports.putChef = function(req, res){
-
-
-    Chefs.update(req.body, function(){
-
-        return res.redirect(`/admin/chefs/${req.body.id}`)
-
-    })
-
-
     
 
 },
 
-exports.deleteChef = function(req, res){
+exports.editChef = async function(req, res){
 
-    Chefs.delete(req.body.id, function(){
+    let results = await Chefs.find(req.params.id)
+    const chef = results.rows[0]
 
-        return res.redirect("/admin/chefs")
-    })
+    return res.render("admin/chefs/edit", {chef})
+
+},
+
+
+exports.putChef = async function(req, res){
+    
+    const result = await Chefs.file(req.body.file_id)
+    const oldPath = result.rows[0].path 
+
+    console.log(req.file)
+    console.log(req.body.file_id)
+
+
+    if(req.file){ //atualiza a file que ta no banco 
+       
+        await Files.updateChefFile({...req.file, file_id: req.body.file_id, oldPath})
+    
+    }
+
+    //faz o update
+    await Chefs.update(req.body)
+
+    return res.redirect(`/admin/chefs/${req.body.id}`)
+
+
+},
+
+exports.deleteChef = async function(req, res){
+
+    const result = await Chefs.file(req.body.file_id)
+    const path = result.rows[0].path 
+
+    await Chefs.delete(req.body.id)
+
+    await Files.deleteChefFiles(req.body.file_id, path)
+
+    return res.redirect("/admin/chefs")
+    
 
     
 

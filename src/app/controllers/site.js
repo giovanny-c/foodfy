@@ -73,13 +73,14 @@ exports.recipe = async function(req, res){
 
 }
 
-exports.chefs = function(req, res){
+exports.chefs = async function(req, res){
 
-    Chefs.all(function(chefs){
+    let results = await Chefs.all()
+    const chefs = results.rows
 
         return res.render("site/chefs", {chefs})
 
-    })
+    
 
     
 

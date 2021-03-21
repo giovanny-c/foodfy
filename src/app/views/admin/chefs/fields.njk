@@ -15,8 +15,16 @@
 
     <div>Imagem do Chef</div>
 
-    <div>
-    <input type="url" name="image" placeholder="https://" value="{{chef.image}}" required/>
+    <div id="photo-upload">
+        <input 
+            id="photo-input"
+            type="file" 
+            name="photo" 
+            accept="image/*"
+            onchange=""
+        >
+
+        <p>Enviar Avatar</p>
     </div>
 
 </div>

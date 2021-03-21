@@ -2,6 +2,7 @@
 const db = require("../../config/db")
 
 const fs = require('fs')
+const { throws } = require("assert")
 
 
 module.exports = {
@@ -39,11 +40,9 @@ module.exports = {
         }finally{
             client.release()//termina a transação
         }
-    
-    
-    
-    
+  
     },
+
 
     async deleteRecipefiles(recipId, fileId){
 
@@ -96,7 +95,39 @@ module.exports = {
                 
         }
 
-    }
+    },
 
+    createChefFile({filename, path}){
+
+        return db.query('INSERT INTO files (name, path) VALUES ($1, $2) RETURNING id', [filename, path])
+        
+
+    },
+
+    updateChefFile({filename, path, file_id, oldPath}){  
+
+            fs.unlinkSync(oldPath)//remove o file antigo da aplicação
+            
+            const query = `UPDATE files SET 
+                        name=($1),
+                        path=($2)
+                        WHERE id = $3`
+
+            return db.query(query, [filename, path, file_id]) //atauliza com o novo file
+             
+        
+    },
+
+
+    deleteChefFiles(file_id, path){
+
+        fs.unlinkSync(path) //remove o file da app
+
+        return db.query('DELETE FROM files WHERE id = $1', [file_id]) //remove do banco
+
+    }
+    
+
+    
 
 }

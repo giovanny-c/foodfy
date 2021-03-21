@@ -6,45 +6,33 @@ const {date} = require("../../lib/utils")
 
 module.exports = {
 
-    all(callback){
+    all(){
 
-        db.query(`
+       return db.query(`
                 SELECT 
                 chefs.id, chefs.name, count(recipes) AS recipes
                 FROM chefs LEFT JOIN recipes ON(chefs.id =  recipes.chef_id)
                 GROUP BY chefs.id         
-            `, function(err, results){
-
-                if(err) throw `Database error: ${err}`
-
-                callback(results.rows)
-
-            })
+            `)
 
 
     },
 
-    find(id, callback){
+    find(id){//Join triplo ?
 
         const query = `
                 SELECT 
-                chefs.id, chefs.name, count(recipes) AS recipes
+                chefs.id, chefs.name, count(recipes) AS recipes, chefs.file_id
                 FROM chefs LEFT JOIN recipes ON(chefs.id =  recipes.chef_id)
                 WHERE chefs.id = $1
                 GROUP BY chefs.id
             `
-        db.query(query, [id], function(err, results){
-
-            if(err) throw `Database error: ${err}`
-
-                callback(results.rows[0])
-
-        })
+        return db.query(query, [id])
 
 
     },
 
-    findRecipes(id, callback){
+    findRecipes(id){
 
         const query = `
             SELECT 
@@ -52,48 +40,37 @@ module.exports = {
             FROM chefs JOIN recipes ON(chefs.id =  recipes.chef_id)
             WHERE chefs.id = $1
         `
-        db.query(query, [id], function(err, results){
-
-            if(err) throw `Database error: ${err}`
-
-                callback(results.rows)
-
-
-        })
+        return db.query(query, [id])
 
     },
 
-    create(data, callback){
+    create(data, file_id){
 
         const query = `
             INSERT INTO chefs (
             name,
-            created_at
-            ) VALUES ($1, $2)
+            created_at,
+            file_id
+            ) VALUES ($1, $2, $3)
             RETURNING id
         `
 
         const values = [
             data.name,
-            date(Date.now()).iso
+            date(Date.now()).iso,
+            file_id || ""
+
         ]
 
-        db.query(query, values, function(err, results){
-
-            if(err) throw `Database error: ${err}`
-
-            callback(results.rows[0])
-
-
-        })
+        return db.query(query, values)
 
     },
 
-    update(data, callback){
+    update(data){
 
         const query = `
             UPDATE chefs SET 
-            name=($1),
+            name=($1)
             WHERE id = $2
         `
 
@@ -102,30 +79,27 @@ module.exports = {
             data.id
         ]
 
-        db.query(query, values, function(err, results){
-
-            if(err) throw `Database error: ${err}`
-
-            callback()
-
-        })
+        return db.query(query, values)
 
     },
 
 
-    delete(id, callback){
+    delete(id){
 
         const query = `DELETE FROM chefs WHERE id = $1` 
 
-        db.query(query, [id], function(err, results){
+        return db.query(query, [id])
 
-            if(err) throw `Database error: ${err}`
+    },
 
-            callback()
+    file(file_id){//todas as imgens de uma receita
 
-        })
+        const query = `SELECT * FROM files WHERE id = $1`
 
-    }
+        return db.query(query, [file_id])
+
+    },
+
 
 
 }

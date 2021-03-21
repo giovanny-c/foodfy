@@ -52,9 +52,9 @@ routes.get("/admin/chefs/:id", admin.showChef) // Exibir detalhes de uma chef
 
 routes.get("/admin/chefs/:id/edit", admin.editChef) // Mostrar formulário de edição de chef
 
-routes.post("/admin/chefs", admin.postChef) // Cadastrar novo chef
+routes.post("/admin/chefs", multer.single("photo"), admin.postChef) // Cadastrar novo chef
 
-routes.put("/admin/chefs", admin.putChef) // Editar um chef
+routes.put("/admin/chefs", multer.single("photo"), admin.putChef) // Editar um chef
 
 routes.delete("/admin/chefs", admin.deleteChef)
 
