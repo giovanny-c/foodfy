@@ -109,9 +109,10 @@ exports.recipe = async function(req, res){
         ...file,
         src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
     }))
+    
 
 
-    return res.render("admin/recipes/recipe", {recipe, files})
+    return res.render("site/recipe", {recipe, files})
 
     
 
