@@ -10,7 +10,26 @@ exports.index = async function(req, res){
     let results = await Recipes.all()
     const recipes = results.rows
 
-    return res.render("site/index", {recipes})
+    if(!recipes) return res.send("recipes not found")
+
+    async function getImage(recipeId){
+
+        let results = await Recipes.files(recipeId)
+        const files = results.rows.map(file => `
+            ${req.protocol}://${req.headers.host}${file.path.replace("public","")}`
+        )
+
+        return files[0]
+    }
+
+    const recipesPromise = recipes.map( async recipe => {
+        recipe.image = await getImage(recipe.id)
+        return recipe
+    })
+
+    const MostViewsRecipes = await Promise.all(recipesPromise)
+
+    return res.render("site/index", {recipes: MostViewsRecipes})
 }
 
 //sobre
@@ -39,6 +58,24 @@ exports.recipes = async function(req, res){
     let results = await Recipes.paginate(params)
     const recipes = results.rows
 
+    async function getImage(recipeId){
+        let results = await Recipes.files(recipeId)
+        const files = results.rows.map( file => `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`)
+        
+        return files[0]
+    }
+
+    const recipesPromise = recipes.map(async recipe => {
+        recipe.image = await getImage(recipe.id)
+        
+        return recipe
+    })
+
+    const foundRecipes = await Promise.all(recipesPromise)
+
+     
+
+
     if(recipes == ""){//se a busca nao achar nada 
         
         return res.render("site/recipes", {recipes, filter}) 
@@ -50,13 +87,11 @@ exports.recipes = async function(req, res){
             page
         }
 
-        return res.render("site/recipes", {recipes, pagination, filter})
+        return res.render("site/recipes", {recipes: foundRecipes, pagination, filter})
 
     }
 
     
-
-   
 }
 
 //1 receita
@@ -67,7 +102,16 @@ exports.recipe = async function(req, res){
     let results = await Recipes.find(id)
     const recipe = results.rows[0]
 
-    return res.render("site/recipe", {recipe})
+    if(!recipe) return res.send("product not found")
+
+    results = await Recipes.files(recipe.id)
+    const files = results.rows.map(file => ({
+        ...file,
+        src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
+    }))
+
+
+    return res.render("admin/recipes/recipe", {recipe, files})
 
     
 
@@ -78,7 +122,30 @@ exports.chefs = async function(req, res){
     let results = await Chefs.all()
     const chefs = results.rows
 
-        return res.render("site/chefs", {chefs})
+    if(!chefs) return res.send("chefs not found")
+
+    async function getImage(chefId){
+
+        let results = await Chefs.file(chefId)
+        const files = results.rows.map(file => `
+            ${req.protocol}://${req.headers.host}${file.path.replace("public","")}`
+        )
+        
+        return files[0]
+    }
+
+
+    const chefsPromise = chefs.map( async chef => {
+        chef.image = await getImage(chef.file_id)
+        return chef
+    })
+
+    const chefsList = await Promise.all(chefsPromise)
+
+    
+
+
+    return res.render("site/chefs", {chefs: chefsList})
 
     
 

@@ -12,11 +12,27 @@ exports.indexRecipes = async function(req, res){
 
     let results = await Recipes.all()
     const recipes = results.rows
-    
-    return res.render("admin/index", {recipes})
 
-    
+    if(!recipes) return res.send("recipes not found")
 
+    async function getImage(recipeId){
+
+        let results = await Recipes.files(recipeId)
+        const files = results.rows.map(file => `
+            ${req.protocol}://${req.headers.host}${file.path.replace("public","")}`
+        )
+
+        return files[0]
+    }
+
+    const recipesPromise = recipes.map( async recipe => {
+        recipe.image = await getImage(recipe.id)
+        return recipe
+    })
+
+    const allRecipes = await Promise.all(recipesPromise)
+
+    return res.render("admin/index", {recipes: allRecipes})
 
 },
 
@@ -216,7 +232,29 @@ exports.indexChefs = async function(req, res){
     let results = await Chefs.all()
     const chefs = results.rows
 
-    return res.render("admin/chefs/chefs", {chefs})
+    if(!chefs) return res.send("chefs not found")
+
+    async function getImage(chefId){
+
+        let results = await Chefs.file(chefId)
+        const files = results.rows.map(file => `
+            ${req.protocol}://${req.headers.host}${file.path.replace("public","")}`
+        )
+        
+        return files[0]
+    }
+
+
+    const chefsPromise = chefs.map( async chef => {
+        chef.image = await getImage(chef.file_id)
+        return chef
+    })
+
+    const chefsList = await Promise.all(chefsPromise)
+
+    
+
+    return res.render("admin/chefs/chefs", {chefs: chefsList})
 
     
 
@@ -227,17 +265,33 @@ exports.showChef = async function(req, res){
     let results = await Chefs.find(req.params.id)
     const chef = results.rows[0]
 
-    
-
     results = await Chefs.file(chef.file_id)
     const image = results.rows[0]
 
     if(image) image.src = `${req.protocol}://${req.headers.host}${image.path.replace("public", "")}`
     
+
     results = await Chefs.findRecipes(req.params.id)
     const recipes = results.rows
 
-    return res.render("admin/chefs/chef", {chef, recipes, image})
+    async function getImage(recipeId){
+
+        let results = await Recipes.files(recipeId)
+        const files = results.rows.map(file => `
+            ${req.protocol}://${req.headers.host}${file.path.replace("public","")}`
+        )
+
+        return files[0]
+    }
+
+    const recipesPromise = recipes.map( async recipe => {
+        recipe.image = await getImage(recipe.id)
+        return recipe
+    })
+
+    const allRecipes = await Promise.all(recipesPromise)
+
+    return res.render("admin/chefs/chef", {chef, recipes: allRecipes, image})
 
 
 },
@@ -282,23 +336,44 @@ exports.editChef = async function(req, res){
 
 
 exports.putChef = async function(req, res){
+
+    if(req.body.file_id){//se tiver uma imagem no bd
+
+        const result = await Chefs.file(req.body.file_id)
+        const oldPath = result.rows[0].path 
+   
+
+        if(req.file){ 
+            //atualiza a file que ta no banco 
+            await Files.updateChefFile({...req.file, file_id: req.body.file_id, oldPath})
+        
+        }
+        
+        await Chefs.update(req.body, req.body.file_id )
+
+        
+
+    } else { //se nao tiver uma imagem no bd
+
+        if(!req.file){
+
+            return res.send("send a image")
+        }
+        
+        if(req.file){
+            //cria um file novo
+            let result = await Files.createChefFile({...req.file})
+            const fileId = result.rows[0].id
+
+            
+        
+            await Chefs.update(req.body, fileId)
     
-    const result = await Chefs.file(req.body.file_id)
-    const oldPath = result.rows[0].path 
-
-    console.log(req.file)
-    console.log(req.body.file_id)
-
-
-    if(req.file){ //atualiza a file que ta no banco 
-       
-        await Files.updateChefFile({...req.file, file_id: req.body.file_id, oldPath})
-    
+        }
+        
     }
 
-    //faz o update
-    await Chefs.update(req.body)
-
+        
     return res.redirect(`/admin/chefs/${req.body.id}`)
 
 

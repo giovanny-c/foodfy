@@ -10,7 +10,7 @@ module.exports = {
 
        return db.query(`
                 SELECT 
-                chefs.id, chefs.name, count(recipes) AS recipes
+                chefs.id, chefs.name, chefs.file_id ,count(recipes) AS recipes
                 FROM chefs LEFT JOIN recipes ON(chefs.id =  recipes.chef_id)
                 GROUP BY chefs.id         
             `)
@@ -66,16 +66,18 @@ module.exports = {
 
     },
 
-    update(data){
+    update(data, fileId){
 
         const query = `
             UPDATE chefs SET 
-            name=($1)
-            WHERE id = $2
+            name=($1),
+            file_id=($2)
+            WHERE id = $3
         `
 
         const values = [
             data.name,
+            fileId,
             data.id
         ]
 

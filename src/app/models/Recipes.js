@@ -11,7 +11,8 @@ module.exports = {
         return db.query(`
             SELECT 
             recipes.id, recipes.name, chefs.name AS chef
-            FROM recipes LEFT JOIN chefs ON(recipes.chef_id = chefs.id)         
+            FROM recipes LEFT JOIN chefs ON(recipes.chef_id = chefs.id)
+            ORDER BY recipes.created_at DESC         
             `,)
 
 
@@ -118,6 +119,7 @@ module.exports = {
             ${totalQuery}, chefs.name AS chef, chefs.id AS chefs_id
             FROM recipes LEFT JOIN chefs ON(recipes.chef_id = chefs.id)
             ${filterQuery}
+            ORDER BY recipes.updated_at DESC
             LIMIT $1 OFFSET $2
         `
        

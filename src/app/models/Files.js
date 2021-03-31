@@ -106,8 +106,8 @@ module.exports = {
 
     updateChefFile({filename, path, file_id, oldPath}){  
 
-            fs.unlinkSync(oldPath)//remove o file antigo da aplicação
-            
+        if(oldPath) fs.unlinkSync(oldPath)//remove o file antigo da aplicação
+
             const query = `UPDATE files SET 
                         name=($1),
                         path=($2)
