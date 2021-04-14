@@ -2,7 +2,7 @@
 
 {% block head %}
     <title>Foodfy Admin - {{chef.name}}</title>
-    <link rel="stylesheet" href="/styles-admin-chef.css">
+    
     
 {% endblock %}
 
@@ -53,15 +53,13 @@
 
             <div class="recipes">Receitas</div>
 
-            <div class="recipes-grid">
-
-                
+            <div class="chef-recipes-grid">
 
 
             {% for recipe in recipes %}
  
 
-            <div class="recipe" >
+            <div class="chef-recipe" >
 
                 <div class="recipe-image">
 
@@ -69,11 +67,11 @@
                 
                 </div>
                 
-                <div class="info">
+                <div class="chef-info">
 
-                    <div class="name">{{recipe.name}}</div>
+                    <div class="chef-name">{{recipe.name}}</div>
 
-                    <div class="author">{{chef.name}}</div>
+                    <div class="chef-author">{{chef.name}}</div>
 
                     <div class="visualize"><a href="/admin/recipes/{{recipe.id}}">Visualizar</a></div>
                 

@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 :root{
 
@@ -6,66 +5,6 @@
     --color-grey2: rgba(119,119,119,1);
     --color-grey3: rgb(196, 190, 190);
 }
-
-*{
-    margin: 0;
-    padding: 0;
-    border: 0;
-    
-
-}
-
-html, body {
-    height:100%;
-}
-
-
-.body {
-    min-height:100%;
-    position:relative;
-    font-family: 'Roboto', sans-serif;
-}
-
-/* -------------menu--------------- */
-
-header{
-
-    background-color: black;
-
-}
-
-header .menu{
-    
-    margin: 0 auto;
-    padding: 30px 0;
-    width: 940px;
-    display: grid;
-    grid-template-columns: 90.6px 1fr ;
-    position: relative;
-
-}
-
-.menu2{
-    
-    
-    margin-left: 50px;
-    padding-top:4px;
-
-}
-
-.menu2 a{
-    
-    text-align: left;
-    padding-top:4px;
-    margin-right: 30px;
-    font-size: 14px;
-    text-transform: uppercase;
-    
-    color: #FFFFFF;
-    text-decoration: none;
-
-}
-
 
 /* -------------cCONTENT--------------- */
 
@@ -164,18 +103,20 @@ header .menu{
 }
 
 
-.grid{
+.chef-recipes-grid{
     display: grid;
     grid-template-columns:1fr 1fr; 
     
+    
 }
 
-.recipe{
+.chef-recipes-grid .chef-recipe{
     display: grid;
     grid-template-columns: 172px 1fr;
+    height: 80px;
 }
 
-.recipes-tile{
+.chef-recipes-grid .recipes-tile{
     width: 940px;
     margin: 50px auto;
     margin-bottom: 20px ;
@@ -187,10 +128,11 @@ header .menu{
 }
 
 
-.recipes-grid{
+.chef-recipes-grid{
 
     margin: 0 auto;
     width: 940px;
+    
     display: grid;
     grid-template-columns: 1fr 1fr ;
     gap: 20px;
@@ -199,7 +141,7 @@ header .menu{
 
 }
 
-.recipes-grid .recipe img{
+.chef-recipes-grid .recipe-image img{
 
     width: 172px;
     height: 80px;
@@ -207,15 +149,15 @@ header .menu{
     
 }
 
-.recipes-grid .info{
+.chef-recipes-grid .chef-info{
 
-    margin-bottom: 10px;
+    
     margin-left: 18px;
 }
 
 
 
-.recipe .name{
+.chef-recipes-grid .chef-recipe .chef-name{
 
     
     font-size: 18px;
@@ -225,7 +167,7 @@ header .menu{
 
 }
 
-.info .author{
+.chef-recipes-grid .chef-recipe .chef-info .chef-author{
 
     margin-top: 5px;
     font-size: 14px;
@@ -234,12 +176,19 @@ header .menu{
     padding-left: 4px;
     padding-bottom: 10px;
     
+    
+
+    text-align: left;
+    
 }
 
-.info a{ 
+.chef-recipes-grid .chef-recipe .chef-info a{ 
     
+
+
     padding-left: 4px;
     text-decoration: none;
+    
     font-size: 14px;
     line-height: 16px;
     font-weight: bold;

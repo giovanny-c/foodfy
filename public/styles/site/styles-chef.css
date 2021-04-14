@@ -1,0 +1,107 @@
+
+
+/*-----------chefs grid--------------*/
+
+.chefs-tile{
+    width: 940px;
+    margin: 50px auto;
+    margin-bottom: 20px ;
+    text-align: left;
+    font-size: 28px;
+    font-weight: bold;
+
+
+}
+
+.chefs-section{
+
+    margin: 50px auto;
+    width: 940px;
+    display: grid;
+    
+    grid-template-columns: 1fr;
+}
+
+.chefs-section .search-for{
+
+    
+    margin-bottom: 30px;
+    font-size: 24px;
+    font-weight: bold;
+
+}
+
+.chefs-grid{
+
+    margin: 50px auto;
+    width: 940px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 50px;
+
+
+}
+
+.chef{
+
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    height: 64px;
+    gap: 10px;
+    
+
+}
+
+.chefs-grid .chef img{
+
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    
+}
+
+.chefs-grid .info{
+    
+    margin-top: 10px;
+
+}
+
+.chef .name{
+
+    
+    font-size: 18px;
+    line-height: 21px;
+    color: black;
+    padding-left: 4px;
+
+}
+
+.info .recipes{
+
+    margin-top: 2px;
+    font-size: 14px;
+    line-height: 16px;
+    color: rgba(119,119,119,1);
+    padding-left: 4px;
+    
+}
+
+.pagination{
+    text-align: center;
+}
+
+.pagination a {
+    text-decoration: none;
+    color: black;
+    margin-right: 24px;
+}
+
+.pagination a:hover {
+    color: rgba(101,88,195,1);
+    border-bottom: 1px solid rgba(101,88,195,1);
+}
+
+.pagination a:last-child{
+    margin-right: 0;
+}

@@ -1,0 +1,30 @@
+
+/* -------------presentantion--------------- */
+
+.presentation-about{
+
+    width: 940px;
+    margin: 0 auto;
+    margin-bottom: 50px;
+
+}
+
+.presentation-about .title.about{
+
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 28px;
+
+}
+
+.presentation-about p{
+
+    margin: 20px 0 20px 0;
+    font-size: 18px;
+    line-height: 28px;
+
+
+}
+
+
+

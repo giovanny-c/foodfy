@@ -1,9 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 *{
     margin: 0;
     padding: 0;
     border: 0;
+
+    box-sizing: border-box;
     
 
 }
@@ -19,11 +20,13 @@ html,body{
 }
 
 body{
+    /*footer em baixo*/
     display: flex;  
     flex-direction: column; 
 
     box-sizing: border-box;
 }
+
 
 
 .body {
@@ -32,6 +35,8 @@ body{
     font-family: 'Roboto', sans-serif;
 
     
+    display: flex;  
+    flex-direction: column; 
 }
 
 
@@ -41,7 +46,7 @@ body{
     
 footer{
     
-    margin-top: auto;
+    margin-top: auto;/*footer em baixo*/
     
     height: 62px;
     text-align: center;
@@ -60,8 +65,9 @@ footer p{
 
 }
 /*---------------------------------*/
-/* -------------menu--------------- */
 
+
+/* -------------menu--------------- */
 
 header .menu{
     
@@ -102,16 +108,10 @@ header .menu2{
 
 .menu2 .filter{
 
-
     padding-top: 4px;
 
     text-align: right;
 
-}
-
-.menu2 .filter.inactive{
-    opacity: 0;
-    visibility: hidden;
 }
 
 .menu2 .active{
@@ -160,32 +160,4 @@ header .menu a{
     background-color: rgba(101,88,195,1);
     border-radius: 4px;
 }
-/* -------------presentantion--------------- */
-
-.presentation{
-
-    width: 940px;
-    margin: 0 auto;
-    margin-bottom: 50px;
-
-}
-
-.presentation .title{
-
-    font-weight: bold;
-    font-size: 24px;
-    line-height: 28px;
-
-}
-
-.presentation p{
-
-    margin: 20px 0 20px 0;
-    font-size: 18px;
-    line-height: 28px;
-
-
-}
-
-
 

@@ -3,71 +3,19 @@
 
 <head>
     {% block head %}{% endblock %}
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+
+    {% include "parts/styles.njk" %}
+    
 </head>
 
 <body>
 
     <div class="body">
 
-
-        <header>
-
-            <div class="menu">
-
-
-                <div class="logo">
-
-                    <a href="/"> 
-
-                        <img src="/assets/logo.png" alt="Foodfy">
-
-                    </a>
-
-                </div>
-            
-                <div class="menu2">
-
-
-                    <div class="links">
-
-                        <a href="/about">Sobre</a>
-                        <a href="/recipes">Receitas</a>
-                        <a href="/chefs">Chefs</a>
-
-                    </div>
-                                                    
-                    <div class="filter">
-
-                        <form action="/recipes" method="GET"> 
-                            <input type="text"
-                                name="filter"
-                                placeholder="Busque uma receita"
-                                value="{{filter}}"
-                            >
-
-                            <button type="submit">Buscar</button>
-                        </form>
-
-                    </div>
-                    
-
-                </div>
-
-
-
-                
-            </div>
-
-        </header>
-
-        {% block content %}{% endblock %}
-
-
-        
+    {% include "parts/header.njk" %}
         
 
+    {% block content %}{% endblock %}
         
 
     <script src="/scripts/scripts.js"></script>
@@ -76,11 +24,7 @@
     </div>
 
 
-    <footer>
-
-            <p>Todos os direitos reservados ©foodfy .</p>  
-
-    </footer>
+    {% include "parts/footer.njk" %}
 
 
 </body>
