@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+
+<head>
+    {% block head %}{% endblock %}
+
+    {% include "parts/styles-login.njk" %}
+    
+</head>
+
+<body>
+
+    <div class="body">
+
+
+        <header>
+
+            <div class="menu">
+
+
+                <div class="logo">
+
+                    <a href="/"> 
+
+                        <img src="/assets/logo.png" alt="Foodfy">
+
+                    </a>
+
+                
+                
+                </div>
+                
+
+            </div>
+
+        </header>
+
+
+        {% block content %}{% endblock %}
+        
+
+    </div>
+
+    
+</body>
+
+
+</html>

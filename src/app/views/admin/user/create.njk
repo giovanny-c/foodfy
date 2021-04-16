@@ -1,0 +1,52 @@
+{% extends "layout-admin.njk" %}
+
+{% block head %}
+    <title>Foodfy Admin - Criar Usuário</title>
+  
+{% endblock %}
+
+{% block content %}
+
+    <div class="content">
+
+        <form action="/admin/users" method="post">
+
+            <section class="details">
+
+                <div class="form-head">
+
+                    <div>Criando Usuário</div>
+
+                    <div class="button">
+                        
+                        <button type="submit">Cadastrar usuário</button>
+                        
+                        <a href="/admin/users">Cancelar</a>
+                    
+                    </div>
+
+                    
+                    
+                
+                </div>
+                
+
+
+                {% include "admin/user/fields.njk" %}
+            
+            
+            </section>
+
+        </form>
+
+    </div>
+    
+    
+
+
+    
+
+
+    
+    
+{% endblock %}

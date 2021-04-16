@@ -2,6 +2,13 @@
 
 /*-----------chefs grid--------------*/
 
+html{
+
+    overflow-y: scroll;
+
+    
+}
+
 .chefs-tile{
     width: 940px;
     margin: 50px auto;
@@ -97,3 +104,4 @@
     color: rgba(101,88,195,1);
     
 }
+

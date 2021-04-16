@@ -1,0 +1,89 @@
+.section{
+    text-align: center; 
+    width: 500px;
+    margin: 0 auto;
+    
+}
+
+.title{
+    margin-top: 100px ;
+    margin-bottom: 35px;
+    text-align: center;
+
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.item{
+    
+
+   
+
+    text-align: start;
+
+    margin-bottom: 35px;
+    font-size: 16px;
+    line-height: 19px;
+    font-weight: bold;
+    color: #111111;
+
+}
+
+.item div:first-of-type{
+
+  
+    padding-bottom: 10px ;
+
+}
+
+/*input*/
+input{
+    border: 1px solid #ddd;
+    width: 500px;
+    height: 50px;
+    border-radius: 4px;
+    font-size: 18px;
+    padding: 14px;
+}
+
+input::placeholder{
+    font-size: 16px;
+}
+
+
+
+.section div:last-of-type{
+    display: flex;
+    justify-content: space-between;
+}
+
+.section div:last-of-type a{
+    margin-top: 10px;
+    font-size: 16px;
+    text-decoration: none;
+    color: rgb(117, 117, 117);
+}
+
+/*botao*/
+button{
+   
+    
+   
+    outline: none;
+
+    cursor: pointer;
+
+    width: 140px;
+    height: 36px;
+    font-size: 16px;
+    border-radius: 4px;
+    background-color:rgba(101,88,195,1);
+    color: white;
+    outline: none;
+}
+
+button[type="submit"]:hover{
+
+    background-color: rgba(101,88,195,0.9);
+    
+}

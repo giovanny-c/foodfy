@@ -1,0 +1,44 @@
+<div class="item-group">
+
+
+
+<div class="item user">
+
+    <div>Nome do usuário</div>
+
+    <div>
+    <input type="text" name="name" value="{{user.name}}" required/>
+    </div>
+
+</div>
+
+<div class="item user">
+
+    <div>Email do usuário</div>
+
+    <div>
+    <input type="email" name="email" value="{{user.email}}" required/>
+    </div>
+
+</div>
+</div>
+
+
+{% if not admim %} {# se nao houver um cadastro de admin#}
+<div class="item admin">
+
+    <div>Admin:</div>
+
+
+    <div>
+    <input type="checkbox" 
+           name="is_admin"
+           value="1"
+           id="isAdmim"
+           checked>
+           
+    </div>
+
+</div>
+
+{% endif %}

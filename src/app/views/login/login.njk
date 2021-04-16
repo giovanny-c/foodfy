@@ -1,0 +1,60 @@
+{% extends "layout-login.njk" %}
+
+{% block head %}
+    <title>Foodfy - Login</title>
+    
+    
+{% endblock %}
+
+{% block content %}
+
+    <div class="title">Iniciar Sessão</div>
+
+    <div class="section">             
+
+        <form id="login" method="POST" action="/login">
+
+
+                <div class="item">
+
+                    <div>Email</div>
+
+                    <div>
+                    <input 
+                        type="email" 
+                        name="email" 
+                        placeholder="Digite seu email" 
+                        required/>
+                    </div>
+
+                </div>
+
+                
+                <div class="item">
+
+                    <div>Senha</div>
+
+                    <div>
+                    <input 
+                        type="password" 
+                        name="password"
+                        placeholder="Digite sua senha"  
+                        required/>
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <a href="/forgot">Perdeu a senha?</a>
+    
+                    <button type="submit">Acessar</button>
+                
+                </div>
+        
+        </form>
+
+    </div>      
+    
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "layout-login.njk" %}
+
+{% block head %}
+    <title>Foodfy - Recuperar senha</title>
+    
+    
+{% endblock %}
+
+{% block content %}
+
+    <div class="title">Recuperar senha</div>
+
+    <div class="section">             
+
+        <form id="forgot" method="POST" action="/forgot">
+
+
+                <div class="item">
+
+                    <div>Email</div>
+
+                    <div>
+                    <input 
+                        type="email" 
+                        name="email" 
+                        placeholder="Digite seu email de recuperação" 
+                        required/>
+                    </div>
+
+                </div>
+
+            
+                
+                <div>
+
+                    
+                    <div></div>
+    
+                    <button type="submit">Recuperar</button>
+                
+                </div>
+        
+        </form>
+
+    </div>      
+    
+{% endblock %}

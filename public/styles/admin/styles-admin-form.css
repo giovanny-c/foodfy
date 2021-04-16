@@ -31,15 +31,23 @@
     display: inline-block;
     text-align: right;
     outline: none;
+
+}
+
+.button a{
+    background-color: grey;
+    padding: 8px 38px 9px 38px;
     
-    
-    
+}
+
+.button a:hover{
+    background-color: rgb(143, 143, 143);
 }
 
 button{
 
     cursor: pointer;
-
+    
 }
 
 button[type="submit"]{
@@ -264,7 +272,11 @@ button[form="form-delete"]:hover{
 }
 
 
-input[type=text], select{
+input[type=text],
+input[type=email], 
+input[type=password], 
+select
+{
 
     margin-top: 10px;
     
@@ -276,8 +288,26 @@ input[type=text], select{
     font-size: 18px;
     line-height: 20px;
     
+}
 
+/*campo de ISADMIM*/
 
+.item.admin{
+    display: flex;
+    
+}
+input[type=checkbox]{
+
+    margin-top: 1px;
+    
+    height: 18px;
+    width: 40px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    
+    font-size: 18px;
+    line-height: 20px;
+    
 
 }
 
@@ -310,4 +340,17 @@ input[name="information"]{
 
     color: rgba(101,88,195,0.8) ;
 
+}
+
+/*FORM DE USERS CREATE*/
+
+.item-group{
+    width: 940px;
+    display: grid;
+    grid-template-columns: 450px 450px;
+    gap: 40px;
+}
+
+.item.user input{
+    width: 450px;
 }
