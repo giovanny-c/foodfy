@@ -35,13 +35,24 @@
 }
 
 .button a{
+    background-color: rgba(101,88,195,1);
+    padding: 8px 38px 9px 38px;
+    
+}
+
+.button.create-user a{
     background-color: grey;
     padding: 8px 38px 9px 38px;
     
 }
 
-.button a:hover{
+.button.create-user a:hover{
     background-color: rgb(143, 143, 143);
+}
+
+
+.button a:hover{
+    background-color: rgba(101,88,195,0.9);
 }
 
 button{

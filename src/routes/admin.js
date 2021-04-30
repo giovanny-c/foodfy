@@ -10,6 +10,10 @@ const user = require("../app/controllers/user")
 //middlewares
 const multer = require("../app/middlewares/multer")
 
+//validators
+
+const userValidator = require("../app/validators/user")
+
 
 
 //rotas admin/recipes
@@ -57,8 +61,8 @@ routes.delete("/chefs", chefs.deleteChef)
 
 // Rotas que o administrador irá acessar para gerenciar usuários
 routes.get('/users', user.listUsers) // Mostrar a lista de usuários cadastrados
-routes.post('/users', user.post) // Cadastrar um usuário
-routes.get('/users/create', user.createUser) // Mostrar o formulário de criação de um usuário
+routes.post('/users', userValidator.post, user.post) // Cadastrar um usuário
+routes.get('/users/create',  user.createUser) // Mostrar o formulário de criação de um usuário
 //routes.put('/admin/users/:id', UserController.put) // Editar um usuário
 //routes.get('/admin/users/:id/edit', UserController.edit) // Mostrar o formulário de edição de um usuário
 //routes.delete('/admin/users/:id', UserController.delete) // Deletar um usuário

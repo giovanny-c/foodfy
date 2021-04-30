@@ -21,26 +21,26 @@
         
         </div>
 
-        <div class="chefs-grid">
+        <div class="users-grid">
 
-            {% for chef in chefs %}
+            {% for user in users %}
  
 
-            <div class="chef" >
+            <div class="user-box" >
 
-                <div class="chef-image">
+                <div class="user-image">
 
-                    <img src="{{chef.image}}" alt="Imagem de {{chef.title}}">
+                    <img src="{{user.image}}" alt="Imagem de {{user.title}}">
                 
                 </div>
                 
                 <div class="info">
 
-                    <div class="name">{{chef.name}}</div>
+                    <div class="name">{{user.name}}</div>
 
                     <div class="visualize">
                     
-                    <a href="/admin/chefs/{{chef.id}}">Visualiazar</a>    
+                    <a href="/admin/users/{{user.id}}">Visualiazar</a>    
                         
                     </div>
                     

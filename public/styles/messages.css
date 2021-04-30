@@ -1,0 +1,46 @@
+@keyframes hidemessage{
+
+    to{
+        right: -50px;
+        opacity: 0;
+    }
+
+}
+
+.messages{
+
+    position:absolute;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 15px;
+
+    width: 345px;
+    height: 135px;
+
+    color: white;
+
+    top: 15px;
+    right: 15px;
+    opacity: 1;
+ 
+   animation: hidemessage 400ms 5s ease-out forwards;
+   /*  tempo da animação
+    delay de ativaçao da animaçao 
+    movimento,
+    para a animação na posição final */ 
+}
+
+.messages.error{
+
+
+    background-color: tomato;
+}
+
+.messages.success{
+
+   
+    background-color: rgb(70, 221, 0);
+}
