@@ -23,6 +23,7 @@ module.exports = {
     async post(req, res){
     
         const user = req.body
+        
         try {
 
             //se o admin nao for marcado/nao existir

@@ -62,18 +62,20 @@ header .menu{
 .logout{
 
     text-align: end;
-    padding-top:4px;
+    
 
 
 }
 
-.logout a{
-    padding-top:4px;
-    margin-right: 30px;
+.logout button{
+    margin-top:6px;
+    
+    height: 14px;
     font-size: 14px;
     text-transform: uppercase;
     
     color: #FFFFFF;
+    background-color:black;
     text-decoration: none;
 }
 

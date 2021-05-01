@@ -9,6 +9,10 @@ const home = require("../app/controllers/home")
 const search = require("../app/controllers/search")
 const session = require("../app/controllers/session")
 
+//middlewares
+
+//validators
+const sessionValidator = require("../app/validators/session")
 //rotas site
 
 routes.get("/", home.index)
@@ -22,13 +26,17 @@ routes.get("/chefs", chefs.chefs)
 
 //rotas de login
 routes.get("/login", session.showLoginForm)
-routes.post("/login", session.login)
+routes.post("/login", sessionValidator.login, session.login)
+
+routes.post("/logout", session.logout)
 
 routes.get("/forgot", session.showForgotForm)
 routes.post("/forgot", session.recoveryPassword)
 
 routes.get("/reset-password", session.showResetForm)
 routes.post("/reset-password", session.resetPassword)
+
+
 
 
 module.exports = routes
