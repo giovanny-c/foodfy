@@ -43,30 +43,30 @@ html{
     margin: 50px auto;
     width: 940px;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr ;
     gap: 30px;
     margin-bottom: 50px;
 
 
 }
-/**/
+/*
 
-.user-box{
+.user-box-box{
 
     display: grid;
-    grid-template-columns: 64px 1fr;
+    grid-template-columns:200px;
     height: 64px;
     gap: 10px;
     
 
 }
-.users-grid .user img{
+.users-grid .user-box img{
 
     width: 64px;
     height: 64px;
     border-radius: 50%;
     
-}
+}*/
 
 .users-grid .info{
     
@@ -74,29 +74,35 @@ html{
 
 }
 
-.user .name{
+.user-box .name{
 
     
     font-size: 18px;
-    line-height: 21px;
+    line-height: 22px;
     color: black;
     padding-left: 4px;
+    padding-bottom: 4px;
+    text-transform: capitalize;
 
 }
 
-.info .recipes{
+.user-box .email{
 
-    margin-top: 2px;
-    font-size: 14px;
-    line-height: 16px;
-    color: rgba(119,119,119,1);
-    padding-left: 4px;
     
+    font-size: 14px;
+    line-height: 17px;
+    color: #777;
+    padding-left: 4px;
+    padding-bottom: 16px;
+
 }
+
+
 
 .info a{ 
     
     padding-left: 4px;
+    padding-right: 16px;
     text-decoration: none;
     font-size: 14px;
     line-height: 16px;
@@ -104,4 +110,16 @@ html{
     color: rgba(101,88,195,1);
     
 }
+
+.info a + a{ 
+    
+    padding-left: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 16px;
+    font-weight: bold;
+    color: rgb(238, 54, 54);
+    
+}
+
 

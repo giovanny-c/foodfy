@@ -12,7 +12,7 @@ module.exports = {
 
     async findOne(filters){
 
-        let query = "SELECT * FROM users"
+        let query = "SELECT * FROM users"//WHERE par = value
 
         Object.keys(filters).map(key => {
 
@@ -31,6 +31,13 @@ module.exports = {
         const results = await db.query(query)
 
         return results.rows[0]
+    },
+
+    async all(){
+        
+        return db.query("SELECT id, name, email, is_admin, created_at, updated_at FROM users")
+        
+
     },
 
     async create(data){

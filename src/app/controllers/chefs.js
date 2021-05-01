@@ -49,7 +49,8 @@ exports.indexChefs = async function(req, res){
 
     if(!chefs) return res.send("chefs not found")
 
-    async function getImage(chefId){
+
+    async function getImage(chefId){//func para pegar a imagem
 
         let results = await Chefs.file(chefId)
         const files = results.rows.map(file => `

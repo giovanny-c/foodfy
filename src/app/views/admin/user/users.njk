@@ -28,20 +28,22 @@
 
             <div class="user-box" >
 
-                <div class="user-image">
-
-                    <img src="{{user.image}}" alt="Imagem de {{user.title}}">
-                
-                </div>
+               
                 
                 <div class="info">
 
                     <div class="name">{{user.name}}</div>
 
+                    <div class="email">{{user.email}}</div>
+
+
+
                     <div class="visualize">
                     
-                    <a href="/admin/users/{{user.id}}">Visualiazar</a>    
-                        
+                    <a href="/admin/users/{{user.id}}/edit">Editar</a>
+
+                    <a href="/admin/users/{{user.id}}/edit">Remover</a>        
+
                     </div>
                     
                         

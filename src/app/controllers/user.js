@@ -6,24 +6,39 @@ const crypto = require('crypto')
 
 module.exports = {
 
-    listUsers(req, res){
+    async listUsers(req, res){
 
-        return res.render("admin/user/users")
+        const results = await User.all()
+        const users = results.rows
+
+        
+
+        return res.render("admin/user/users", {users})
 
     },
 
-    createUser(req, res){
+    createUser(req, res){//onlyadmin
 
         return res.render("admin/user/create")
 
-        //ver se ja existe um admin, se sim nao mostra o checkbox
+    },
+
+    async editUser(req, res){//onlyadmin
+
+        const id = req.params.id
+
+        const user = await User.findOne({WHERE: {id} })
+
+
+        return res.render("admin/user/edit", {user})
+
     },
 
 
     async post(req, res){
     
         const user = req.body
-        
+
         try {
 
             //se o admin nao for marcado/nao existir
@@ -39,7 +54,6 @@ module.exports = {
             }
             
             User.create(data)
-
 
             try {
 
@@ -87,6 +101,18 @@ module.exports = {
         }
 
 
+    },
+
+    put(req, res){
+
+        return res
+
+    },
+
+    delete(req, res){
+
+        return console.log("ok")
+        
     }
 
 

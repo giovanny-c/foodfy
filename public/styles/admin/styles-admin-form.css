@@ -40,7 +40,8 @@
     
 }
 
-.button.create-user a{
+
+.button-delete a{
     background-color: grey;
     padding: 8px 38px 9px 38px;
     
@@ -72,6 +73,8 @@ button[type="submit"]{
     outline: none;
 }
 
+
+
 button[type="submit"]:hover{
 
     background-color: rgba(101,88,195,0.9);
@@ -79,7 +82,7 @@ button[type="submit"]:hover{
 }
 
 button[form="form-delete"]{
-    width: 90px;
+
     margin-right: 10px ;
     background-color:rgba(220,71,71,1) 
 }
