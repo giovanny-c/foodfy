@@ -3,6 +3,8 @@ const User = require("../models/Users")
 const mailer = require("../../lib/mailer")
 
 const crypto = require('crypto')
+const user = require("../validators/user")
+const Users = require("../models/Users")
 
 module.exports = {
 
@@ -29,6 +31,8 @@ module.exports = {
 
         const user = await User.findOne({WHERE: {id} })
 
+        
+
 
         return res.render("admin/user/edit", {user})
 
@@ -53,7 +57,7 @@ module.exports = {
                 password
             }
             
-            User.create(data)
+            await User.create(data)
 
             try {
 
@@ -79,6 +83,7 @@ module.exports = {
                 //res.redirect("/admin") 
     
                 return res.render('admin/user/create', {
+                    user: user,
                     success: "Conta cadastrada! A senha de acesso foi enviada para o email cadastrado."
                 })
     
@@ -87,6 +92,7 @@ module.exports = {
                 console.error(err)
     
                 return res.render('admin/user/create', {
+                    user: user,
                     error: "Conta cadastrada! Não foi possivel enviar a senha para o email cadastrado, solicite uma redefinição de senha"
                 })
             }
@@ -103,15 +109,66 @@ module.exports = {
 
     },
 
-    put(req, res){
+    async put(req, res){
+       //check se esta logado e é checkar se é admin (validator isAdmin)
 
-        return res
+       try {
+
+           if(!req.body.is_admin) req.body.is_admin = 0
+
+           const {name, email, id, is_admin} = req.body
+
+           
+   
+           await User.update(id, {
+               name,
+               email,
+               is_admin
+               
+               
+           })
+
+           
+
+           return res.render("admin/user/edit", {
+            user: req.body,
+            success: "Cadastro atualizado com sucesso!"
+        })
+          
+       } catch (err) {
+           console.error(err)
+           
+           return res.render("admin/user/edit", {
+               user: req.body,
+               error: "Nao foi possivel atualizar este cadastro. Tente novamente"
+           })
+       }
+
+       
 
     },
 
-    delete(req, res){
+    async delete(req, res){
 
-        return console.log("ok")
+        try {
+
+            await User.delete(req.body.id)
+            
+            const results = await User.all()
+            const users = results.rows
+
+            return res.render("admin/user/users", {
+                users,
+                success: "Conta deletada!"
+            })
+            
+        } catch (err) {
+            console.error(err)
+            return res.render("admin/user/edit", {
+                user: req.body,  //refazer admin/user/edit
+                error: "Não foi posso deletar essa conta. Tente novamente."
+            })
+        }
         
     }
 

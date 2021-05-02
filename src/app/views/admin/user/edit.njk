@@ -9,7 +9,7 @@
 
     <div class="content">
 
-        <form action="admin/users/{{user.id}}?_method=PUT" method="post">
+        <form action="/admin/users/{{user.id}}?_method=PUT" method="post">
 
             <section class="details">
 
@@ -33,16 +33,20 @@
 
 
                 {% include "admin/user/fields.njk" %}
+
+
             
             
             </section>
 
         </form>
 {##}
-        <form id="form-delete" action="admin/users/{{user.id}}?_method=DELETE" method="post">
+        <form id="form-delete" action="/admin/users/{{user.id}}?_method=DELETE" method="post">
 
-       
-
+        <input type="hidden" name="name" value="{{user.name}}">
+        <input type="hidden" name="email" value="{{user.email}}">
+        <input type="hidden" name="id" value="{{user.id}}">
+        <input type="hidden" name="is_admin" value="{{user.is_admin}}">
         </form>
 
     </div>

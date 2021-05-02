@@ -12,6 +12,13 @@
 
 </div>
 
+
+
+    
+   
+
+
+
 <div class="item user">
 
     <div>Email do usuário</div>
@@ -24,7 +31,7 @@
 </div>
 
 
-{% if not admim %} {# se nao houver um cadastro de admin#}
+ 
 <div class="item admin">
 
     <div>Admin:</div>
@@ -33,12 +40,22 @@
     <div>
     <input type="checkbox" 
            name="is_admin"
-           value="1"
-           id="isAdmim"
+           value="1" 
+           {% if user.is_admin %}
+            checked
+           {% endif %}
+           {#id="isAdmim"#}
            >
            
     </div>
 
 </div>
 
+
+{% if  user %}
+
+    <input type="hidden" name="id" value="{{user.id}}" required/>
+
 {% endif %}
+
+    
