@@ -6,14 +6,16 @@ const routes = express.Router()
 const recipes = require("../app/controllers/recipes")
 const chefs = require("../app/controllers/chefs")
 const user = require("../app/controllers/user")
+const profile = require("../app/controllers/profile")
 
 
 //middlewares
 const multer = require("../app/middlewares/multer")
+const session = require("../app/middlewares/session")
 
 //validators
-
 const userValidator = require("../app/validators/user")
+
 
 
 
@@ -24,7 +26,7 @@ routes.get("/", function(req, res){
     return res.redirect("admin/recipes")
 
 })
-routes.get("/recipes", recipes.indexRecipes)
+routes.get("/recipes", session.onlyUsers, recipes.indexRecipes)
 
 routes.get("/recipes/create", recipes.createRecipe) // Mostrar formulário de nova receita
 
@@ -57,8 +59,8 @@ routes.delete("/chefs", chefs.deleteChef)
 //rotas admin/users
 
 // Rotas de perfil de um usuário logado
-//routes.get('/profile', ProfileController.index) // Mostrar o formulário com dados do usuário logado
-//routes.put('/profile', ProfileController.put)// Editar o usuário logado
+routes.get('/users/profile', profile.index) // Mostrar o formulário com dados do usuário logado
+routes.put('/users/profile', userValidator.profilePut, profile.put)// Editar o usuário logado
 
 // Rotas que o administrador irá acessar para gerenciar usuários
 routes.get('/users', user.listUsers) // Mostrar a lista de usuários cadastrados

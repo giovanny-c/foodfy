@@ -21,11 +21,14 @@
 
                     <div>
                     <input 
+                    {% if error and email%}
+                        class="input-error"
+                    {% endif %}
                         type="email" 
                         name="email" 
                         placeholder="Digite seu email" 
                         value="{{user.email}}"
-                        required/>
+                        />
                     </div>
 
                 </div>
@@ -37,10 +40,13 @@
 
                     <div>
                     <input 
+                    {% if error and password%}
+                        class="input-error"
+                    {% endif %}
                         type="password" 
                         name="password"
                         placeholder="Digite sua senha"  
-                        required/>
+                        />
                     </div>
 
                 </div>

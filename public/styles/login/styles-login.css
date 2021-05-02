@@ -50,6 +50,23 @@ input::placeholder{
     font-size: 16px;
 }
 
+/*input-error*/
+
+@keyframes originalstate{
+
+    to{
+        
+        border: 1px solid #ddd;
+    }
+
+}
+
+.input-error{
+    border: 1px solid red;
+
+    animation: originalstate 400ms 5s ease-in-out forwards;
+}
+
 
 
 .section div:last-of-type{

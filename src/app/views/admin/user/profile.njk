@@ -1,0 +1,52 @@
+{% extends "layout-admin.njk" %}
+
+{% block head %}
+    <title>Foodfy Admin - Minha Conta</title>
+  
+{% endblock %}
+
+{% block content %}
+
+    <div class="content">
+
+        <form action="/admin/users/profile?_method=PUT" method="post">
+
+            <section class="details">
+
+                <div class="form-head">
+
+                    <div>Bem-vindo, {{user.name}}</div>
+
+                    <div class="button create-user">
+                        
+                        <button type="submit">Salvar</button>                      
+                    
+                    </div>
+
+                    
+                    
+                
+                </div>
+                
+
+
+                {% include "admin/user/fields-profile.njk" %}
+
+
+            
+            
+            </section>
+
+       
+
+    </div>
+    
+    
+
+
+    
+
+
+    
+    
+{% endblock %}

@@ -6,6 +6,8 @@ const Chefs = require("../models/Chefs")
 //pagina inicial
 exports.index = async function(req, res){
 
+    
+
     let results = await Recipes.all()
     const recipes = results.rows
 
