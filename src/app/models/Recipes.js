@@ -31,7 +31,30 @@ module.exports = {
 
     },
 
-    create(data){
+    async findOne(filters){
+
+        let query = "SELECT * FROM recipes"//WHERE par = value
+
+        Object.keys(filters).map(key => {
+
+            query = `${query}
+                ${key}
+            `
+
+            Object.keys(filters[key]).map(field => {
+
+                query = `${query} ${field} = '${filters[key][field]}'`
+            })
+
+
+        })
+
+        const results = await db.query(query)
+
+        return results.rows[0]
+    },
+
+    create(data, userId){
 
         const query = `
                 INSERT INTO recipes (
@@ -40,8 +63,9 @@ module.exports = {
                     ingredients,
                     preparation,
                     chef_id,
-                    created_at
-                ) VALUES ($1, $2, $3, $4, $5, $6)
+                    created_at,
+                    user_id
+                ) VALUES ($1, $2, $3, $4, $5, $6, $7)
                 RETURNING id
             `
 
@@ -51,7 +75,8 @@ module.exports = {
             data.ingredients,
             data.preparation,
             data.chef,
-            date(Date.now()).iso
+            date(Date.now()).iso,
+            userId
         ]
 
         return db.query(query, values)
@@ -148,11 +173,7 @@ module.exports = {
 
     },
 
-    onefileOfAll(){
 
-
-
-    } //uma imagem de cada receita
 
 
 

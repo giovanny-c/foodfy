@@ -31,29 +31,29 @@ routes.get("/recipes/create", session.onlyUsers, recipes.createRecipe) // Mostra
 
 routes.get("/recipes/:id", session.onlyUsers, recipes.showRecipe) // Exibir detalhes de uma receita
 
-routes.get("/recipes/:id/edit", session.onlyUsers, recipes.editRecipe) // Mostrar formulário de edição de receita
+routes.get("/recipes/:id/edit", session.onlyUsers, userValidator.isFromUser, recipes.editRecipe) // Mostrar formulário de edição de receita
 
 routes.post("/recipes", session.onlyUsers, multer.array("photos", 5), recipes.postRecipe) // Cadastrar nova receita
 
-routes.put("/recipes", session.onlyUsers, multer.array("photos", 5), recipes.putRecipe) // Editar uma receita
+routes.put("/recipes", session.onlyUsers, userValidator.isFromUser, multer.array("photos", 5), recipes.putRecipe) // Editar uma receita
 
-routes.delete("/recipes", session.onlyUsers, recipes.deleteRecipe) // Deletar uma receita
+routes.delete("/recipes", session.onlyUsers, userValidator.isFromUser, recipes.deleteRecipe) // Deletar uma receita
 
 //rotas admin/chefs
 
 routes.get("/chefs", session.onlyUsers, chefs.indexChefs)
 
-routes.get("/chefs/create", session.onlyUsers, chefs.createChef) // Mostrar formulário de novo chef
+routes.get("/chefs/create", session.onlyAdmin, chefs.createChef) // Mostrar formulário de novo chef
 
 routes.get("/chefs/:id", session.onlyUsers, chefs.showChef) // Exibir detalhes de uma chef
 
-routes.get("/chefs/:id/edit", session.onlyUsers, chefs.editChef) // Mostrar formulário de edição de chef
+routes.get("/chefs/:id/edit", session.onlyAdmin, chefs.editChef) // Mostrar formulário de edição de chef
 
-routes.post("/chefs", session.onlyUsers, multer.single("photo"), chefs.postChef) // Cadastrar novo chef
+routes.post("/chefs", session.onlyAdmin, multer.single("photo"), chefs.postChef) // Cadastrar novo chef
 
-routes.put("/chefs", session.onlyUsers, multer.single("photo"), chefs.putChef) // Editar um chef
+routes.put("/chefs", session.onlyAdmin, multer.single("photo"), chefs.putChef) // Editar um chef
 
-routes.delete("/chefs", session.onlyUsers, chefs.deleteChef)
+routes.delete("/chefs", session.onlyAdmin, chefs.deleteChef)
 
 //rotas admin/users
 
@@ -62,14 +62,14 @@ routes.get('/users/profile', session.onlyUsers, profile.index) // Mostrar o form
 routes.put('/users/profile', session.onlyUsers, userValidator.profilePut, profile.put)// Editar o usuário logado
 
 // Rotas que o administrador irá acessar para gerenciar usuários
-routes.get('/users', session.onlyUsers, user.listUsers) // Mostrar a lista de usuários cadastrados
-routes.post('/users', session.onlyUsers, userValidator.post, user.post) // Cadastrar um usuário
-routes.get('/users/create', session.onlyUsers,  user.createUser) // Mostrar o formulário de criação de um usuário
+routes.get('/users', session.onlyAdmin, user.listUsers) // Mostrar a lista de usuários cadastrados
+routes.post('/users', session.onlyAdmin, userValidator.post, user.post) // Cadastrar um usuário
+routes.get('/users/create', session.onlyAdmin,  user.createUser) // Mostrar o formulário de criação de um usuário
 
-routes.put('/users/:id', session.onlyUsers, userValidator.edit, user.put) // Editar um usuário
+routes.put('/users/:id', session.onlyAdmin, userValidator.edit, user.put) // Editar um usuário
 
-routes.get('/users/:id/edit', session.onlyUsers, user.editUser) // Mostrar o formulário de edição de um usuário
-routes.delete('/users/:id', session.onlyUsers, user.delete) // Deletar um usuário
+routes.get('/users/:id/edit', session.onlyAdmin, user.editUser) // Mostrar o formulário de edição de um usuário
+routes.delete('/users/:id', session.onlyAdmin, userValidator.adminPreventDelete, user.delete) // Deletar um usuário
 
 
 module.exports = routes

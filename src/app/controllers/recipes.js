@@ -118,8 +118,9 @@ exports.postRecipe = async function(req, res){
     req.body.ingredients = filteredIngredients
     req.body.preparation = filteredPreparation
     
+    const userId = req.session.userId
 
-    let results = await Recipes.create(req.body)
+    let results = await Recipes.create(req.body, userId)
     const recipeId = results.rows[0].id
 
 

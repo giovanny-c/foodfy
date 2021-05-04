@@ -1,4 +1,5 @@
 const User = require('../models/Users')
+const Recipe = require("../models/Recipes")
 
 const {compare} = require('bcryptjs')//compara senhas
 
@@ -83,9 +84,21 @@ module.exports = {
 
         try {
 
+            const {email} = req.body
+
             const fillAllfields = checkAllFields(req.body)
 
             if(fillAllfields) return res.render("admin/user/edit", fillAllfields)
+
+            const userExists = await User.findOne({WHERE: {email}})
+            
+            
+           
+            if(userExists && userExists.email == email) return res.render("admin/user/edit", {
+                user: req.body,
+                error: "Este email ja esta cadastrado."
+            })
+
 
             next()
 
@@ -100,8 +113,6 @@ module.exports = {
 
 
     },
-
-    //validar delete(mensagem de confirmaçao, deseja deletar?)
 
     async profilePut(req, res, next){
 
@@ -119,6 +130,15 @@ module.exports = {
             const fillAllfields = checkAllFields(body)
 
             if(fillAllfields) return res.render("admin/user/profile", fillAllfields)
+
+
+
+            const userExists = await User.findOne({WHERE: {email}})
+           
+            if(userExists && userExists.email == email) return res.render("admin/user/edit", {
+                user: req.body,
+                error: "Este email ja esta cadastrado."
+            })
 
 
             if(!password) return res.render("admin/user/profile", {
@@ -153,7 +173,65 @@ module.exports = {
 
         
 
+    },
+
+    async isFromUser(req, res, next){//se a receita nao for criada pelo usuario
+
+        const id = req.params.id
+
+        console.log(id)
+
+        const recipe = await Recipe.findOne({WHERE: {id} })
+        
+        if(req.session.userId != recipe.user_id) return res.redirect("/admin/recipes")
+
+        next()
+
+        
+    },
+
+    async adminPreventDelete(req, res, next){ 
+
+        const id = req.params.id
+
+        try {
+        
+            const user = await User.findOne({WHERE: {id}})
+
+            if(req.session.userId == user.id){
+
+                return res.render("admin/user/edit", {
+                    user: req.body,
+                    error:" Voce não pode deletar sua conta."
+                })
+
+            }
+/* 
+            if(user.is_admin){
+
+                return res.render("admin/user/edit", {
+                    user: req.body,
+                    error:" Voce não pode deletar uma conta de administrador."
+                })
+
+            }
+*/
+            req.user = user
+
+            next()
+    
+        } catch (err) {
+            console.error(err)
+
+            return res.render("admin/user/edit", {
+                user: req.body,
+                error:"Um erro ocorreu tente novamente."
+            })
+        }
+
+
     }
+
 
 
 

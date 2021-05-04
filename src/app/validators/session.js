@@ -1,8 +1,6 @@
 const User = require('../models/Users')
 
 const {compare} = require('bcryptjs')
-const { login } = require('../controllers/session')
-
 
 function checkAllFields(body){
     //checkar se tem todos os campos

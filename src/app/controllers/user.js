@@ -118,8 +118,6 @@ module.exports = {
 
            const {name, email, id, is_admin} = req.body
 
-           
-   
            await User.update(id, {
                name,
                email,
@@ -150,9 +148,13 @@ module.exports = {
 
     async delete(req, res){
 
+        const {user} = req
+
+        
         try {
 
-            await User.delete(req.body.id)
+
+            await User.delete(user.id)
             
             const results = await User.all()
             const users = results.rows
@@ -166,7 +168,7 @@ module.exports = {
             console.error(err)
             return res.render("admin/user/edit", {
                 user: req.body,  //refazer admin/user/edit
-                error: "Não foi posso deletar essa conta. Tente novamente."
+                error: "Não foi posso deletar esta conta. Tente novamente."
             })
         }
         
