@@ -44,3 +44,24 @@
    
     background-color: rgb(70, 221, 0);
 }
+
+/*input-error*/
+
+@keyframes originalstate{
+
+    to{
+        
+        border: 1px solid #ddd;
+    }
+
+}
+
+.input-error{
+    border: 1px solid red;
+
+    animation: originalstate 400ms 5s ease-in-out forwards;
+}
+
+.item.user .input-error{
+    border: 1px solid red;
+}

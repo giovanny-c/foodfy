@@ -12,7 +12,7 @@ const session = require("../app/controllers/session")
 //middlewares
 
 //validators
-const sessionValidator = require("../app/validators/session")
+const sessionValidator = require('../app/validators/session')
 //rotas site
 
 routes.get("/", home.index)
@@ -26,15 +26,15 @@ routes.get("/chefs", chefs.chefs)
 
 //rotas de login
 routes.get("/login", session.showLoginForm)
-routes.post("/login", sessionValidator.login, session.login)
+routes.post("/login", sessionValidator.login , session.login)
 
 routes.post("/logout", session.logout)
 
 routes.get("/forgot", session.showForgotForm)
-routes.post("/forgot", session.recoveryPassword)
+routes.post("/forgot", sessionValidator.forgot , session.recoveryPassword)//
 
 routes.get("/reset-password", session.showResetForm)
-routes.post("/reset-password", session.resetPassword)
+routes.post("/reset-password", sessionValidator.reset, session.resetPassword)//
 
 
 

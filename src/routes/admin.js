@@ -11,11 +11,10 @@ const profile = require("../app/controllers/profile")
 
 //middlewares
 const multer = require("../app/middlewares/multer")
-const session = require("../app/middlewares/session")
 
 //validators
 const userValidator = require("../app/validators/user")
-
+const session = require("../app/middlewares/session")
 
 
 
@@ -28,47 +27,49 @@ routes.get("/", function(req, res){
 })
 routes.get("/recipes", session.onlyUsers, recipes.indexRecipes)
 
-routes.get("/recipes/create", recipes.createRecipe) // Mostrar formulário de nova receita
+routes.get("/recipes/create", session.onlyUsers, recipes.createRecipe) // Mostrar formulário de nova receita
 
-routes.get("/recipes/:id", recipes.showRecipe) // Exibir detalhes de uma receita
+routes.get("/recipes/:id", session.onlyUsers, recipes.showRecipe) // Exibir detalhes de uma receita
 
-routes.get("/recipes/:id/edit", recipes.editRecipe) // Mostrar formulário de edição de receita
+routes.get("/recipes/:id/edit", session.onlyUsers, recipes.editRecipe) // Mostrar formulário de edição de receita
 
-routes.post("/recipes", multer.array("photos", 5), recipes.postRecipe) // Cadastrar nova receita
+routes.post("/recipes", session.onlyUsers, multer.array("photos", 5), recipes.postRecipe) // Cadastrar nova receita
 
-routes.put("/recipes", multer.array("photos", 5), recipes.putRecipe) // Editar uma receita
+routes.put("/recipes", session.onlyUsers, multer.array("photos", 5), recipes.putRecipe) // Editar uma receita
 
-routes.delete("/recipes", recipes.deleteRecipe) // Deletar uma receita
+routes.delete("/recipes", session.onlyUsers, recipes.deleteRecipe) // Deletar uma receita
 
 //rotas admin/chefs
 
-routes.get("/chefs", chefs.indexChefs)
+routes.get("/chefs", session.onlyUsers, chefs.indexChefs)
 
-routes.get("/chefs/create", chefs.createChef) // Mostrar formulário de novo chef
+routes.get("/chefs/create", session.onlyUsers, chefs.createChef) // Mostrar formulário de novo chef
 
-routes.get("/chefs/:id", chefs.showChef) // Exibir detalhes de uma chef
+routes.get("/chefs/:id", session.onlyUsers, chefs.showChef) // Exibir detalhes de uma chef
 
-routes.get("/chefs/:id/edit", chefs.editChef) // Mostrar formulário de edição de chef
+routes.get("/chefs/:id/edit", session.onlyUsers, chefs.editChef) // Mostrar formulário de edição de chef
 
-routes.post("/chefs", multer.single("photo"), chefs.postChef) // Cadastrar novo chef
+routes.post("/chefs", session.onlyUsers, multer.single("photo"), chefs.postChef) // Cadastrar novo chef
 
-routes.put("/chefs", multer.single("photo"), chefs.putChef) // Editar um chef
+routes.put("/chefs", session.onlyUsers, multer.single("photo"), chefs.putChef) // Editar um chef
 
-routes.delete("/chefs", chefs.deleteChef)
+routes.delete("/chefs", session.onlyUsers, chefs.deleteChef)
 
 //rotas admin/users
 
 // Rotas de perfil de um usuário logado
-routes.get('/users/profile', profile.index) // Mostrar o formulário com dados do usuário logado
-routes.put('/users/profile', userValidator.profilePut, profile.put)// Editar o usuário logado
+routes.get('/users/profile', session.onlyUsers, profile.index) // Mostrar o formulário com dados do usuário logado
+routes.put('/users/profile', session.onlyUsers, userValidator.profilePut, profile.put)// Editar o usuário logado
 
 // Rotas que o administrador irá acessar para gerenciar usuários
-routes.get('/users', user.listUsers) // Mostrar a lista de usuários cadastrados
-routes.post('/users', userValidator.post, user.post) // Cadastrar um usuário
-routes.get('/users/create',  user.createUser) // Mostrar o formulário de criação de um usuário
-routes.put('/users/:id', user.put) // Editar um usuário
-routes.get('/users/:id/edit', user.editUser) // Mostrar o formulário de edição de um usuário
-routes.delete('/users/:id', user.delete) // Deletar um usuário
+routes.get('/users', session.onlyUsers, user.listUsers) // Mostrar a lista de usuários cadastrados
+routes.post('/users', session.onlyUsers, userValidator.post, user.post) // Cadastrar um usuário
+routes.get('/users/create', session.onlyUsers,  user.createUser) // Mostrar o formulário de criação de um usuário
+
+routes.put('/users/:id', session.onlyUsers, userValidator.edit, user.put) // Editar um usuário
+
+routes.get('/users/:id/edit', session.onlyUsers, user.editUser) // Mostrar o formulário de edição de um usuário
+routes.delete('/users/:id', session.onlyUsers, user.delete) // Deletar um usuário
 
 
 module.exports = routes

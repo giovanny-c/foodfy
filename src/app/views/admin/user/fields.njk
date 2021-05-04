@@ -7,7 +7,11 @@
     <div>Nome do usuário</div>
 
     <div>
-    <input type="text" name="name" value="{{user.name}}" required/>
+    <input
+        {% if error and name%}
+            class="input-error"
+        {% endif %} 
+        type="text" name="name" value="{{user.name}}"/>
     </div>
 
 </div>
@@ -24,7 +28,11 @@
     <div>Email do usuário</div>
 
     <div>
-    <input type="email" name="email" value="{{user.email}}" required/>
+    <input
+        {% if error and email%}
+            class="input-error"
+        {% endif %} 
+        type="email" name="email" value="{{user.email}}"/>
     </div>
 
 </div>

@@ -296,13 +296,15 @@ select
     
     height: 48px;
     width: 940px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
     border-radius: 4px;
     
     font-size: 18px;
     line-height: 20px;
     
 }
+
+
 
 /*campo de ISADMIM*/
 
@@ -368,3 +370,5 @@ input[name="information"]{
 .item.user input{
     width: 450px;
 }
+
+

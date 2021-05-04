@@ -6,21 +6,42 @@ const { login } = require('../controllers/session')
 
 function checkAllFields(body){
     //checkar se tem todos os campos
-    
+
+    let fields, name, email, password, passwordRepeat
+
     const keys = Object.keys(body)
 
-    for(key of keys){
+    for(key of keys){          
         
         if(body[key] == ""){
-            return {
-                user: body,
-                error:'Preencha todos os campos'
-            }
+
+            if(key == "name") name = key
+
+            if(key == "email") email = key
+
+            if(key == "password") password = key
+
+            if(key == "passwordRepeat") passwordRepeat = key
+                     
+            fields = "vazio"
         }
+           
+        
     }
 
-}
+    if(fields) return{
+        user: body,
+        name,
+        email,
+        password,
+        passwordRepeat,
+        token: body.token,
+        error:'Preencha todos os campos'
+    }
 
+    
+
+}
 
 module.exports = {
 
@@ -65,6 +86,92 @@ module.exports = {
                 
             })
         }
+
+    },
+
+    async forgot(req, res, next){
+
+        const {email} = req.body
+
+        try {
+
+            const fillAllfields = checkAllFields(req.body)
+
+            if(fillAllfields) return res.render("session/forgot", fillAllfields)
+            
+            let user = await User.findOne({WHERE: {email} })
+
+            if(!user) return res.render("session/forgot", {
+                user: req.body,
+                email: "email nao cadastrado",
+                error: "Email não cadastrado."
+            })
+
+            req.user = user
+
+            next()
+
+        } catch (err) {
+            console.error(err)
+
+        }
+
+
+    },
+
+    async reset(req, res, next){
+
+        const {email, password, passwordRepeat, token} = req.body
+
+        try {
+
+            const fillAllfields = checkAllFields(req.body)
+
+            if(fillAllfields) return res.render("session/reset-password", fillAllfields)
+
+            const user = await User.findOne({WHERE: {email} })
+
+            if(!user) return res.render("session/reset-password", {
+                user: req.body,
+                token, 
+                email: "email invalido",
+                error: "Usuário nao cadastrado."
+            })
+            
+
+            if(password != passwordRepeat) return res.render("session/reset-password", {
+                user: req.body,
+                token,
+                password: "A repetição esta incorreta" ,
+                error: "A repetição de senha esta incorreta."
+            })
+
+            
+            if(token != user.reset_token) return res.render('session/reset-password', {
+                user: req.body,
+                token,
+                error:'Token invalido, solicite uma nova recuperação de senha.'
+            })
+
+            let now = new Date()
+
+            now = now.setHours(now.getHours())
+
+            if(now > user.reset_token_expires) return res.render('session/reset-password', {
+                user: req.body,
+                token,
+                error:'Token expirado, solicite uma nova recuperação de senha.'
+            })
+
+            req.user = user
+
+            next()
+            
+        }catch(err) {
+            console.error(err)
+        }
+
+
 
     }
 

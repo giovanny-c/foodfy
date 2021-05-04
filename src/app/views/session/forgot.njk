@@ -21,10 +21,14 @@
 
                     <div>
                     <input 
+                     {% if error and email%}
+                        class="input-error"
+                     {% endif %}
                         type="email" 
                         name="email" 
                         placeholder="Digite seu email de recuperação" 
-                        required/>
+                        value="{{user.email}}"
+                        />
                     </div>
 
                 </div>

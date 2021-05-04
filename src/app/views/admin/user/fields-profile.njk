@@ -7,7 +7,11 @@
     <div>Nome</div>
 
     <div>
-    <input type="text" name="name" value="{{user.name}}" />
+    <input
+        {% if error and name%}
+            class="input-error"
+        {% endif %} 
+        type="text" name="name" value="{{user.name}}" />
     </div>
 
 </div>
@@ -19,7 +23,11 @@
     <div>Email</div>
 
     <div>
-    <input type="email" name="email" value="{{user.email}}" />
+    <input 
+        {% if error and email%}
+            class="input-error"
+        {% endif %} 
+        type="email" name="email" value="{{user.email}}" />
     </div>
 
 </div>
@@ -31,7 +39,11 @@
     <div>Senha</div>
 
     <div>
-    <input type="password" name="password" />
+    <input 
+        {% if error and password%}
+            class="input-error"
+        {% endif %} 
+        type="password" name="password" />
     </div>
 
 </div>

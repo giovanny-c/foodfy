@@ -22,13 +22,11 @@ module.exports = {
     
 
     async put(req, res){
-       //check se esta logado e é checkar se é admin (validator isAdmin)
 
        try {
 
             const {name, email} = req.body   
 
-            console.log(req.user)
 
             const id = req.session.userId
 
