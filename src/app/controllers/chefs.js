@@ -139,8 +139,8 @@ exports.postChef = async function(req, res){
 
     
 
-
-    return res.redirect(`/admin/chefs/${chef}?success=Mensagem`)
+    //fazer como feito no session.onlyAdmins e profile.index
+    return res.redirect(`/admin/chefs/${chef}`)
 
     } catch (err) {
         return res.render("admin/chefs/create", {

@@ -8,7 +8,9 @@ const Users = require("../models/Users")
 
 module.exports = {
 
-    async index(req, res){//onlyadmin
+    async index(req, res){
+            
+
         const id = req.session.userId
 
         const user = await User.findOne({WHERE: {id}})

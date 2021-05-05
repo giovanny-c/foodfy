@@ -15,14 +15,16 @@ module.exports = {
     },
 
     onlyAdmin(req, res, next){
+                
 
         if(!req.session.isAdmin){
 
             req.session.error = 'Você não tem permissao para acessar esta página '
             //cria uma var na sessão
 
+            req.session.referrer = req.headers.referer
 
-            return res.redirect("/admin/users/profile")//redireciona
+            return res.redirect(req.session.referrer)
             //procurar um jeito dele voltar para a pagina que estava
             //fazer em todas as rotas
         

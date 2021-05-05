@@ -35,9 +35,9 @@
                 <div class="menu2">
                      <a href="/admin/recipes">Receitas</a>
                      <a href="/admin/chefs">Chefs</a>
-                     {% if session.isAdmin %}
+                     {% if session.isAdmin %}{% endif %} 
                      <a href="/admin/users">Usúarios</a>     
-                     {% endif %}          
+                              
                      <a href="/admin/users/profile">Sua conta</a>  
                 </div>
 
