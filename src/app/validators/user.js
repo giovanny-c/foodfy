@@ -36,12 +36,9 @@ function checkAllFields(body){
 
 }
 
+
 module.exports = {
 
-    
-    async showRecipe(req, res, next){
-        next()
-    },
 
     async post(req, res, next){
 
@@ -84,17 +81,16 @@ module.exports = {
 
         try {
 
-            const {email} = req.body
+            const {email, id} = req.body
 
             const fillAllfields = checkAllFields(req.body)
 
             if(fillAllfields) return res.render("admin/user/edit", fillAllfields)
 
+
             const userExists = await User.findOne({WHERE: {email}})
-            
-            
-           
-            if(userExists && userExists.email == email) return res.render("admin/user/edit", {
+          
+            if(userExists && userExists.id != id && userExists.email == email) return res.render("admin/user/edit", {
                 user: req.body,
                 error: "Este email ja esta cadastrado."
             })
@@ -190,6 +186,7 @@ module.exports = {
         
     },
 
+    
     async adminPreventDelete(req, res, next){ 
 
         const id = req.params.id
@@ -206,7 +203,7 @@ module.exports = {
                 })
 
             }
-/* 
+/* */
             if(user.is_admin){
 
                 return res.render("admin/user/edit", {
@@ -215,7 +212,7 @@ module.exports = {
                 })
 
             }
-*/
+
             req.user = user
 
             next()

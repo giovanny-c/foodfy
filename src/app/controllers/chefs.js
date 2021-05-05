@@ -121,9 +121,14 @@ exports.createChef = function(req, res){
 
 exports.postChef = async function(req, res){
 
+    try {     
+
     if(!req.file){
 
-        return res.send("Envie uma imagem")
+        return res.render("admin/chefs/create", {
+            chef: req.body,
+            error: "Envie uma imagem."
+        })
     }
 
     let results = await Files.createChefFile(req.file)
@@ -132,10 +137,17 @@ exports.postChef = async function(req, res){
     results = await Chefs.create(req.body, file_id)
     const chef = results.rows[0].id
 
+    
 
-    return res.redirect(`/admin/chefs/${chef}`)
 
-        
+    return res.redirect(`/admin/chefs/${chef}?success=Mensagem`)
+
+    } catch (err) {
+        return res.render("admin/chefs/create", {
+            chef: req.body,
+            error: "Algum erro ocorreu tente novamente"
+        })
+    }    
     
 
 },

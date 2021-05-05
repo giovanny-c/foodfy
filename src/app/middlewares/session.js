@@ -18,8 +18,13 @@ module.exports = {
 
         if(!req.session.isAdmin){
 
-            
-            return res.redirect("/admin")
+            req.session.error = 'Você não tem permissao para acessar esta página '
+            //cria uma var na sessão
+
+
+            return res.redirect("/admin/users/profile")//redireciona
+            //procurar um jeito dele voltar para a pagina que estava
+            //fazer em todas as rotas
         
         }
 
@@ -27,28 +32,21 @@ module.exports = {
 
     }
 
-    
-
-
-    //ADMIN
-    /*
-    //OK ----- NAO PODE DELETAR suA CONTA
-
-    */
-
-    //USER
-    /*
-    //OK ----- NAO PODE DELETAR suA CONTA
-    //OK ----- NAO PODE CRIAR EDITAR OU DELETAR: chefs, user
-    //OK ----- SO PODE EDITAR E DELETA: RECEITAS PROPRIAS(listagem de receitas só pega as receitas dele)
 
     //MENSAGEMS
 
-    //TUDO
+    //fazer como no onlyAdmin
+
+    //pagina nao permitida
+    //nao é admin
+    //sucesso apos criar, atualizar ou deleter
+
 
     //TRYCATCH 
     //TUDO 
 
-    */
+    //ENVIO DE EMAIL FUNCIONAL(real)
+
+    
 
 }
