@@ -299,14 +299,18 @@ exports.putRecipe = async function(req, res){
 
         let error
 
+        //para nao salvar sem imgs
+
         if(req.body.removed_files){//deletando fotos    
 
             try {
             
                 const removedFiles = req.body.removed_files.split(",")
+            
                 const lastIndex = removedFiles.length - 1
+            
                 removedFiles.splice(lastIndex, 1)
-
+            
                 
 
                 const removedFilesPromise = removedFiles.map(fileId => Files.deleteRecipefiles(recipeId, fileId))              
@@ -435,7 +439,7 @@ exports.deleteRecipe = async function(req, res){
         if(files){
 
             files = files.map(file => file.id)//deixa só o id
-            console.log(`do controller :${files}`)
+            
 
             
             // removendo arquivos

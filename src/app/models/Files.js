@@ -52,9 +52,9 @@ module.exports = {
 
             const query = `SELECT recipe_files.id AS tbrecipefiles_id , files.id AS tbfiles_id, files.name, files.path 
             FROM recipe_files INNER JOIN files ON (recipe_files.file_id = files.id)
-            WHERE recipe_id = $1` //traz os ids das duas tabelas + o path
+            WHERE recipe_id = $1 AND file_id = $2` //traz os ids das duas tabelas + o path
 
-            let results = await db.query(query, [recipId])
+            let results = await db.query(query, [recipId, fileId])
             const file = results.rows[0]
             
 

@@ -4,6 +4,7 @@ const Files = require("../models/Files")
 const fs = require('fs')
 
 
+
 //====site-chefs========
 
 exports.chefs = async function(req, res){
@@ -362,22 +363,24 @@ exports.deleteChef = async function(req, res){
         
         if(req.body.recipes > 0){
 
-            req.session.error = "Você não pode deletar um chef com receitas"
+            req.session.error = "Você não pode deletar um chef com receitas."
             req.session.reqBody = req.body
-    console.log(req.body.recipes)
+    
             return res.redirect(`/admin/chefs/${req.body.id}/edit`)
         }
 
         const result = await Chefs.file(req.body.file_id)
-        const path = result.rows[0].path 
+        const file = result.rows[0]
         
+        await Chefs.delete(req.body.id)
+            
         try {
-            fs.unlinkSync(path)
+
+            Files.deleteChefFiles(file.id)
+            fs.unlinkSync(file.path)
         } catch (err) {
             console.error(err)
         }
-        
-        await Chefs.delete(req.body.id)
 
         req.session.success = "Chef deletado com sucesso!"
 
