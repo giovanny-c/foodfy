@@ -1,6 +1,8 @@
 const Recipes = require("../models/Recipes")
 const Chefs = require("../models/Chefs")
 const Files = require("../models/Files")
+const fs = require('fs')
+
 
 //====site-chefs========
 
@@ -9,7 +11,7 @@ exports.chefs = async function(req, res){
     let results = await Chefs.all()
     const chefs = results.rows
 
-    if(!chefs) return res.send("chefs not found")
+    
 
     async function getImage(chefId){
 
@@ -42,7 +44,6 @@ exports.indexChefs = async function(req, res){
     let results = await Chefs.all()
     const chefs = results.rows
 
-    if(!chefs) return res.send("chefs not found")
 
 
     async function getImage(chefId){//func para pegar a imagem
@@ -63,6 +64,18 @@ exports.indexChefs = async function(req, res){
 
     const chefsList = await Promise.all(chefsPromise)
 
+    
+    if(req.session.success) {
+        
+        res.render('admin/chefs/chefs', {
+            chefs: chefsList,
+            success: req.session.success
+        })
+        
+        req.session.success = ''
+        return
+    }
+    
     if(req.session.error) {
 
         res.render('admin/chefs/chefs', {
@@ -74,6 +87,7 @@ exports.indexChefs = async function(req, res){
         return
     }
 
+
     return res.render("admin/chefs/chefs", {chefs: chefsList})
     
 
@@ -83,6 +97,13 @@ exports.showChef = async function(req, res){
 
     let results = await Chefs.find(req.params.id)
     const chef = results.rows[0]
+
+
+    if(!chef){
+        req.session.error = "Chef não encontrado."
+        return res.redirect("/admin/chefs")
+    }
+
 
     results = await Chefs.file(chef.file_id)
     const image = results.rows[0]
@@ -110,6 +131,20 @@ exports.showChef = async function(req, res){
 
     const allRecipes = await Promise.all(recipesPromise)
 
+
+    if(req.session.success) {
+
+        res.render('admin/chefs/chef', {
+          chef,
+          recipes: allRecipes,
+          image,
+          success: req.session.success
+        })
+
+        req.session.success = ''
+        return
+    }
+
     if(req.session.error) {
 
         res.render('admin/chefs/chef', {
@@ -130,14 +165,45 @@ exports.showChef = async function(req, res){
 
 exports.createChef = function(req, res){
 
+
+    if(req.session.error) {
+
+        res.render('admin/chefs/create', {
+          chef: req.session.reqBody,
+          error: req.session.error
+        })
+
+        req.session.error = ''
+        req.session.reqBody = ''
+        return
+    }
+
     return res.render("admin/chefs/create")
 
 },
 
 exports.editChef = async function(req, res){
 
+
+
     let results = await Chefs.find(req.params.id)
     const chef = results.rows[0]
+
+    if(!chef){
+        req.session.error = "Chef não encontrado."
+        return res.redirect("/admin/chefs")
+    }
+
+    if(req.session.error) {
+
+        res.render('admin/chefs/edit', {
+          chef,
+          error: req.session.error
+        })
+
+        req.session.error = ''
+        return
+    }
 
     return res.render("admin/chefs/edit", {chef})
 
@@ -150,34 +216,58 @@ exports.postChef = async function(req, res){
 
     if(!req.file){
 
-        return res.render("admin/chefs/create", {
-            chef: req.body,
-            error: "Envie uma imagem."
-        })
+        req.session.error = "Envie uma imagem."
+        req.session.reqBody = req.body
+
+        return res.redirect("/admin/chefs/create")
     }
 
-    let results = await Files.createChefFile(req.file)
-    const file_id = results.rows[0].id
+    
+    let results
+
+    try {
+        
+        results = await Files.createChefFile(req.file)
+        
+
+    } catch (err) {
+        console.error(err)
+
+        fs.unlinkSync(req.file.path)
+
+        req.session.error = "A imagem nao pode ser salva. Tente novamente."
+    
+        req.session.reqBody = req.body
+
+        return res.redirect(`/admin/chefs/create`)
+    }
+
+    const file_id = results.rows[0].id || ""
 
     results = await Chefs.create(req.body, file_id)
     const chef = results.rows[0].id
 
-    
+    req.session.success = "Chef cadastrado com sucesso!"
 
-    //fazer como feito no session.onlyAdmins e profile.index
+    
     return res.redirect(`/admin/chefs/${chef}`)
 
     } catch (err) {
-        return res.render("admin/chefs/create", {
-            chef: req.body,
-            error: "Algum erro ocorreu tente novamente"
-        })
+        console.error(err)
+//--
+        req.session.error = "Algum erro aconteceu, Tente novamente."
+        req.session.reqBody = req.body
+
+
+        return res.redirect("/admin/chefs/create")
     }    
     
     
 },
 
 exports.putChef = async function(req, res){
+
+    try {
 
     if(req.body.file_id){//se tiver uma imagem no bd
 
@@ -187,7 +277,20 @@ exports.putChef = async function(req, res){
 
         if(req.file){ 
             //atualiza a file que ta no banco 
-            await Files.updateChefFile({...req.file, file_id: req.body.file_id, oldPath})
+            try {
+                await Files.updateChefFile({...req.file, file_id: req.body.file_id, oldPath})
+            
+            } catch (err) {
+                console.error(err)
+
+                fs.unlinkSync(req.file.path)
+
+                req.session.error = "A imagem nao pode ser salva. tente novamente"
+            
+                req.session.reqBody = req.body
+
+                return res.redirect(`/admin/chefs/${req.body.id}/edit`)
+            }
         
         }
         
@@ -199,13 +302,36 @@ exports.putChef = async function(req, res){
 
         if(!req.file){
 
-            return res.send("send a image")
+            req.session.error = "Envie uma imagem."
+            req.session.reqBody = req.body
+    
+            return res.redirect(`/admin/chefs/${req.body.id}/edit`)
         }
+    
         
         if(req.file){
             //cria um file novo
-            let result = await Files.createChefFile({...req.file})
-            const fileId = result.rows[0].id
+
+            let results
+
+        try {
+            
+            results = await Files.createChefFile(req.file)
+            
+
+        } catch (err) {
+            console.error(err)
+
+            fs.unlinkSync(req.file.path)
+
+            req.session.error = "A imagem nao pode ser salva. Tente novamente."
+        
+            req.session.reqBody = req.body
+
+            return res.redirect(`/admin/chefs/${req.body.id}/edit`)
+        }
+
+        const fileId = results.rows[0].id || ""
 
             
         
@@ -215,13 +341,26 @@ exports.putChef = async function(req, res){
         
     }
 
-        
+
+    req.session.success = "Chef atualizado com sucesso!"
+
     return res.redirect(`/admin/chefs/${req.body.id}`)
 
+
+    } catch (err) {
+        console.error(err)
+
+        req.session.error = "Algum erro aconteceu, Tente novamente."
+        return res.redirect(`/admin/chefs/${req.body.id}`)
+    }
 
 },
 
 exports.deleteChef = async function(req, res){
+
+    try {
+        
+    
 
     const result = await Chefs.file(req.body.file_id)
     const path = result.rows[0].path 
@@ -232,7 +371,9 @@ exports.deleteChef = async function(req, res){
 
     return res.redirect("/admin/chefs")
     
-
+    } catch (err) {
+        console.error(err)
+    }
     
 
 } 

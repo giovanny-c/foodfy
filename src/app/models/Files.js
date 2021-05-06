@@ -2,7 +2,7 @@
 const db = require("../../config/db")
 
 const fs = require('fs')
-const { throws } = require("assert")
+
 
 
 module.exports = {
