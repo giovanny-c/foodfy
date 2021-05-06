@@ -30,6 +30,17 @@ exports.index = async function(req, res){
 
     const MostViewsRecipes = await Promise.all(recipesPromise)
 
+    if(req.session.error){
+
+        res.render("site/index", {
+            recipes: MostViewsRecipes,
+            error: req.session.error
+        })
+        
+        req.session.error = ''       
+        return 
+    }
+    
     return res.render("site/index", {recipes: MostViewsRecipes})
 }
 

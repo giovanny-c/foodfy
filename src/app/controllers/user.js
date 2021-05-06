@@ -13,6 +13,28 @@ module.exports = {
         const results = await User.all()
         const users = results.rows
 
+        if(req.session.success){
+
+            res.render("admin/user/users", {
+                users,
+                success: req.session.success     
+            })
+
+            req.session.success = ''
+            return
+        }
+
+        if(req.session.error){
+
+            res.render("admin/user/users", {
+                users,
+                error: req.session.error    
+            })
+
+            req.session.error = ''
+            return
+        }
+        
         
 
         return res.render("admin/user/users", {users})
@@ -31,6 +53,27 @@ module.exports = {
 
         const user = await User.findOne({WHERE: {id} })
 
+        if(req.session.success){
+
+            res.render("admin/user/edit", {
+                user,
+                success: req.session.success     
+            })
+
+            req.session.success = ''
+            return
+        }
+
+        if(req.session.error){
+
+            res.render("admin/user/edit", {
+                user,
+                error: req.session.error    
+            })
+
+            req.session.error = ''
+            return
+        }
         
 
 
@@ -82,19 +125,17 @@ module.exports = {
                 
                 //res.redirect("/admin") 
     
-                return res.render('admin/user/create', {
-                    user: user,
-                    success: "Conta cadastrada! A senha de acesso foi enviada para o email cadastrado."
-                })
+                req.session.success = "Conta cadastrada! A senha de acesso foi enviada para o email cadastrado."
+    
+                return res.redirect('/admin/users')
     
     
             } catch (err) {
                 console.error(err)
     
-                return res.render('admin/user/create', {
-                    user: user,
-                    error: "Conta cadastrada! Não foi possivel enviar a senha para o email cadastrado, solicite uma redefinição de senha"
-                })
+                req.session.error = "Conta cadastrada! Não foi possivel enviar a senha para o email cadastrado, solicite uma redefinição de senha"
+                
+                return res.redirect('/admin/users')
             }
         
         } catch (err) {
@@ -128,10 +169,9 @@ module.exports = {
 
            
 
-           return res.render("admin/user/edit", {
-            user: req.body,
-            success: "Cadastro atualizado com sucesso!"
-        })
+            req.session.success = "Conta atualizada com sucesso!"
+    
+            return res.redirect(`/admin/users/${id}/edit`)//para pagina do uusr
           
        } catch (err) {
            console.error(err)
@@ -155,19 +195,15 @@ module.exports = {
 
 
             await User.delete(user.id)
-            
-            const results = await User.all()
-            const users = results.rows
 
-            return res.render("admin/user/users", {
-                users,
-                success: "Conta deletada!"
-            })
+            req.session.success = `Conta deletada com sucesso!` 
+
+            return res.redirect("/admin/users")
             
         } catch (err) {
             console.error(err)
             return res.render("admin/user/edit", {
-                user: req.body,  //refazer admin/user/edit
+                user: req.body,
                 error: "Não foi posso deletar esta conta. Tente novamente."
             })
         }

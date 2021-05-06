@@ -55,6 +55,18 @@ exports.indexRecipes = async function(req, res){
 
     const allRecipes = await Promise.all(recipesPromise)
 
+
+    if(req.session.error) {
+
+        res.render('admin/index', {
+          recipes: allRecipes,
+          error: req.session.error
+        })
+
+        req.session.error = ''
+        return
+    }
+
     return res.render("admin/index", {recipes: allRecipes})
 
 },
@@ -74,6 +86,30 @@ exports.showRecipe = async function(req, res){
         src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
     }))
 
+    if(req.session.success) {
+
+        res.render('admin/recipes/recipe', {
+          recipe: recipe,
+          files: files,
+          success: req.session.success
+        })
+
+        req.session.success = ''
+        return
+    }
+
+
+    if(req.session.error) {
+
+        res.render('admin/recipes/recipe', {
+          recipe: recipe,
+          files: files,
+          error: req.session.error
+        })
+
+        req.session.error = ''
+        return
+    }
 
     return res.render("admin/recipes/recipe", {recipe, files})
 
@@ -84,55 +120,23 @@ exports.createRecipe = async function(req, res){
     results = await Recipes.chefsSelectedOptions()
     const chefs = results.rows
 
-    return res.render("admin/recipes/create", {chefs})
+    if(req.session.error) {
 
-    
+        res.render('admin/recipes/create', {
+          chefs,
+          recipe: req.session.reqBody,
+          error: req.session.error
+        })
 
-    
-
-},
-
-exports.postRecipe = async function(req, res){
-
-    
-
-    filteredIngredients = req.body.ingredients.filter(function(ingredient){
-
-        return ingredient != ""
-        
-    })
-
-    filteredPreparation = req.body.preparation.filter(function(procedure){
-
-        return procedure != ""
-        
-    })
-    
-
-    if(req.files.length == 0){
-        
-        return res.send("Please send at least one image")
+        req.session.error = ''
+        req.session.reqBody = ''
+        return
     }
 
-
-    req.body.ingredients = filteredIngredients
-    req.body.preparation = filteredPreparation
     
-    const userId = req.session.userId
-
-    let results = await Recipes.create(req.body, userId)
-    const recipeId = results.rows[0].id
-
-
-    const filesPromise = req.files.map(file => Files.createRecipeFiles({...file, recipe_id: recipeId}))
-    await Promise.all(filesPromise)
-
-    return res.redirect(`/admin/recipes/${recipeId}`)
-
-   
+    return res.render("admin/recipes/create", {chefs})
 
 },
-
 
 exports.editRecipe = async function(req, res){
 
@@ -153,7 +157,92 @@ exports.editRecipe = async function(req, res){
         src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
     }))
 
+    if(req.session.error) {
+
+        res.render('admin/recipes/edit', {
+          recipe: recipe,
+          files: files,
+          chefs: chefs,
+          error: req.session.error
+        })
+
+        req.session.error = ''
+        return
+    }
+
     return res.render("admin/recipes/edit", {recipe, chefs, files})
+
+},
+
+
+
+exports.postRecipe = async function(req, res){
+
+    
+    try {
+
+        filteredIngredients = req.body.ingredients.filter(function(ingredient){
+
+            return ingredient != ""
+            
+        })
+
+        filteredPreparation = req.body.preparation.filter(function(procedure){
+
+            return procedure != ""
+            
+        })
+        
+
+        if(req.files.length == 0){
+
+
+            req.session.error = "Envie pelo menos uma imagem."
+            req.session.reqBody = req.body
+
+            return res.redirect("/admin/recipes/create")
+
+        }
+
+
+        req.body.ingredients = filteredIngredients
+        req.body.preparation = filteredPreparation
+        
+        const userId = req.session.userId
+
+        let results = await Recipes.create(req.body, userId)
+        const recipeId = results.rows[0].id
+
+        try {
+            
+            const filesPromise = req.files.map(file => Files.createRecipeFiles({...file, recipe_id: recipeId}))
+            await Promise.all(filesPromise)
+
+        } catch (err) {
+            console.error(err)
+
+            req.session.error = "Não foi possível salvar as imagens"
+
+            return res.redirect(`/admin/recipes/${recipeId}`)
+        }
+        
+
+        req.session.success = "Receita criada com sucesso"
+
+        return res.redirect(`/admin/recipes/${recipeId}`)
+
+    } catch (err) {
+        console.error(err)
+//--
+        req.session.error = "Algum erro aconteceu, tente novamente."
+        req.session.reqBody = req.body
+
+        //fs.unlinksync????
+        return res.redirect("/admin/recipes/create")
+
+    }
+
+   
 
 },
 

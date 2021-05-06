@@ -29,16 +29,11 @@ exports.chefs = async function(req, res){
 
     const chefsList = await Promise.all(chefsPromise)
 
-    
-
-
     return res.render("site/chefs", {chefs: chefsList})
 
-    
-
-    
-
 }
+
+
 
 //====admin-chefs=======
 
@@ -68,10 +63,18 @@ exports.indexChefs = async function(req, res){
 
     const chefsList = await Promise.all(chefsPromise)
 
-    
+    if(req.session.error) {
+
+        res.render('admin/chefs/chefs', {
+          chefs: chefsList,
+          error: req.session.error
+        })
+
+        req.session.error = ''
+        return
+    }
 
     return res.render("admin/chefs/chefs", {chefs: chefsList})
-
     
 
 },
@@ -107,6 +110,19 @@ exports.showChef = async function(req, res){
 
     const allRecipes = await Promise.all(recipesPromise)
 
+    if(req.session.error) {
+
+        res.render('admin/chefs/chef', {
+          chef,
+          recipes: allRecipes,
+          image,
+          error: req.session.error
+        })
+
+        req.session.error = ''
+        return
+    }
+
     return res.render("admin/chefs/chef", {chef, recipes: allRecipes, image})
 
 
@@ -114,10 +130,19 @@ exports.showChef = async function(req, res){
 
 exports.createChef = function(req, res){
 
-
     return res.render("admin/chefs/create")
 
 },
+
+exports.editChef = async function(req, res){
+
+    let results = await Chefs.find(req.params.id)
+    const chef = results.rows[0]
+
+    return res.render("admin/chefs/edit", {chef})
+
+},
+
 
 exports.postChef = async function(req, res){
 
@@ -149,16 +174,7 @@ exports.postChef = async function(req, res){
         })
     }    
     
-
-},
-
-exports.editChef = async function(req, res){
-
-    let results = await Chefs.find(req.params.id)
-    const chef = results.rows[0]
-
-    return res.render("admin/chefs/edit", {chef})
-
+    
 },
 
 exports.putChef = async function(req, res){

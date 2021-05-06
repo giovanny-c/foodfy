@@ -3,6 +3,7 @@
     to{
         right: -50px;
         opacity: 0;
+        visibility: hidden;
     }
 
 }

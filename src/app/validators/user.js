@@ -173,15 +173,39 @@ module.exports = {
 
     async isFromUser(req, res, next){//se a receita nao for criada pelo usuario
 
-        const id = req.params.id
+        try {
 
-        console.log(id)
+            const id = req.params.id
 
-        const recipe = await Recipe.findOne({WHERE: {id} })
-        
-        if(req.session.userId != recipe.user_id) return res.redirect("/admin/recipes")
+            const recipe = await Recipe.findOne({WHERE: {id} })
 
-        next()
+
+            if(req.session.userId != recipe.user_id){
+
+                let back
+
+                if(req.headers.referer){
+
+                    back = req.headers.referer
+                }
+                
+                if(!req.headers.referer){
+
+                    back = "/admin"
+                }
+
+                req.session.error = `Você só pode editar receitas que voce criou.`
+                
+                return res.redirect(back)
+            } 
+
+            next()
+    
+        } catch (err) {
+            console.error(err)
+
+            return res.redirect("/admin")
+        }
 
         
     },
