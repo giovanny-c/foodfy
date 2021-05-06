@@ -60,17 +60,8 @@ module.exports = {
     }
 
 
-    //MENSAGEMS
 
-    
-    //sucesso apos criar, atualizar ou deleter
-    //OK recipes
-    //OK users
-    //chefs
-
-
-    //TRYCATCH 
-    //TUDO 
+    //BANCO DE DADOS .sql
 
     //ENVIO DE EMAIL FUNCIONAL(real)
 

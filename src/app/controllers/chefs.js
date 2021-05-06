@@ -360,19 +360,35 @@ exports.deleteChef = async function(req, res){
 
     try {
         
-    
+        if(req.body.recipes > 0){
 
-    const result = await Chefs.file(req.body.file_id)
-    const path = result.rows[0].path 
+            req.session.error = "Você não pode deletar um chef com receitas"
+            req.session.reqBody = req.body
+    console.log(req.body.recipes)
+            return res.redirect(`/admin/chefs/${req.body.id}/edit`)
+        }
 
-    await Chefs.delete(req.body.id)
+        const result = await Chefs.file(req.body.file_id)
+        const path = result.rows[0].path 
+        
+        try {
+            fs.unlinkSync(path)
+        } catch (err) {
+            console.error(err)
+        }
+        
+        await Chefs.delete(req.body.id)
 
-    await Files.deleteChefFiles(req.body.file_id, path)
+        req.session.success = "Chef deletado com sucesso!"
 
-    return res.redirect("/admin/chefs")
+        return res.redirect("/admin/chefs")
+
     
     } catch (err) {
         console.error(err)
+
+        req.session.error = "Não foi possivel deletar o chef. Tente novamente."
+        return res.redirect(`/admin/chefs/${req.body.id}`)
     }
     
 

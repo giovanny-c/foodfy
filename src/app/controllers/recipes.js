@@ -448,7 +448,7 @@ exports.deleteRecipe = async function(req, res){
             } catch (err) {
                 console.error(err)
 
-                req.session.error = "Não foi possivel remover as imagens. Remoção de receita abortada"
+                req.session.error = "Não foi possivel deletar a receita. Tente novamente."
                 
                 return res.redirect(`/admin/recipes/${req.body.id}/edit`)
             }
@@ -466,7 +466,7 @@ exports.deleteRecipe = async function(req, res){
         //new alert(`Nao foi possível deletar`)
         console.error(err)
 
-        req.session.error = "Não foi possivel deletar a receita. Tente novamente"
+        req.session.error = "Não foi possivel deletar a receita. Tente novamente."
 
         return res.redirect("/admin/recipes")
     

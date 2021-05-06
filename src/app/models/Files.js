@@ -119,10 +119,8 @@ module.exports = {
     },
 
 
-    deleteChefFiles(file_id, path){
-
-        fs.unlinkSync(path) //remove o file da app
-
+    deleteChefFiles(file_id){
+        
         return db.query('DELETE FROM files WHERE id = $1', [file_id]) //remove do banco
 
     }
