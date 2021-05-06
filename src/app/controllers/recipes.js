@@ -1,6 +1,7 @@
 const Recipes = require("../models/Recipes")
 const Chefs = require("../models/Chefs")
 const Files = require("../models/Files")
+const fs = require('fs')
 
 //=====site-recipes=======
 
@@ -104,7 +105,8 @@ exports.showRecipe = async function(req, res){
         res.render('admin/recipes/recipe', {
           recipe: recipe,
           files: files,
-          error: req.session.error
+          error: req.session.error,
+          error2: req.session.error2
         })
 
         req.session.error = ''
@@ -214,14 +216,17 @@ exports.postRecipe = async function(req, res){
         const recipeId = results.rows[0].id
 
         try {
-            
+
             const filesPromise = req.files.map(file => Files.createRecipeFiles({...file, recipe_id: recipeId}))
             await Promise.all(filesPromise)
 
+            
+
         } catch (err) {
             console.error(err)
+            //unlinksnc as imgs ficam salvas na aplicação
 
-            req.session.error = "Não foi possível salvar as imagens"
+            req.session.error = "Receita criada. Não foi possível salvar as imagens"
 
             return res.redirect(`/admin/recipes/${recipeId}`)
         }
@@ -237,7 +242,7 @@ exports.postRecipe = async function(req, res){
         req.session.error = "Algum erro aconteceu, tente novamente."
         req.session.reqBody = req.body
 
-        //fs.unlinksync????
+
         return res.redirect("/admin/recipes/create")
 
     }
@@ -248,59 +253,132 @@ exports.postRecipe = async function(req, res){
 
 exports.putRecipe = async function(req, res){
     
-   
+   try {
+       
+        const recipeId = req.body.id
 
-    const recipeId = req.body.id
+        let error
 
-    if(req.body.removed_files){//deletando fotos
+        if(req.body.removed_files){//deletando fotos    
 
-        const removedFiles = req.body.removed_files.split(",")
-        const lastIndex = removedFiles.length - 1
-        removedFiles.splice(lastIndex, 1)
+            try {
+            
+                const removedFiles = req.body.removed_files.split(",")
+                const lastIndex = removedFiles.length - 1
+                removedFiles.splice(lastIndex, 1)
 
+                
+
+                const removedFilesPromise = removedFiles.map(fileId => Files.deleteRecipefiles(recipeId, fileId))              
+                
+                await Promise.all(removedFilesPromise)
+
+                
         
+            } catch (err) {
+                console.error(err)
 
-        const removedFilesPromise = removedFiles.map(fileId => Files.deleteRecipefiles(recipeId, fileId))
-        
-        
-        await Promise.all(removedFilesPromise)
-    }
+                error = "Erro ao deletar"
 
-
-    if(req.files.length != 0){//criando fotos
-
-        const oldFiles = await Recipes.files(recipeId)
-        const totalFiles = oldFiles.rows.length + req.files.length
-
-        if(totalFiles <= 6){
-
-            const newFilesPromise = req.files.map(file => {
-                Files.createRecipeFiles({
-                    ...file, recipe_id: recipeId
-                })
-            })
-
-            await Promise.all(newFilesPromise)
+            }
 
         }
 
 
+        if(req.files.length != 0){//criando fotos
+
+            let updateError
+
+            try {
+                
+                const oldFiles = await Recipes.files(recipeId)
+                const totalFiles = oldFiles.rows.length + req.files.length
+
+                if(totalFiles <= 6){
+
+                    const newFilesPromise = req.files.map(file => {
+                        try {
+                            
+                            Files.createRecipeFiles({
+                                ...file, recipe_id: recipeId
+                            })
+
+                        } catch (err) {
+                            console.error(err)
+
+                            fs.unlinkSync(file.path)
+                           
+                            updateError = "Erro ao salvar imagens."
+                        }
+  
+                    })
+
+                    await Promise.all(newFilesPromise)
+                }
+
+               
+                if (updateError){
+
+                    if(error) error += " e salvar"
+
+                    if(!error) error = "Erro ao salvarr"
+                } 
+                 
+
+                
+            } catch (err) {
+                console.error(err)
+
+                for(file in files){
+                    fs.unlinkSync(file.path)
+                }
+
+                if(error) error += " e salvar"
+
+                if(!error) error = "Erro ao salvar"
+                
+            }
+
+
+        }
+
+        const filteredIngredients  = req.body.ingredients.filter(function(ingredient){
+            return ingredient != ""    
+        })
+
+        const filteredPreparation = req.body.preparation.filter(function(procedure){
+            return procedure != ""
+        })
+
+        req.body.ingredients = filteredIngredients
+        req.body.preparation = filteredPreparation
+        
+        await Recipes.update(req.body)
+
+
+        req.session.success = "Receita atualizada com sucesso!"
+
+        if(error){
+
+            error += " imagens."
+
+            req.session.error = error
+
+            req.session.success = ''
+        }
+
+        return res.redirect(`/admin/recipes/${req.body.id}`)
+
+
+    } catch (err) {
+        console.error(err)
+
+            req.session.error = "Erro inesperado. Tente novamente."
+        
+        return res.redirect(`/admin/recipes/${req.body.id}/edit`)
+        
     }
 
-    const filteredIngredients  = req.body.ingredients.filter(function(ingredient){
-        return ingredient != ""    
-    })
-
-    const filteredPreparation = req.body.preparation.filter(function(procedure){
-        return procedure != ""
-    })
-
-    req.body.ingredients = filteredIngredients
-    req.body.preparation = filteredPreparation
-     
-    await Recipes.update(req.body) 
-
-    return res.redirect(`/admin/recipes/${req.body.id}`)
 
 },
 
@@ -326,7 +404,7 @@ exports.deleteRecipe = async function(req, res){
         
     } catch (err) {
         //new alert(`Nao foi possível deletar`)
-        throw console.log(err)
+        console.error(err)
         
     
     }

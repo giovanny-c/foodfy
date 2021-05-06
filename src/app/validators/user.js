@@ -171,12 +171,20 @@ module.exports = {
 
     },
 
-    async isFromUser(req, res, next){//se a receita nao for criada pelo usuario
+    //se a receita nao for criada pelo usuario,
+    // no show/edit/delete, usar depois do multer por causa que o req.body
+    //só é criado? apos o req.files
+    async isFromUser(req, res, next){
+
 
         try {
 
-            const id = req.params.id
 
+            let id = req.body.id
+
+            if(req.params.id) id = req.params.id
+           
+            
             const recipe = await Recipe.findOne({WHERE: {id} })
 
 

@@ -35,7 +35,7 @@ routes.get("/recipes/:id/edit", session.onlyUsers, userValidator.isFromUser, rec
 
 routes.post("/recipes", session.onlyUsers, multer.array("photos", 5), recipes.postRecipe) // Cadastrar nova receita
 
-routes.put("/recipes", session.onlyUsers, userValidator.isFromUser, multer.array("photos", 5), recipes.putRecipe) // Editar uma receita
+routes.put("/recipes", session.onlyUsers, multer.array("photos", 5), userValidator.isFromUser , recipes.putRecipe) // Editar uma receita
 
 routes.delete("/recipes", session.onlyUsers, userValidator.isFromUser, recipes.deleteRecipe) // Deletar uma receita
 
