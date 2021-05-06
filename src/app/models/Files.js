@@ -50,39 +50,39 @@ module.exports = {
 
         try {
 
-            const query = `SELECT recipe_files.id AS recipe_files_id, recipe_files.file_id AS recipe_files_file_id, files.* 
+            const query = `SELECT recipe_files.id AS tbrecipefiles_id , files.id AS tbfiles_id, files.name, files.path 
             FROM recipe_files INNER JOIN files ON (recipe_files.file_id = files.id)
-            WHERE recipe_id = $1 AND file_id = $2`
+            WHERE recipe_id = $1` //traz os ids das duas tabelas + o path
 
-            let results = await db.query(query, [recipId, fileId])
+            let results = await db.query(query, [recipId])
             const file = results.rows[0]
-
-    //return console.log(file)
-
-            fs.unlinkSync(file.path)
+            
 
                 try {
 
+
                     await client.query('BEGIN')
 
-                    
+        
                     
                     const queryFiles = 'DELETE FROM files WHERE id = $1'
                     
-                    await client.query(queryFiles, [fileId])
+                    await client.query(queryFiles, [file.tbfiles_id])
                     
                     const queryRecipeFiles = 'DELETE FROM recipe_files WHERE id = $1'
                     
-                    await client.query(queryRecipeFiles, [recipId])
+                    await client.query(queryRecipeFiles, [file.tbrecipefiles_id])
                     
 
 
                     await client.query('COMMIT')
 
+
+                    fs.unlinkSync(file.path)
                     
                 } catch (err) {
                     
-                    await client.query('ROLLBACK')
+                    await client.query('ROLLBACK')//nao ta funcionando
                     throw err
                     
                 }finally{

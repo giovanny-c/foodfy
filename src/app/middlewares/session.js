@@ -64,6 +64,9 @@ module.exports = {
 
     
     //sucesso apos criar, atualizar ou deleter
+    //OK recipes
+    //OK users
+    //chefs
 
 
     //TRYCATCH 

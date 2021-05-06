@@ -13,7 +13,10 @@ exports.recipe = async function(req, res){
     let results = await Recipes.find(id)
     const recipe = results.rows[0]
 
-    if(!recipe) return res.send("product not found")
+    if(!recipe){
+        req.session.error = "Receita não encontrada."
+        return res.redirect("/")
+    } 
 
     results = await Recipes.files(recipe.id)
     const files = results.rows.map(file => ({
@@ -36,8 +39,7 @@ exports.indexRecipes = async function(req, res){
 
     let results = await Recipes.all()
     const recipes = results.rows
-
-    if(!recipes) return res.send("recipes not found")
+ 
 
     async function getImage(recipeId){
 
@@ -68,6 +70,17 @@ exports.indexRecipes = async function(req, res){
         return
     }
 
+    if(req.session.success) {
+
+        res.render('admin/index', {
+          recipes: allRecipes,
+          success: req.session.success
+        })
+
+        req.session.success = ''
+        return
+    }
+
     return res.render("admin/index", {recipes: allRecipes})
 
 },
@@ -79,7 +92,10 @@ exports.showRecipe = async function(req, res){
     let results = await Recipes.find(id)
     const recipe = results.rows[0]
 
-    if(!recipe) return res.send("product not found")
+    if(!recipe){
+        req.session.error = "Receita não encontrada."
+        return res.redirect("/admin")
+    } 
 
     results = await Recipes.files(recipe.id)
     const files = results.rows.map(file => ({
@@ -105,8 +121,7 @@ exports.showRecipe = async function(req, res){
         res.render('admin/recipes/recipe', {
           recipe: recipe,
           files: files,
-          error: req.session.error,
-          error2: req.session.error2
+          error: req.session.error
         })
 
         req.session.error = ''
@@ -145,7 +160,10 @@ exports.editRecipe = async function(req, res){
     let results = await Recipes.find(req.params.id)
     const recipe = results.rows[0]
 
-    if(!recipe) return res.send("recipe not found")
+    if(!recipe){
+        req.session.error = "Receita não encontrada."
+        return res.redirect("/admin")
+    } 
 
     results = await Recipes.chefsSelectedOptions()
     const chefs = results.rows
@@ -217,7 +235,21 @@ exports.postRecipe = async function(req, res){
 
         try {
 
-            const filesPromise = req.files.map(file => Files.createRecipeFiles({...file, recipe_id: recipeId}))
+            const filesPromise = req.files.map(file => {
+                try {
+                    
+                    Files.createRecipeFiles({...file, recipe_id: recipeId})
+
+                } catch (err) {
+                    console.error(err)
+
+                    fs.unlinkSync(file.path)
+                           
+                    req.session.error = "Receita criada. Não foi possível salvar as imagens"
+                }
+            })
+            
+            
             await Promise.all(filesPromise)
 
             
@@ -226,13 +258,21 @@ exports.postRecipe = async function(req, res){
             console.error(err)
             //unlinksnc as imgs ficam salvas na aplicação
 
+            for(file in files){
+                fs.unlinkSync(file.path)
+            }
+
             req.session.error = "Receita criada. Não foi possível salvar as imagens"
 
             return res.redirect(`/admin/recipes/${recipeId}`)
         }
         
-
         req.session.success = "Receita criada com sucesso"
+
+
+        if(req.session.error){
+            req.session.success = ''
+        }
 
         return res.redirect(`/admin/recipes/${recipeId}`)
 
@@ -384,32 +424,55 @@ exports.putRecipe = async function(req, res){
 
 exports.deleteRecipe = async function(req, res){
 
-
-    let results = await Recipes.find(req.body.id)
-    const recipe = results.rows[0]
-
-    results =  await Recipes.files(recipe.id)
-    let files = results.rows
-
-    files = files.map(file => file.id)
-
     try {
-        // removendo arquivos
-        const removeFiles = files.map( id => Files.deleteRecipefiles(recipe.id, id))
 
-        await Promise.all(removeFiles)
+        let results = await Recipes.find(req.body.id)
+        const recipe = results.rows[0]
 
+        results =  await Recipes.files(recipe.id)//procura as imagens
+        let files = results.rows
+
+        if(files){
+
+            files = files.map(file => file.id)//deixa só o id
+            console.log(`do controller :${files}`)
+
+            
+            // removendo arquivos
+            try {
+
+                const removeFiles = files.map( id => Files.deleteRecipefiles(recipe.id, id))
+
+                await Promise.all(removeFiles)
+
+            } catch (err) {
+                console.error(err)
+
+                req.session.error = "Não foi possivel remover as imagens. Remoção de receita abortada"
+                
+                return res.redirect(`/admin/recipes/${req.body.id}/edit`)
+            }
+    
+        }
+        
         // removendo receita        
         await Recipes.delete(req.body.id)
+
+        req.session.success = "Receita deletada com sucesso"
+
+        return res.redirect("/admin/recipes")
         
     } catch (err) {
         //new alert(`Nao foi possível deletar`)
         console.error(err)
-        
+
+        req.session.error = "Não foi possivel deletar a receita. Tente novamente"
+
+        return res.redirect("/admin/recipes")
     
     }
 
-    return res.redirect("/admin/recipes")
+    
 
     
 
