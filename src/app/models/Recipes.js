@@ -18,6 +18,19 @@ module.exports = {
 
     },
 
+    async allFromOneUser(id){
+
+           let query =  `
+            SELECT 
+            recipes.id, recipes.name
+            FROM recipes LEFT JOIN users ON(recipes.user_id = users.id)
+            WHERE users.id = $1
+            `
+
+            const results = await db.query(query, [id])
+            return results.rows
+    },
+
     find(id){
 
         const query = `

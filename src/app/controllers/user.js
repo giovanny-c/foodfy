@@ -1,10 +1,13 @@
 const User = require("../models/Users")
+const Recipes = require("../models/Recipes")
+const Files = require("../models/Files")
 
 const mailer = require("../../lib/mailer")
 
+const fs = require("fs")
 const crypto = require('crypto')
-const user = require("../validators/user")
-const Users = require("../models/Users")
+const { file } = require("../models/Chefs")
+
 
 module.exports = {
 
@@ -190,8 +193,60 @@ module.exports = {
 
         const {user} = req
 
-        
+
         try {
+//criar view recipes do use
+//quando o user remove o admin, ele continua pois so pega isadmin no login
+
+//remover as files do sistema e da tb files
+
+            //remove as files
+            try{
+        
+                
+                let recipes = await Recipes.allFromOneUser(user.id)//pega as receitas
+
+
+                if(recipes){
+
+                    const allFiles = recipes.map(async recipe => {  //promise para pegar as files
+                        
+                        let results = await Recipes.files(recipe.id)
+                        let files = results.rows
+
+                        return files
+
+                    })
+
+                    const allFilesPromise = await Promise.all(allFiles)
+
+                    if(allFilesPromise){//se achar files
+
+                        const deleteFiles = allFilesPromise.map(async files => {//promise para remover as files
+
+                            files.map( async file => {
+
+                                await Files.deleteFiles(file.id)//remove do bd
+                            
+                                fs.unlinkSync(file.path)//remove do sistema
+
+                                return
+                            })
+                        }) 
+
+                        await Promise.all(deleteFiles)
+                
+                    }
+
+                }
+
+            }catch(err){
+                console.error(err)
+                req.session.error = "Não foi possivel deletar. Tente novamente."
+                
+                return res.redirect(`/admin/users/${req.body.id}/edit`)
+            }
+
 
 
             await User.delete(user.id)

@@ -18,6 +18,8 @@ module.exports = {
         //req.session error passado no middlewares/session.onlyAdmin
         if(req.session.error) {
 
+            if(req.session.reqBody){
+
             res.render('admin/user/profile', {
               user: req.session.reqBody,
               error: req.session.error
@@ -27,6 +29,18 @@ module.exports = {
             req.session.reqBody = ''
             
             return
+
+            }
+
+            res.render('admin/user/profile', {
+                user,
+                error: req.session.error
+              })
+  
+              req.session.error = ''
+              req.session.reqBody = ''
+              
+              return
         }
 
         if(req.session.success) {

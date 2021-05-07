@@ -123,6 +123,12 @@ module.exports = {
         
         return db.query('DELETE FROM files WHERE id = $1', [file_id]) //remove do banco
 
+    },
+
+
+    deleteFiles(id){
+
+        return db.query("DELETE FROM files WHERE id = $1", [id])
     }
     
 
