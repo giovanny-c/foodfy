@@ -66,3 +66,8 @@
 .item.user .input-error{
     border: 1px solid red;
 }
+
+
+.item .input-error{
+    border: 1px solid red;
+}

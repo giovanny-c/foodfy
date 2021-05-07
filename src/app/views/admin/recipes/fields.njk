@@ -51,7 +51,11 @@
     <div>Nome da Receita</div>
 
     <div>
-    <input type="text" name="name" value="{{recipe.name}}" required/>
+    <input 
+        {% if error and name%}
+            class="input-error"
+        {% endif %} 
+        type="text" name="name" value="{{recipe.name}}" />
     </div>
 
 </div>

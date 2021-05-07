@@ -170,12 +170,14 @@ exports.createChef = function(req, res){
     if(req.session.error) {
 
         res.render('admin/chefs/create', {
-          chef: req.session.reqBody,
+          name: req.session.inputError,
+          recipe: req.session.reqBody,
           error: req.session.error
         })
 
         req.session.error = ''
         req.session.reqBody = ''
+        req.session.inputError = ''
         return
     }
 
@@ -193,6 +195,21 @@ exports.editChef = async function(req, res){
     if(!chef){
         req.session.error = "Chef não encontrado."
         return res.redirect("/admin/chefs")
+    }
+
+    
+    if(req.session.inputError && req.session.error) {
+
+        res.render('admin/chefs/edit', {
+          chef: req.session.reqBody,
+          error: req.session.error,
+          name: req.session.inputError
+        })
+
+        req.session.error = ''
+        req.session.inputError = ''
+        req.session.reqBody = ''
+        return
     }
 
     if(req.session.error) {

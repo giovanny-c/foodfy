@@ -141,12 +141,14 @@ exports.createRecipe = async function(req, res){
 
         res.render('admin/recipes/create', {
           chefs,
+          name: req.session.inputError,
           recipe: req.session.reqBody,
           error: req.session.error
         })
 
         req.session.error = ''
         req.session.reqBody = ''
+        req.session.inputError = ''
         return
     }
 
@@ -177,13 +179,32 @@ exports.editRecipe = async function(req, res){
         src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
     }))
 
+    
+
+    if(req.session.inputError && req.session.error) {
+
+        res.render('admin/recipes/edit', {
+          recipe: req.session.reqBody,
+          files: files,
+          chefs: chefs,
+          error: req.session.error,
+          name: req.session.inputError
+        })
+
+        req.session.error = ''
+        req.session.inputError = ''
+        req.session.reqBody = ''
+        return
+    }
+    
+    
     if(req.session.error) {
 
         res.render('admin/recipes/edit', {
           recipe: recipe,
           files: files,
           chefs: chefs,
-          error: req.session.error
+          error: req.session.error,
         })
 
         req.session.error = ''
@@ -213,16 +234,6 @@ exports.postRecipe = async function(req, res){
             
         })
         
-
-        if(req.files.length == 0){
-
-
-            req.session.error = "Envie pelo menos uma imagem."
-            req.session.reqBody = req.body
-
-            return res.redirect("/admin/recipes/create")
-
-        }
 
 
         req.body.ingredients = filteredIngredients
@@ -299,7 +310,8 @@ exports.putRecipe = async function(req, res){
 
         let error
 
-        //para nao salvar sem imgs
+        //para nao salvar sem imgs...
+
 
         if(req.body.removed_files){//deletando fotos    
 
@@ -418,7 +430,6 @@ exports.putRecipe = async function(req, res){
         console.error(err)
 
             req.session.error = "Erro inesperado. Tente novamente."
-        
         return res.redirect(`/admin/recipes/${req.body.id}/edit`)
         
     }

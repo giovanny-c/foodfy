@@ -5,7 +5,11 @@
     <div>Nome da Chef</div>
 
     <div>
-    <input type="text" name="name" value="{{chef.name}}" required/>
+    <input 
+        {% if error and name%}
+            class="input-error"
+        {% endif %}
+        type="text" name="name" value="{{chef.name}}"/>
     </div>
 
 </div>

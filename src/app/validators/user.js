@@ -112,7 +112,7 @@ module.exports = {
 
     async profilePut(req, res, next){
 
-        const {password, email, name} = req.body
+        const {id, password, email, name} = req.body
 
         const body = {
             name,
@@ -130,17 +130,18 @@ module.exports = {
 
 
             const userExists = await User.findOne({WHERE: {email}})
-           
-            if(userExists && userExists.email == email) return res.render("admin/user/edit", {
-                user: req.body,
-                error: "Este email ja esta cadastrado."
-            })
 
 
             if(!password) return res.render("admin/user/profile", {
                 user: req.body,
                 password: "senha incorreta",
                 error: "Coloque a sua senha para atualizar seu cadastro."
+            })
+
+
+            if(userExists && userExists.email == email && userExists.id !== id) return res.render("admin/user/profile", {
+                user: req.body,
+                error: "Este email ja esta cadastrado."
             })
 
 

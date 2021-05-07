@@ -19,11 +19,24 @@ module.exports = {
         if(req.session.error) {
 
             res.render('admin/user/profile', {
-              user,
+              user: req.session.reqBody,
               error: req.session.error
             })
 
             req.session.error = ''
+            req.session.reqBody = ''
+            
+            return
+        }
+
+        if(req.session.success) {
+
+            res.render('admin/user/profile', {
+              user,
+              success: req.session.success
+            })
+
+            req.session.success = ''
             return
         }
 
@@ -48,22 +61,23 @@ module.exports = {
                 email,
             })
 
-           
+            
 
-           return res.render("admin/user/profile", {
-            user: req.body,
-            success: "Seu cadastro foi atualizado com sucesso!"
-        })
+            req.session.success = "Seu cadastro foi atualizado com sucesso!"
+
+            return res.redirect("/admin/users/profile") 
+            
+        
           
        } catch (err) {
            console.error(err)
            
-           return res.render("admin/user/profile", {
-               user: req.body,
-               error: "Nao foi possivel atualizar seu cadastro. Tente novamente."
-           })
-       }
-
+           req.session.error = "Nao foi possivel atualizar seu cadastro. Tente novamente."
+           req.session.reqBody = req.body
+        
+           return res.redirect("/admin/users/profile") 
+            
+        }
        
 
     },

@@ -14,6 +14,8 @@ const multer = require("../app/middlewares/multer")
 
 //validators
 const userValidator = require("../app/validators/user")
+const recipeValidator = require("../app/validators/recipe")
+const chefValidator = require("../app/validators/chef")
 const session = require("../app/middlewares/session")
 
 
@@ -33,9 +35,9 @@ routes.get("/recipes/:id", session.onlyUsers, recipes.showRecipe) // Exibir deta
 
 routes.get("/recipes/:id/edit", session.onlyUsers, userValidator.isFromUser, recipes.editRecipe) // Mostrar formulário de edição de receita
 
-routes.post("/recipes", session.onlyUsers, multer.array("photos", 5), recipes.postRecipe) // Cadastrar nova receita
+routes.post("/recipes", session.onlyUsers, multer.array("photos", 5), recipeValidator.post, recipes.postRecipe) // Cadastrar nova receita
 
-routes.put("/recipes", session.onlyUsers, multer.array("photos", 5), userValidator.isFromUser , recipes.putRecipe) // Editar uma receita
+routes.put("/recipes", session.onlyUsers, multer.array("photos", 5), userValidator.isFromUser, recipeValidator.put , recipes.putRecipe) // Editar uma receita
 
 routes.delete("/recipes", session.onlyUsers, userValidator.isFromUser, recipes.deleteRecipe) // Deletar uma receita
 
@@ -49,9 +51,9 @@ routes.get("/chefs/:id", session.onlyUsers, chefs.showChef) // Exibir detalhes d
 
 routes.get("/chefs/:id/edit", session.onlyAdmin, chefs.editChef) // Mostrar formulário de edição de chef
 
-routes.post("/chefs", session.onlyAdmin, multer.single("photo"), chefs.postChef) // Cadastrar novo chef
+routes.post("/chefs", session.onlyAdmin, multer.single("photo"), chefValidator.post , chefs.postChef) // Cadastrar novo chef
 
-routes.put("/chefs", session.onlyAdmin, multer.single("photo"), chefs.putChef) // Editar um chef
+routes.put("/chefs", session.onlyAdmin, multer.single("photo"), chefValidator.put, chefs.putChef) // Editar um chef
 
 routes.delete("/chefs", session.onlyAdmin, chefs.deleteChef)
 
