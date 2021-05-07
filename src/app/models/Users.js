@@ -33,6 +33,7 @@ module.exports = {
         return results.rows[0]
     },
 
+
     async all(){
         
         return db.query("SELECT id, name, email, is_admin, created_at, updated_at FROM users")
@@ -117,6 +118,12 @@ module.exports = {
     delete(id){
 
         return db.query(`DELETE FROM users WHERE id = $1`, [id])
+    },
+
+    async allAdmins(){
+
+        const results = await db.query(`SELECT * FROM users WHERE is_admin = true`)
+        return results.rows
     }
 
 }

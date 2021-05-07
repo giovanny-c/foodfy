@@ -10,7 +10,7 @@ module.exports = {
 
         return db.query(`
             SELECT 
-            recipes.id, recipes.name, chefs.name AS chef
+            recipes.id, recipes.name, recipes.user_id, chefs.name AS chef
             FROM recipes LEFT JOIN chefs ON(recipes.chef_id = chefs.id)
             ORDER BY recipes.created_at DESC         
             `,)
@@ -18,7 +18,7 @@ module.exports = {
 
     },
 
-    async allFromOneUser(id){
+    async allFromOneUser(id){//usado no delete
 
            let query =  `
             SELECT 

@@ -2,6 +2,7 @@ const User = require('../models/Users')
 const Recipe = require("../models/Recipes")
 
 const {compare} = require('bcryptjs')//compara senhas
+const Users = require('../models/Users')
 
 
 function checkAllFields(body){
@@ -94,6 +95,15 @@ module.exports = {
                 user: req.body,
                 error: "Este email ja esta cadastrado."
             })
+
+            /*
+            const admins = await Users.allAdmins()
+           
+            if(admins.length == 1)return res.render("admin/user/edit", {
+                user: req.body,
+                error: ""
+            }) 
+            */
 
 
             next()
@@ -225,6 +235,8 @@ module.exports = {
 
         const id = req.params.id
 
+        const {bodyId, is_admin} = req.body
+
         try {
         
             const user = await User.findOne({WHERE: {id}})
@@ -247,6 +259,7 @@ module.exports = {
 
             }
 
+           
             req.user = user
 
             next()

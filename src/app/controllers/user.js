@@ -162,6 +162,7 @@ module.exports = {
 
            const {name, email, id, is_admin} = req.body
 
+           
            await User.update(id, {
                name,
                email,
@@ -170,11 +171,13 @@ module.exports = {
                
            })
 
+
+
            
 
             req.session.success = "Conta atualizada com sucesso!"
     
-            return res.redirect(`/admin/users/${id}/edit`)//para pagina do uusr
+            return res.redirect(`/admin/users`)//para pagina do uusr
           
        } catch (err) {
            console.error(err)
@@ -195,12 +198,8 @@ module.exports = {
 
 
         try {
-//criar view recipes do use
-//quando o user remove o admin, ele continua pois so pega isadmin no login
 
-//remover as files do sistema e da tb files
-
-            //remove as files
+            //remover as files do sistema e da tb files
             try{
         
                 

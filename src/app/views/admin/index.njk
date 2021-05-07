@@ -22,7 +22,43 @@
             
         </div>
 
+
+    
+        <div>Suas Receitas</div> {#CSS só amanha#}
         <div class="recipes-grid">
+
+            {% for recipe in recipes %}
+ 
+                {% if recipe.user_id == session.userId %}{#se for do user#}
+                    <div class="recipe" >
+
+                        <div class="recipe-image">
+
+                            <img src="{{recipe.image}}" alt="Imagem de {{recipe.title}}">
+                        
+                        </div>
+                        
+                        <div class="info">
+
+                            <div class="name">{{recipe.name}}</div>
+
+                            <div class="author">{{recipe.chef}}</div>
+
+                            <div class="visualize"><a href="/admin/recipes/{{recipe.id}}">Visualizar</a></div>
+                        
+                        </div>
+
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+        </div>
+
+
+        <div>Todas as Receitas</div>
+
+        <div class="recipes-grid">
+            
 
             {% for recipe in recipes %}
  
