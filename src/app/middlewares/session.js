@@ -61,6 +61,10 @@ module.exports = {
 
     //criar view recipes do use
 
+    //gitgnore pasta de imgs
+
+    //problema do 1 user como cadastrar?
+
     //BANCO DE DADOS .sql
 
     //ENVIO DE EMAIL FUNCIONAL(real)

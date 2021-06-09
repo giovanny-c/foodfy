@@ -96,14 +96,7 @@ module.exports = {
                 error: "Este email ja esta cadastrado."
             })
 
-            /*
-            const admins = await Users.allAdmins()
            
-            if(admins.length == 1)return res.render("admin/user/edit", {
-                user: req.body,
-                error: ""
-            }) 
-            */
 
 
             next()
