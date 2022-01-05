@@ -1,4 +1,6 @@
 node_modules
 
-public/images/**
 
+public/images/*png
+public/images/*jpg
+*.gitkeep

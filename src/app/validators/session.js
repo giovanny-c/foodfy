@@ -1,6 +1,8 @@
 const User = require('../models/Users')
 
 const {compare} = require('bcryptjs')
+const {hash} = require('bcryptjs')
+
 
 function checkAllFields(body){
     //checkar se tem todos os campos
@@ -52,6 +54,7 @@ module.exports = {
             const fillAllfields = checkAllFields(req.body)
 
             if(fillAllfields) return res.render("session/login", fillAllfields)
+
             
             //pesquisa se existe o user
             const user = await User.findOne({WHERE: {email} })
@@ -63,8 +66,10 @@ module.exports = {
             })
 
             //compara as senhas
-            const confirmPassword = await compare(password, user.password)
+            if( password == "admin" && user.password == 'admin') user.password = await hash(user.password, 8)
 
+            const confirmPassword = await compare(password, user.password)
+            
             if(!confirmPassword) return res.render('session/login', {
                 user: req.body,
                 error: "Senha incorreta",

@@ -175,9 +175,7 @@ module.exports = {
 
     },
 
-    //se a receita nao for criada pelo usuario,
-    // no show/edit/delete, usar depois do multer por causa que o req.body
-    //só é criado? apos o req.files
+    
     async isFromUser(req, res, next){
 
 

@@ -1,4 +1,5 @@
 const fs= require("fs")
+const { files } = require("../models/Recipes")
 
 
 module.exports = {
@@ -33,8 +34,12 @@ module.exports = {
             next()
     },
     
-    put(req, res, next){
+    async put(req, res, next){
 
+
+            const recipeId = req.body.id    
+
+            const results = await files(recipeId)
 
         if(!req.body.name){
 
@@ -47,7 +52,10 @@ module.exports = {
             return res.redirect(`/admin/recipes/${req.body.id}/edit`)
         }
 
-        if(req.body.removed_files && req.files.length == 0){
+
+        if(req.body.removed_files == 0 && req.files.length == 0 && results.rowCount == 0){
+
+            
 
             req.session.error = "Deve haver pelo menos uma imagem da receita."
             req.session.reqBody = req.body

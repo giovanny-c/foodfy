@@ -24,12 +24,12 @@
 
 
     
-        <div>Suas Receitas</div> {#CSS só amanha, pagina separada?#}
+        <div class="recipes-of">Suas Receitas</div>
         <div class="recipes-grid">
 
             {% for recipe in recipes %}
  
-                {% if recipe.user_id == session.userId %}{#se for do user#}
+                {% if recipe.user_id == session.userId %}
                     <div class="recipe" >
 
                         <div class="recipe-image">
@@ -55,7 +55,7 @@
         </div>
 
 
-        <div>Todas as Receitas</div>
+        <div class="recipes-of">Todas as Receitas</div>
 
         <div class="recipes-grid">
             

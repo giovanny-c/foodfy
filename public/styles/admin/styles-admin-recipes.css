@@ -1,5 +1,7 @@
 /*-----------recipes grid--------------*/
 
+
+
 .recipe{
     display: grid;
     grid-template-columns: 172px 1fr;
@@ -16,7 +18,12 @@
 
 }
 
-
+.recipes-of{
+    margin: 0 auto;
+    margin-bottom: 20px;
+    font-size: 20px;
+    width: 940px;
+}
 .recipes-grid{
 
     margin: 0 auto;

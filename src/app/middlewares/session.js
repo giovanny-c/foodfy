@@ -50,8 +50,7 @@ module.exports = {
             }
 
             return res.redirect(back)
-            //procurar um jeito dele voltar para a pagina que estava
-            //fazer em todas as rotas
+            
         
         }
 
@@ -59,15 +58,15 @@ module.exports = {
 
     }
 
-    //criar view recipes do use
+    
 
-    //gitgnore pasta de imgs
 
-    //problema do 1 user como cadastrar?
 
-    //BANCO DE DADOS .sql
+    
 
-    //ENVIO DE EMAIL FUNCIONAL(real)
+    
+
+    
 
     
 
