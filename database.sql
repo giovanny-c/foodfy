@@ -87,5 +87,6 @@ ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFE
 CREATE INDEX "IDX_session_expire" ON "session" ("expire");
 
 
+--para entrar na parte de admin
 INSERT INTO "users" ("name", "email", "password", "is_admin") VALUES ('admin', 'admin@admin', 'admin', TRUE)
 
